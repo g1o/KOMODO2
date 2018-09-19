@@ -30,7 +30,7 @@ if (!is.null(KOMODO2$cores)) {
 
 
 if (KOMODO2$type == "correlation") {
-  tree <- read.nexus("tree_from_ncbi_new_labels.nex")
+#  tree <- read.nexus("tree_from_ncbi_new_labels.nex")
   
   if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
@@ -50,35 +50,35 @@ if (KOMODO2$type == "correlation") {
   KOMODO2$y <- AddGenomeVectors(KOMODO2$y.anno, KOMODO2$y.name) 
 
   
-    
-  tmp.pearson <- FindCorrelations(KOMODO2$x, KOMODO2$y, 
-                                  "pearson", tree,
-                                  KOMODO2$denominator)
+#  tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
+#                                  tree,
+#                                  KOMODO2$denominator)  
   
-  KOMODO2$correlations.pearson <- tmp.pearson$corr
-  KOMODO2$y_norm <- tmp.pearson$y_norm
-  
-  tmp.spearman <- FindCorrelations(KOMODO2$x, KOMODO2$y,
-                                   "spearman", tree,
-                                    KOMODO2$denominator)
+  tmp <- FindCorrelations(KOMODO2$x, KOMODO2$y, 
+                          "pearson",
+                          KOMODO2$denominator)
 
-  KOMODO2$correlations.spearman <- tmp.spearman$corr
-  KOMODO2$y_norm <- tmp.spearman$y_norm
-  
-  tmp.kendall <- FindCorrelations(KOMODO2$x, KOMODO2$y,
-                                 "kendall", tree,
-                                 KOMODO2$denominator)
+  KOMODO2$correlations.pearson <- tmp$cor
 
-  KOMODO2$correlations.kendall <- tmp.kendall$corr
+  KOMODO2$correlations.pvalue.pearson <- tmp$cor.pvalue
 
-  tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
-                                  tree,
-                                  KOMODO2$denominator)
-  
-  
-#  KOMODO2$correlations.pearson <- FindCorrelations(KOMODO2$x, KOMODO2$y, 
-#                                                   "pearson",
-#                                                   KOMODO2$denominator)
+  tmp <- FindCorrelations(KOMODO2$x, KOMODO2$y,
+                          "spearman",
+                          KOMODO2$denominator)
+
+  KOMODO2$correlations.spearman <- tmp$cor
+
+  KOMODO2$correlations.pvalue.spearman <- tmp$cor.pvalue
+
+  tmp <- FindCorrelations(KOMODO2$x, KOMODO2$y,
+                          "kendall",
+                          KOMODO2$denominator)
+
+  KOMODO2$correlations.kendall <- tmp$cor
+
+  KOMODO2$correlations.pvalue.kendall <- tmp$cor.pvalue
+
+
 #  KOMODO2$correlations.spearman <- FindCorrelations(KOMODO2$x, KOMODO2$y,
 #                                                    "spearman",
 #                                                    KOMODO2$denominator)
@@ -96,7 +96,17 @@ if (KOMODO2$type == "correlation") {
   PrintCResults(KOMODO2$correlations.kendall, KOMODO2$annotation.cor, 
                 "k_corr_results.tsv", KOMODO2$ontology)
 
+  KOMODO2$results.correlations.pvalue.pearson <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.pearson)
+  KOMODO2$results.correlations.pvalue.spearman <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.spearman)
+  KOMODO2$results.correlations.pvalue.kendall <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.kendall)
 
+
+  PrintCResults(KOMODO2$results.correlations.pvalue.pearson, KOMODO2$annotation.cor,
+                "p_corr_qvalues_results.tsv", KOMODO2$ontology)
+  PrintCResults(KOMODO2$results.correlations.pvalue.spearman, KOMODO2$annotation.cor,
+                "s_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
+  PrintCResults(KOMODO2$results.correlations.pvalue.kendall, KOMODO2$annotation.cor,
+                "k_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
 
 } else if (KOMODO2$type == "significance") {
   if (tolower(KOMODO2$ontology) == "go" | 

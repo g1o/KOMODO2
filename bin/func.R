@@ -1208,7 +1208,7 @@ CalculateFoldChange <- function(parameterVectors, type = "P",
 # -=-=-=- Phylogenetically Independent Contrast analysis -=-=-=-
 
 
-FindContrasts <- function(x, y, tree, denominator = 1) {
+#FindContrasts <- function(x, y, tree, denominator = 1) {
   # Produces a vector with the correlation of each ontology term with the 
   # attribute in question after correcting for phylogenetic bias (see
   # Felsenstein 1985 and APE package for details).
@@ -1224,31 +1224,31 @@ FindContrasts <- function(x, y, tree, denominator = 1) {
   #   correlations: (vector) correlation of all listed ontology terms for the
   #                          attribute in question.
   
-  cell_types <- as.vector(as.numeric(KOMODO2$x[,1]))
-  names(cell_types) <- rownames(KOMODO2$x)
-  contrast_x <- pic(cell_types, tree)
-  correlations <- vector(mode = "numeric", length = ncol(y))
-  models <- vector(mode="numeric", length=ncol(y))
-  names(models) <- colnames(y)
-  names(correlations) <- colnames(y)
+#  cell_types <- as.vector(as.numeric(KOMODO2$x[,1]))
+#  names(cell_types) <- rownames(KOMODO2$x)
+#  contrast_x <- pic(cell_types, tree)
+#  correlations <- vector(mode = "numeric", length = ncol(y))
+#  models <- vector(mode="numeric", length=ncol(y))
+#  names(models) <- colnames(y)
+#  names(correlations) <- colnames(y)
   
   # Normalizing 
-  if (!is.null(denominator)) {
+#  if (!is.null(denominator)) {
     #    y <- as.data.frame(t(t(y) / denominator))
-    y <- y / denominator
-  }
+#    y <- y / denominator
+#  }
   
-  for (i in 1:ncol(y)) {
-    tmp_y <- as.vector(as.numeric(y[, i]))
-    names(tmp_y) <- rownames(x)
-    contrast_y <- pic(tmp_y, tree)
-    model <- lm(contrast_y ~ contrast_x + 0)
-    models[[i]]<- summary(model)$coefficients[1,4]
-  }
-  models <- sort(models, decreasing = TRUE)
-  return(models)
+#  for (i in 1:ncol(y)) {
+#    tmp_y <- as.vector(as.numeric(y[, i]))
+#    names(tmp_y) <- rownames(x)
+#    contrast_y <- pic(tmp_y, tree)
+#    model <- lm(contrast_y ~ contrast_x + 0)
+#    models[[i]]<- summary(model)$coefficients[1,4]
+#  }
+#  models <- sort(models, decreasing = TRUE)
+#  return(models)
   #  return(correlations)
-}
+#}
 
 
 
@@ -1256,7 +1256,7 @@ FindContrasts <- function(x, y, tree, denominator = 1) {
 
 
 # Consider adding differentiation for x and y denominator column.
-FindCorrelations <- function(x, y, method = "pearson", tree, denominator = 1) {
+FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
   # Produces a vector with the correlation of each ontology term with the 
   # attribute in question.
   #
@@ -1270,37 +1270,27 @@ FindCorrelations <- function(x, y, method = "pearson", tree, denominator = 1) {
   # Returns:
   #   correlations: (vector) correlation of all listed ontology terms for the
   #                          attribute in question.
-
-  cell_types <- as.vector(as.numeric(KOMODO2$x[,1]))
-  names(cell_types) <- rownames(KOMODO2$x)
-  contrast_x <- pic(cell_types, tree)
   correlations <- vector(mode = "numeric", length = ncol(y))
-  models <- vector(mode="numeric", length=ncol(y))
-  names(models) <- colnames(y)
+  correlations.pvalue <- vector(mode = "numeric", length = ncol(y))
   names(correlations) <- colnames(y)
-  
+  names(correlations.pvalue) <- colnames(y)
+
   # Normalizing 
   if (!is.null(denominator)) {
 #    y <- as.data.frame(t(t(y) / denominator))
     y <- y / denominator
   }
-
-  
   for (i in 1:ncol(y)) {
-    tmp_y <- as.vector(as.numeric(y[, i]))
-    names(tmp_y) <- rownames(x)
-    contrast_y <- pic(tmp_y, tree)
-    
-    correlations[[i]] <- cor(contrast_x, contrast_y, method = method)
-    model <- lm(contrast_y ~ contrast_x + 0)
-    models[[i]]<- summary(model)$coefficients[1,4]
     correlations[[i]] <- cor(x[rownames(y), 1], y[, i], method = method)
+    correlations.pvalue[[i]] <- (cor.test(x[rownames(y), 1], y[, i], method = method))$p.value
   }
 
   correlations <- sort(correlations, decreasing = TRUE)
-  models <- sort(models, decreasing = TRUE)
-  tmp = list("corr" = correlations, "y_norm" <- y, "models" <- models)
-  return(tmp)
+  correlations.pvalue <- sort(correlations.pvalue, decreasing = TRUE)
+  
+  results <- list("cor" = correlations, "cor.pvalues" = correlations.pvalue)
+  
+  return(results)
 #  return(correlations)
 }
 
