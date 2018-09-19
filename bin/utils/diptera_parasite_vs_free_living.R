@@ -1,0 +1,10 @@
+KOMODO2 <- list(type = "significance",
+                output.dir = "/Users/chico/projects/KOMODO2/results/diptera/GO/",
+                test.path = "/Users/chico/projects/KOMODO2/data/parsed/diptera/parasite/tmp/",
+                back.path = "/Users/chico/projects/KOMODO2/data/parsed/diptera/free-living/tmp/",
+                ontology = "go",
+                dict.path = "",
+                column = "Gene ontology IDs",
+                bootstrap = 100,
+                criticalValue = 0.05,
+                cores = 4)

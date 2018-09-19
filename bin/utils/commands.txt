@@ -1,0 +1,34 @@
+#1) execute "fix_multi_proteome_entries.pl" (change code to allow script to find the column with proteomeID information
+
+$> perl fix_multi_proteome_entries.pl uniprot.tab > tmp.tab
+
+
+
+2) store file header for latter
+
+$> head -1 tmp.tab > header
+
+
+
+3) remove header
+
+$> sed '1d' tmp.tab > ../data/tmpfile
+$> mv tmpfile tmp.tab
+
+
+
+4) sort by proteomeID field (suppose it is the fourth field):
+
+$> sort -t $'\t' -k 4,4 tmp.tab > tmp2.tab
+
+
+
+5)join header and content
+
+$> cat header tmp2.tab > tmp.tab
+$> rm tmp2.tab
+
+
+5) execute "parse_uniprot.pl" to create a single file for each species
+
+parse_uniprot.pl tmp.tab
