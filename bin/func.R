@@ -1208,7 +1208,7 @@ CalculateFoldChange <- function(parameterVectors, type = "P",
 # -=-=-=- Phylogenetically Independent Contrast analysis -=-=-=-
 
 
-#FindContrasts <- function(x, y, tree, denominator = 1) {
+FindContrasts <- function(x, y, tree, denominator = 1) {
   # Produces a vector with the correlation of each ontology term with the 
   # attribute in question after correcting for phylogenetic bias (see
   # Felsenstein 1985 and APE package for details).
@@ -1224,32 +1224,39 @@ CalculateFoldChange <- function(parameterVectors, type = "P",
   #   correlations: (vector) correlation of all listed ontology terms for the
   #                          attribute in question.
   
-#  cell_types <- as.vector(as.numeric(KOMODO2$x[,1]))
-#  names(cell_types) <- rownames(KOMODO2$x)
-#  contrast_x <- pic(cell_types, tree)
+  tmp_x <- as.vector(as.numeric(KOMODO2$x[,1]))
+  names(tmp_x) <- rownames(KOMODO2$x)
+  contrast_x <- pic(tmp_x, tree)
 #  correlations <- vector(mode = "numeric", length = ncol(y))
-#  models <- vector(mode="numeric", length=ncol(y))
-#  names(models) <- colnames(y)
+  models <- vector(mode="numeric", length=ncol(y))
+#  models2 <- vector(length=ncol(y))
+#  models3 <- vector(mode="numeric", length=ncol(y))
+  names(models) <- colnames(y)
+#  names(models2) <- colnames(y)
+#  names(models3) <- colnames(y)
 #  names(correlations) <- colnames(y)
   
   # Normalizing 
-#  if (!is.null(denominator)) {
-    #    y <- as.data.frame(t(t(y) / denominator))
-#    y <- y / denominator
-#  }
+  if (!is.null(denominator)) {
+#    y <- as.data.frame(t(t(y) / denominator))
+    y <- y / denominator
+  }
   
-#  for (i in 1:ncol(y)) {
-#    tmp_y <- as.vector(as.numeric(y[, i]))
-#    names(tmp_y) <- rownames(x)
-#    contrast_y <- pic(tmp_y, tree)
-#    model <- lm(contrast_y ~ contrast_x + 0)
-#    models[[i]]<- summary(model)$coefficients[1,4]
-#  }
-#  models <- sort(models, decreasing = TRUE)
-#  return(models)
+  for (i in 1:ncol(y)) {
+#    print(i)
+    tmp_y <- as.vector(as.numeric(y[, i]))
+    names(tmp_y) <- rownames(x)
+    contrast_y <- pic(tmp_y, tree)
+    model <- lm(contrast_y ~ contrast_x + 0)
+#    models2[[i]] <- model
+    models[[i]] <- summary(model)$coefficients[1,4]
+  }
+  models <- sort(models, decreasing = FALSE)
+  return(models)
+#  results <- list("corr_values"=models, "data" <- models2)
+#  return(results)
   #  return(correlations)
-#}
-
+}
 
 
 # -=-=-=- Correlation analysis -=-=-=-
@@ -1277,8 +1284,8 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
 
   # Normalizing 
   if (!is.null(denominator)) {
-#    y <- as.data.frame(t(t(y) / denominator))
-    y <- y / denominator
+    y <- as.data.frame(t(t(y) / denominator))
+#    y <- y / denominator
   }
   for (i in 1:ncol(y)) {
     correlations[[i]] <- cor(x[rownames(y), 1], y[, i], method = method)

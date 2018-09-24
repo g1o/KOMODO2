@@ -30,8 +30,11 @@ if (!is.null(KOMODO2$cores)) {
 
 
 if (KOMODO2$type == "correlation") {
-#  tree <- read.nexus("tree_from_ncbi_new_labels.nex")
-  
+
+# uncomment for GO analysis
+#  tree <- read.nexus("/home/benjamimdm/projects/mestrado/seminarios_B/data/trees/KOMODO2_GO_tree.nex")
+# uncomment for Pfam analysis
+  tree <- read.nexus("/home/lab/projects/seminarios_B/data/trees/KOMODO2_pfam_tree.nex")
   if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
     KOMODO2$allAncestor <- ListAncestors()
@@ -49,11 +52,15 @@ if (KOMODO2$type == "correlation") {
   
   KOMODO2$y <- AddGenomeVectors(KOMODO2$y.anno, KOMODO2$y.name) 
 
-  
-#  tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
-#                                  tree,
-#                                  KOMODO2$denominator)  
-  
+  print("Computing contrasts...") 
+  tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
+                                  tree,
+                                  KOMODO2$denominator)  
+  print("Done");
+  KOMODO2$contrasts <- tmp
+#  KOMODO2$contrasts <- tmp$corr_values
+#  KOMODO2$contrast_models <- tmp$data
+
   tmp <- FindCorrelations(KOMODO2$x, KOMODO2$y, 
                           "pearson",
                           KOMODO2$denominator)
@@ -99,8 +106,15 @@ if (KOMODO2$type == "correlation") {
   KOMODO2$results.correlations.pvalue.pearson <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.pearson)
   KOMODO2$results.correlations.pvalue.spearman <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.spearman)
   KOMODO2$results.correlations.pvalue.kendall <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.kendall)
+  KOMODO2$contrasts.corrected <- MultipleHypothesisCorrection(KOMODO2$contrasts)
 
+  PrintCResults(KOMODO2$contrasts.corrected, KOMODO2$annotation.cor,
+                "contrasts_corrected.tsv", KOMODO2$ontology)
+ 
+  PrintCResults(KOMODO2$contrasts, KOMODO2$annotation.cor,
+                "contrasts_raw.tsv", KOMODO2$ontology)
 
+ 
   PrintCResults(KOMODO2$results.correlations.pvalue.pearson, KOMODO2$annotation.cor,
                 "p_corr_qvalues_results.tsv", KOMODO2$ontology)
   PrintCResults(KOMODO2$results.correlations.pvalue.spearman, KOMODO2$annotation.cor,
