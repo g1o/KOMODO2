@@ -1,0 +1,9 @@
+KOMODO2 <- list(type = "correlation",
+                output.dir = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/results/KOMODO2_output/SUPERFAMILY/",
+                dataset.info = "/home/chico/projects/KOMODO2/KOMODO2/bin/metadata_primate_SUPERFAMILY.txt",
+                x.column = 3,
+                denominator.column = 2,
+                ontology = "other",
+                dict.path = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/dics/SUPERFAMILY.dic",
+                column = "SUPERFAMILY",
+                cores = 60)

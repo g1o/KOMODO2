@@ -1,0 +1,9 @@
+KOMODO2 <- list(type = "correlation",
+                output.dir = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/results/KOMODO2_output/Pfam2GO/",
+                dataset.info = "/home/chico/projects/KOMODO2/KOMODO2/bin/metadata_primate_pfam2GO.txt",
+                x.column = 8,
+                denominator.column = 6,
+                ontology = "GO",
+                dict.path = "",
+                column = "Pfam",
+                cores = 60)

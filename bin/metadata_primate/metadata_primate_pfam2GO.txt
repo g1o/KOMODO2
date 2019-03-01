@@ -1,0 +1,13 @@
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000001405	Homo sapiens	Human	20204	44464	36047	39374	24526423164
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000004665	Callithrix jacchus	White-tufted-ear marmoset	20713	37781	32534	36496	228841770
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000151905	Gorilla gorilla	Gorilla	21391	42680	35677	39777	10268309660
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000165445	Microcebus murinus	Gray mouse lemur	20522	41845	35892	40260	49816144
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000235385	Saimiri boliviensis	Bolivian squirrel monkey	19749	40595	34166	37657	532984898
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000258655	Pan paniscus	Pygmy chimpanzee or bonobo	20510	39271	33829	37934	6245564533
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000364345	Macaca fascicularis	Long-tailed macaque	20593	43289	35742	39437	1441350071
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000951035	Colobus angolensis	Angolan colobus	20103	41907	35111	38277	1525704937
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000951045	Mandrillus leucophaeus	Drill	20267	41597	35168	38582	3102457785
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_000956065	Macaca nemestrina	Pigtail macaque	21009	42371	35476	39105	2531161781
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_001604975	Cebus capucinus	White-faced capuchin	20595	42131	35650	39463	1483187134
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_002880755	Pan troglodytes	Chimpanzee	21504	44497	36646	40169	8155805529
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam2GO/GCF_003255815	Theropithecus gelada	Gelada baboon	20683	43427	36234	40168	2568042166

@@ -1,0 +1,13 @@
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000001405	Homo sapiens	Human	62035	4.79264	20204	44464	44376	41567	122.5	1460	24526423164	10.38963422
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000004665	Callithrix jacchus	White-tufted-ear marmoset	255	2.40688	20713	37781	37727	35066	22.8	9.738	228841770	8.359535298
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000151905	Gorilla gorilla	Gorilla	139842	5.14564	21391	42680	42607	39811	60.1	574.2	10268309660	10.01149896
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000165445	Microcebus murinus	Gray mouse lemur	65	1.81158	20522	41845	41760	38921	18.2	1.9	49816144	7.697370112
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000235385	Saimiri boliviensis	Bolivian squirrel monkey	615	2.78888	19749	40595	40533	37744	30.3	24.1	532984898	8.726714903
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000258655	Pan paniscus	Pygmy chimpanzee or bonobo	39925	4.60124	20510	39271	39210	36579	55	337	6245564533	9.7955717
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000364345	Macaca fascicularis	Long-tailed macaque	6363	3.80363	20593	43289	43231	40467	39	70	1441350071	9.158769474
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000951035	Colobus angolensis	Angolan colobus	8625	3.93576	20103	41907	41879	39081	35.3	74.4	1525704937	9.183470551
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000951045	Mandrillus leucophaeus	Drill	18250	4.26126	20267	41597	41567	38808	39	159.2	3102457785	9.491705881
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_000956065	Macaca nemestrina	Pigtail macaque	7913	3.89831	21009	42371	42328	39531	37.6	128	2531161781	9.403319904
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_001604975	Cebus capucinus	White-faced capuchin	2655	3.42406	20595	42131	42071	39261	54	72.18	1483187134	9.17119595
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_002880755	Pan troglodytes	Chimpanzee	44984	4.65305	21504	44497	44419	41632	59.4	448.588	8155805529	9.911466862
+/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/interpro_out/Pfam/all/GCF_003255815	Theropithecus gelada	Gelada baboon	16200	4.20952	20683	43427	43374	40566	36	130	2568042166	9.40960215
