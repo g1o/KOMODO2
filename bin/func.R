@@ -63,6 +63,7 @@ LoadBioconductor <- function() {
   suppressMessages(library("GO.db"))
   suppressMessages(library("taxize"))
   suppressMessages(library("ape"))
+  suppressMessages(library("nlme"))
   suppressMessages(library("KEGGREST"))
   suppressMessages(library("boot"))
   suppressMessages(library("Cairo"))
@@ -1208,7 +1209,10 @@ CalculateFoldChange <- function(parameterVectors, type = "P",
 # -=-=-=- Phylogenetically Independent Contrast analysis -=-=-=-
 
 
-FindContrasts <- function(x, y, tree, denominator = 1) {
+FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
+
+
+
   # Produces a vector with the correlation of each ontology term with the 
   # attribute in question after correcting for phylogenetic bias (see
   # Felsenstein 1985 and APE package for details).
@@ -1224,40 +1228,65 @@ FindContrasts <- function(x, y, tree, denominator = 1) {
   #   correlations: (vector) correlation of all listed ontology terms for the
   #                          attribute in question.
   
-  tmp_x <- as.vector(as.numeric(KOMODO2$x[,1]))
-  names(tmp_x) <- rownames(KOMODO2$x)
-  contrast_x <- pic(tmp_x, tree)
+  if (method == "pic") {
+    tmp_x <- as.vector(as.numeric(KOMODO2$x[,1]))
+    names(tmp_x) <- rownames(KOMODO2$x)
+    contrast_x <- pic(tmp_x, tree)
 #  correlations <- vector(mode = "numeric", length = ncol(y))
-  models <- vector(mode="numeric", length=ncol(y))
+    models <- vector(mode="numeric", length=ncol(y))
 #  models2 <- vector(length=ncol(y))
 #  models3 <- vector(mode="numeric", length=ncol(y))
-  names(models) <- colnames(y)
+    names(models) <- colnames(y)
 #  names(models2) <- colnames(y)
 #  names(models3) <- colnames(y)
 #  names(correlations) <- colnames(y)
   
   # Normalizing 
-  if (!is.null(denominator)) {
+    if (!is.null(denominator)) {
 #    y <- as.data.frame(t(t(y) / denominator))
-    y <- y / denominator
-  }
+      y <- y / denominator
+    }
   
-  for (i in 1:ncol(y)) {
-#    print(i)
-    tmp_y <- as.vector(as.numeric(y[, i]))
-    names(tmp_y) <- rownames(x)
-    contrast_y <- pic(tmp_y, tree)
-    model <- lm(contrast_y ~ contrast_x + 0)
-#    models2[[i]] <- model
-    models[[i]] <- summary(model)$coefficients[1,4]
+    for (i in 1:ncol(y)) {
+      tmp_y <- as.vector(as.numeric(y[, i]))
+      names(tmp_y) <- rownames(x)
+      contrast_y <- pic(tmp_y, tree)
+      model <- lm(contrast_y ~ contrast_x + 0)
+      models[[i]] <- summary(model)$coefficients[1,4]
+    }
+    models <- sort(models, decreasing = FALSE)
+    return(models)
   }
-  models <- sort(models, decreasing = FALSE)
-  return(models)
-#  results <- list("corr_values"=models, "data" <- models2)
-#  return(results)
-  #  return(correlations)
-}
+  if (method == "gls") {
+    tmp_x <- as.vector(as.numeric(KOMODO2$x[,1]))
+    names(tmp_x) <- rownames(KOMODO2$x)
+    models <- vector(mode="numeric", length=ncol(y))
+    names(models) <- colnames(y)
 
+  # Normalizing 
+    if (!is.null(denominator)) {
+      y_norm <- y / denominator
+      y_norm = y_norm * 10^6 #getting counts per million to avoid false convergence (8) error from gls function for small values, see http://r.789695.n4.nabble.com/quot-False-convergence-quot-in-LME-td860675.html
+    }
+
+    for (i in 1:ncol(y_norm)) {
+      tmp_y <- as.vector(as.numeric(y_norm[, i]))
+      names(tmp_y) <- rownames(x)
+      df1 <- as.data.frame(cbind(tmp_x, tmp_y))
+      if (sum(tmp_y == 0) > 0) {
+        model <-gls(tmp_y~tmp_x, data=df1, correlation=corPagel(1,tree), control = list(singular.ok = TRUE))
+#    models2[[i]] <- model
+        print(summary(model)$coefficients[2])
+        models[[i]] <- as.numeric(summary(model)$coefficients[2])
+      } else {
+        models[[i]] <- 1
+      }
+    }
+    models <- sort(models, decreasing = FALSE)
+    return(models)
+  #  return(correlations)
+  }
+}
 
 # -=-=-=- Correlation analysis -=-=-=-
 

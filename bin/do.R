@@ -34,7 +34,7 @@ if (KOMODO2$type == "correlation") {
 # uncomment for GO analysis
 #  tree <- read.nexus("/home/benjamimdm/projects/mestrado/seminarios_B/data/trees/KOMODO2_GO_tree.nex")
 # uncomment for Pfam analysis
-  tree <- read.nexus("/home/lab/projects/seminarios_B/data/trees/KOMODO2_pfam_tree.nex")
+  tree <- read.nexus("/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/tree/primate_tree_genome_ids.nex")
   if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
     KOMODO2$allAncestor <- ListAncestors()
@@ -54,7 +54,7 @@ if (KOMODO2$type == "correlation") {
 
   print("Computing contrasts...") 
   tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
-                                  tree,
+                                  tree, "gls",
                                   KOMODO2$denominator)  
   print("Done");
   KOMODO2$contrasts <- tmp
