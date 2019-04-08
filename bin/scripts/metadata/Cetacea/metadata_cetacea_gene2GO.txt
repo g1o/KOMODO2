@@ -1,0 +1,6 @@
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/gene2GO/GCF_000331955	3987500	36215	1000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/gene2GO/GCF_000442215	83500	38490	10
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/gene2GO/GCF_000493695	7500000	37043	1000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/gene2GO/GCF_002288925	1430000	36300	1000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/gene2GO/GCF_002837175	28500000	37891	10000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/gene2GO/GCF_003676395	103000	36441	100

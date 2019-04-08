@@ -1,0 +1,10 @@
+KOMODO2 <- list(type = "significance",
+                output.dir = "/home/chico/projects/KOMODO2/validation/E_coli/results/KOMODO2_output/significance/gene2GO/",
+                test.path = "/home/chico/projects/KOMODO2/validation/E_coli/data/interpro_parsed/gene2GO/patho/",
+                back.path = "/home/chico/projects/KOMODO2/validation/E_coli/data/interpro_parsed/gene2GO/non_patho",
+                ontology = "GO",
+                dict.path = "",
+                column = "GO",
+                bootstrap = 100,
+                criticalValue = 0.05,
+                cores = 60)

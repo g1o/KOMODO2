@@ -1,9 +1,0 @@
-KOMODO2 <- list(type = "correlation",
-                output.dir = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/results/KOMODO2_output/SMART/",
-                dataset.info = "/home/chico/projects/KOMODO2/KOMODO2/bin/metadata_primate_SMART.txt",
-                x.column = 3,
-                denominator.column = 2,
-                ontology = "other",
-                dict.path = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/dics/SMART.dic",
-                column = "SMART",
-                cores = 60)

@@ -1,0 +1,6 @@
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/ProSiteProfiles/GCF_000331955	3987500	30437	1000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/ProSiteProfiles/GCF_000442215	83500	29615	10
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/ProSiteProfiles/GCF_000493695	7500000	30647	1000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/ProSiteProfiles/GCF_002288925	1430000	30384	1000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/ProSiteProfiles/GCF_002837175	28500000	31055	10000
+/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/interpro_parsed/Cetacea/ProSiteProfiles/GCF_003676395	103000	30245	100

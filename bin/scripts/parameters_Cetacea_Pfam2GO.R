@@ -1,0 +1,9 @@
+KOMODO2 <- list(type = "correlation",
+                output.dir = "/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/results/KOMODO2/Pfam2GO_ceta/",
+                dataset.info = "metadata/Cetacea/metadata_cetacea_Pfam2GO.txt",
+                x.column = 2,
+                denominator.column = 3,
+                ontology = "GO",
+                dict.path = "",
+                column = "Pfam",
+                cores = 50)

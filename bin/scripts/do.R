@@ -30,11 +30,7 @@ if (!is.null(KOMODO2$cores)) {
 
 
 if (KOMODO2$type == "correlation") {
-
-# uncomment for GO analysis
-#  tree <- read.nexus("/home/benjamimdm/projects/mestrado/seminarios_B/data/trees/KOMODO2_GO_tree.nex")
-# uncomment for Pfam analysis
-  tree <- read.nexus("/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/tree/primate_tree_genome_ids.nex")
+  tree <- read.tree("/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/trees/Cetacean_tree_genome_ids.nwk")
   if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
     KOMODO2$allAncestor <- ListAncestors()
@@ -52,14 +48,28 @@ if (KOMODO2$type == "correlation") {
   
   KOMODO2$y <- AddGenomeVectors(KOMODO2$y.anno, KOMODO2$y.name) 
 
+  print ("Computing sum of annotation elements...")
+
+  KOMODO2$sum <- lapply(KOMODO2$y, sum)
+
+  print("Done")
+ 
+  print ("Computing standard deviation of annotation elements...")
+
+  KOMODO2$sd <- lapply(KOMODO2$y, sd)
+
+  print ("Done")
+ 
   print("Computing contrasts...") 
   tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
-                                  tree, "gls",
+                                  tree, "pic",
                                   KOMODO2$denominator)  
   print("Done");
   KOMODO2$contrasts <- tmp
 #  KOMODO2$contrasts <- tmp$corr_values
 #  KOMODO2$contrast_models <- tmp$data
+
+  print("Computing correlations...")
 
   tmp <- FindCorrelations(KOMODO2$x, KOMODO2$y, 
                           "pearson",
@@ -85,6 +95,7 @@ if (KOMODO2$type == "correlation") {
 
   KOMODO2$correlations.pvalue.kendall <- tmp$cor.pvalue
 
+  print("Done")
 
 #  KOMODO2$correlations.spearman <- FindCorrelations(KOMODO2$x, KOMODO2$y,
 #                                                    "spearman",
@@ -95,6 +106,8 @@ if (KOMODO2$type == "correlation") {
 
   KOMODO2$annotation.cor <- AnnotateResults(KOMODO2$correlations.pearson,
                                             KOMODO2$ontology)
+
+  print("Printing results (1)...")
 
   PrintCResults(KOMODO2$correlations.pearson, KOMODO2$annotation.cor, 
                 "p_corr_results.tsv", KOMODO2$ontology)
@@ -108,10 +121,19 @@ if (KOMODO2$type == "correlation") {
   KOMODO2$results.correlations.pvalue.kendall <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.kendall)
   KOMODO2$contrasts.corrected <- MultipleHypothesisCorrection(KOMODO2$contrasts)
 
-  PrintCResults(KOMODO2$contrasts.corrected, KOMODO2$annotation.cor,
+  print("Printing results (2)...")
+
+  KOMODO2$contrasts.cor <- AnnotateResults(KOMODO2$contrasts,
+                                            KOMODO2$ontology)
+
+  KOMODO2$sum.cor <- AnnotateResults(KOMODO2$sum, KOMODO2$ontology)
+
+  KOMODO2$sd.cor <- AnnotateResults(KOMODO2$sd, KOMODO2$ontology)
+
+  PrintCResults(KOMODO2$contrasts.corrected, KOMODO2$contrasts.cor,
                 "contrasts_corrected.tsv", KOMODO2$ontology)
- 
-  PrintCResults(KOMODO2$contrasts, KOMODO2$annotation.cor,
+  
+  PrintCResults(KOMODO2$contrasts, KOMODO2$contrasts.cor,
                 "contrasts_raw.tsv", KOMODO2$ontology)
 
  
@@ -121,6 +143,39 @@ if (KOMODO2$type == "correlation") {
                 "s_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
   PrintCResults(KOMODO2$results.correlations.pvalue.kendall, KOMODO2$annotation.cor,
                 "k_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
+
+  PrintCResults(KOMODO2$sum, KOMODO2$sum.cor,
+                "sum.tsv", KOMODO2$ontology)
+  
+  PrintCResults(KOMODO2$sd, KOMODO2$sd.cor,
+                "sd.tsv", KOMODO2$ontology)
+
+#  common <- Reduce(intersect, list(names(KOMODO2$sd),names(KOMODO2$correlations.kendall), names(KOMODO2$correlations.pearson) ,names(KOMODO2$contrasts.corrected), names(KOMODO2$correlations.spearman), names(KOMODO2$sum)))
+#  KOMODO2$sum <- subset(KOMODO2$sum, names(KOMODO2$sum) %in% common)
+#  KOMODO2$sd <- subset(KOMODO2$sd, names(KOMODO2$sd) %in% common)
+#  KOMODO2$contrasts.cor <- subset(KOMODO2$contrasts.cor, names(KOMODO2$contrasts.cor) %in% common)
+#  KOMODO2$contrasts.corrected <- subset(KOMODO2$contrasts.corrected, names(KOMODO2$contrasts.corrected) %in% common)
+#  KOMODO2$correlations.kendall <- subset(KOMODO2$correlations.kendall, names(KOMODO2$correlations.kendall) %in% common)
+#  KOMODO2$correlations.spearman <- subset(KOMODO2$correlations.spearman, names(KOMODO2$correlations.spearman) %in% common)
+#  KOMODO2$correlations.pearson <- subset(KOMODO2$correlations.pearson, names(KOMODO2$correlations.pearson) %in% common)
+#  KOMODO2$correlations.pearson <- subset(KOMODO2$correlations.pearson, names(KOMODO2$correlations.pearson) %in% common)
+#  KOMODO2$results.correlations.pvalue.pearson <- subset(KOMODO2$results.correlations.pvalue.pearson, names(KOMODO2$results.correlations.pvalue.pearson) %in% common)
+#  KOMODO2$results.correlations.pvalue.spearman <- subset(KOMODO2$results.correlations.pvalue.spearman, names(KOMODO2$results.correlations.pvalue.spearman) %in% common)
+#  KOMODO2$results.correlations.pvalue.kendall <- subset(KOMODO2$results.correlations.pvalue.kendall, names(KOMODO2$results.correlations.pvalue.kendall) %in% common)
+#  KOMODO2$annotation.cor <- subset(KOMODO2$annotation.cor, names(KOMODO2$annotation.cor) %in% common)
+
+#  KOMODO2$correlations.pearson <- subset(KOMODO2$correlations.pearson, names(KOMODO2$correlations.pearson) %in% common)
+
+#  KOMODO2$correlations.kendall <- subset(KOMODO2$correlations.kendall, names(KOMODO2$correlations.kendall) %in% common)
+#  KOMODO2$correlations.spearman <- subset(KOMODO2$correlations.spearman, names(KOMODO2$correlations.spearman) %in% common)
+
+#  KOMODO2$annotation.cor <- subset(KOMODO2$annotation.cor, names(KOMODO2$annotation.cor) %in% common)
+#  KOMODO2$annotation.cor <- subset(KOMODO2$annotation.cor, names(KOMODO2$annotation.cor) %in% common)
+#  KOMODO2$correlations.pearson
+#  KOMODO2$y <- KOMODO2$y[names(KOMODO2$y) %in% common]
+
+  print("Done")
+
 
 } else if (KOMODO2$type == "significance") {
   if (tolower(KOMODO2$ontology) == "go" | 

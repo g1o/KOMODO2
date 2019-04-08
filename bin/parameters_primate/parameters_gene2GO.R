@@ -1,9 +1,0 @@
-KOMODO2 <- list(type = "correlation",
-                output.dir = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/results/KOMODO2_output/Gene2GO/",
-                dataset.info = "/home/chico/projects/KOMODO2/KOMODO2/bin/metadata_primate_gene2GO.txt",
-                x.column = 7,
-                denominator.column = 5,
-                ontology = "GO",
-                dict.path = "",
-                column = "GO",
-                cores = 60)

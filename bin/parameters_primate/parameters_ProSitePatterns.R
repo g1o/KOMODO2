@@ -1,9 +1,0 @@
-KOMODO2 <- list(type = "correlation",
-                output.dir = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/results/KOMODO2_output/ProSitePatterns/",
-                dataset.info = "/home/chico/projects/KOMODO2/KOMODO2/bin/metadata_primate_ProSitePatterns.txt",
-                x.column = 3,
-                denominator.column = 2,
-                ontology = "other",
-                dict.path = "/home/chico/projects/KOMODO2/validation/primate_brain_evolution/data/dics/ProSitePatterns.dic",
-                column = "ProSitePatterns",
-                cores = 60)
