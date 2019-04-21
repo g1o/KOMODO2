@@ -173,8 +173,33 @@ if (KOMODO2$type == "correlation") {
 #  KOMODO2$annotation.cor <- subset(KOMODO2$annotation.cor, names(KOMODO2$annotation.cor) %in% common)
 #  KOMODO2$correlations.pearson
 #  KOMODO2$y <- KOMODO2$y[names(KOMODO2$y) %in% common]
+cutoff=0.2;
+sumY<-sapply(KOMODO2$y,sum) # done as vector, it is a simply sum and it is fast as this, must check how the list type is used before this one.
+sumY<-sumY[!sumY==0] # filter out those with 0 counts
+Y<-KOMODO2$y[,colSums(KOMODO2$y)!=0]
 
-  print("Done")
+df<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
+          KOMODO2$results.correlations.pvalue.pearson[order(names(KOMODO2$results.correlations.pvalue.pearson))],
+          (sumY[order(names(sumY))]),
+          KOMODO2$results.correlations.pvalue.spearman[order(names(KOMODO2$results.correlations.pvalue.spearman))],
+          KOMODO2$results.correlations.pvalue.kendall[order(names(KOMODO2$results.correlations.pvalue.kendall))],
+          Y[,order(colnames(Y))] )
+
+rownames(df)[1:5]<-c("corrected_contrasts",
+                     "PearsonCorrelation",
+                     "size",
+                     "SpearmanCorrelation",
+                     "KendallCorrelation")
+
+df<-as.data.frame(t(df))
+description<-unlist(KOMODO2$annotation.cor)
+description<-description[order(names(description))]
+df$description<-description
+df$name<-rownames(df)
+df_cutoff<-df[df$corrected_contrasts<cutoff,]
+
+render("KOMODO2_report.Rmd") # is PATH a bug?
+print("Done")
 
 
 } else if (KOMODO2$type == "significance") {
