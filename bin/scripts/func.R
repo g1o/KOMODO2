@@ -43,6 +43,11 @@ InstallPackages <- function() {
   install.packages("itertools")
   install.packages("CHNOSZ")
   install.packages("taxize")
+  install.packages("plotly") #for visualization of results
+  install.packages("ggplot2")#for visualization of results
+  install.packages("scales") #for visualization of results
+  install.packages("DT")     #for visualization of results
+	
 }
 
 
@@ -75,6 +80,11 @@ LoadBioconductor <- function() {
   suppressMessages(library("iterators"))
   suppressMessages(library("itertools"))
   suppressMessages(library("CHNOSZ"))
+  suppressMessages(library("plotly"))
+  suppressMessages(library("ggplot2"))
+  suppressMessages(library("scales"))
+  suppressMessages(library("DT"))
+
 }
 
 
