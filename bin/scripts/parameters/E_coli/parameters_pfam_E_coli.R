@@ -1,10 +1,10 @@
 KOMODO2 <- list(type = "significance",
-                output.dir = "/home/giovannimc/projects/E_coli/results/KOMODO2_output/correlation/Pfam/",
-                test.path = "/home/giovannimc/projects/E_coli/data/interpro_parsed/Pfam/patho/",
-                back.path = "/home/giovannimc/projects/E_coli/data/interpro_parsed/Pfam/non_patho",
+                output.dir = "/home/chico/projects/KOMODO2/validation/E_coli/results/KOMODO2_output/significance/Pfam/",
+                test.path = "/home/chico/projects/KOMODO2/validation/E_coli/data/interpro_parsed/Pfam/patho/",
+                back.path = "/home/chico/projects/KOMODO2/validation/E_coli/data/interpro_parsed/Pfam/non_patho",
                 ontology = "other",
-                dict.path = "/home/giovannimc/projects/E_coli/data/dics/Pfam.dic",
+                dict.path = "/home/chico/projects/KOMODO2/validation/E_coli/data/dics/Pfam.dic",
                 column = "Pfam",
                 bootstrap = 100,
                 criticalValue = 0.05,
-                cores = 60)
+cores = 60)
