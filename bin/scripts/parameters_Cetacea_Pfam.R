@@ -1,5 +1,5 @@
 KOMODO2 <- list(type = "correlation",
-                output.dir = "/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/results/KOMODO2/Pfam_ceta/",
+                output.dir = "../../Cetartiodactyla_weight/KOMODO2/Pfam_ceta/",
                 dataset.info = "metadata/Cetacea/metadata_cetacea_Pfam.txt",
                 x.column = 2,
                 denominator.column = 3,

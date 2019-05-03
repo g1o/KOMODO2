@@ -178,27 +178,32 @@ sumY<-sapply(KOMODO2$y,sum) # done as vector, it is a simply sum and it is fast 
 sumY<-sumY[!sumY==0] # filter out those with 0 counts
 Y<-KOMODO2$y[,colSums(KOMODO2$y)!=0]
 
-df<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
+plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
           KOMODO2$results.correlations.pvalue.pearson[order(names(KOMODO2$results.correlations.pvalue.pearson))],
-          (sumY[order(names(sumY))]),
+          sumY[order(names(sumY))],
           KOMODO2$results.correlations.pvalue.spearman[order(names(KOMODO2$results.correlations.pvalue.spearman))],
           KOMODO2$results.correlations.pvalue.kendall[order(names(KOMODO2$results.correlations.pvalue.kendall))],
-          Y[,order(colnames(Y))] )
+	  KOMODO2$sd[order(names(KOMODO2$sd))] ,
+          Y[,order(colnames(Y))] )  
 
-rownames(df)[1:5]<-c("corrected_contrasts",
+rownames(plotframe)[1:6]<-c("corrected_contrasts",
                      "PearsonCorrelation",
                      "size",
                      "SpearmanCorrelation",
-                     "KendallCorrelation")
+                     "KendallCorrelation",
+                     "sd")
+			
 
-df<-as.data.frame(t(df))
+plotframe<-as.data.frame(t(plotframe))
 description<-unlist(KOMODO2$annotation.cor)
 description<-description[order(names(description))]
-df$description<-description
-df$name<-rownames(df)
-df_cutoff<-df[df$corrected_contrasts<cutoff,]
+plotframe$description<-description
+plotframe$name<-rownames(plotframe)
+df_cutoff<-plotframe[plotframe$corrected_contrasts<cutoff,]
+df_cutoff<-df_cutoff[df_cutoff$sd!=0,] #removing trivial cases, constant values. 
 
-render("KOMODO2_report.Rmd") # is PATH a bug?
+wd<-normalizePath(KOMODO2$output.dir);
+render("KOMODO2_correlation_report.Rmd",output_file=paste0(wd,'/KOMODO2_report.html') )
 print("Done")
 
 
