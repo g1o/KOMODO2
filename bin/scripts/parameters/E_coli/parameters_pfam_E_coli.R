@@ -7,4 +7,4 @@ KOMODO2 <- list(type = "significance",
                 column = "Pfam",
                 bootstrap = 100,
                 criticalValue = 0.05,
-                cores = 60)
+cores = 60)
