@@ -36,7 +36,7 @@ pl3 <- ggplotly(p,tooltip=c('size','name','description','x','y'))
 htmltools::tagList(pl1,pl2,pl3)
 ```
 
-<!---```{r Multiplot,echo=F,warning=FALSE}
+```{r Multiplot,echo=F,warning=FALSE}
 Xdf <- KOMODO2$x
 #nice scatterplot, confidence intervals
 names(Xdf) <- "X_var"
@@ -61,7 +61,7 @@ for ( i in  df_cutoff$name[1:200] ){ # get filtered to plot a lot
 
 }
 ```
---->
+
 Results table, some columns are not visible by default. 
 ```{r Table,echo=F}
 dtable<- df_cutoff %>% mutate (name = paste0('<a  target=_blank href=', 'correlation_Plots/',name,'.html>', name,'</a>' )  ) #build link to plots
