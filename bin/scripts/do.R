@@ -31,7 +31,8 @@ if (!is.null(KOMODO2$cores)) {
 
 if (KOMODO2$type == "correlation") {
   tree <- read.tree("/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/trees/Cetacean_tree_genome_ids.nwk")
-  if (tolower(KOMODO2$ontology) == "go" | 
+  tree<-multi2di(tree)  
+if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
     KOMODO2$allAncestor <- ListAncestors()
     KOMODO2$allObsolete <- ListObsoletes()
