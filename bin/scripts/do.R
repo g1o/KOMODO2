@@ -29,7 +29,7 @@ if (!is.null(KOMODO2$cores)) {
 }
 
 
-if (KOMODO2$type == "correlation") {
+if (KOMODO2$type == "correlation") {	
   tree <- read.tree("/home/chico/projects/KOMODO2/validation/Cetartiodactyla_weight/data/trees/Cetacean_tree_genome_ids.nwk")
   tree<-multi2di(tree)  
 if (tolower(KOMODO2$ontology) == "go" | 
@@ -174,13 +174,16 @@ if (tolower(KOMODO2$ontology) == "go" |
 #  KOMODO2$annotation.cor <- subset(KOMODO2$annotation.cor, names(KOMODO2$annotation.cor) %in% common)
 #  KOMODO2$correlations.pearson
 #  KOMODO2$y <- KOMODO2$y[names(KOMODO2$y) %in% common]
-cutoff=0.2;
 
-sumY<-KOMODO2$sum[!KOMODO2$sum==0] # filter out those with 0 counts
+cutoff=0.2;
+	
+# Filter features with 0 counts
+sumY<-KOMODO2$sum[!KOMODO2$sum==0]
 Y   <-KOMODO2$y[,colSums(KOMODO2$y)!=0]
 Ksd <-KOMODO2$sd[names(sumY)] # the others are not used (0 counts)
 
-plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
+# Create dataframe to use in plot
+Plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
           KOMODO2$results.correlations.pvalue.pearson[order(names(KOMODO2$results.correlations.pvalue.pearson))],
           sumY[order(names(sumY))],
           KOMODO2$results.correlations.pvalue.spearman[order(names(KOMODO2$results.correlations.pvalue.spearman))],
@@ -188,7 +191,7 @@ plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corre
 	  Ksd[order(names(Ksd))] ,
           Y[,order(colnames(Y))] )  
 
-rownames(plotframe)[1:6]<-c("corrected_contrasts",
+rownames(Plotframe)[1:6]<-c("corrected_contrasts",
                      "PearsonCorrelation",
                      "size",
                      "SpearmanCorrelation",
@@ -196,15 +199,18 @@ rownames(plotframe)[1:6]<-c("corrected_contrasts",
                      "sd")
 			
 
-plotframe<-as.data.frame(t(plotframe))
+Plotframe<-as.data.frame(t(Plotframe))
 description<-unlist(KOMODO2$annotation.cor)
 description<-description[order(names(description))]
-plotframe$description<-description
-plotframe$name<-rownames(plotframe)
-	
-df_cutoff<-plotframe[plotframe$corrected_contrasts<cutoff,]
-df_cutoff<-df_cutoff[df_cutoff$sd!=0,] #removing trivial cases, constant values. 
+Plotframe$description<-description
+Plotframe$name<-rownames(Plotframe)
+rm(sumY,Y,Ksd,description)
 
+#Filter using the defined cutoff and remove trivial cases (constant values).
+df_cutoff<-Plotframe[Plotframe$corrected_contrasts<cutoff,]
+df_cutoff<-df_cutoff[df_cutoff$sd!=0,] 
+
+#Set path and render the HTML report 
 wd<-normalizePath(KOMODO2$output.dir);
 render("KOMODO2_correlation_report.Rmd",output_file=paste0(wd,'/KOMODO2_report.html') )
 print("Done")
