@@ -11,9 +11,8 @@ library(plotly)
 library(ggplot2)
 library(scales)
 library(DT)
-#prepare data.frame to plot
-#plot
-#SD<-sapply(df_cutoff$sd,function(x) x^-1);
+#Prepare data.frame to plot
+#Plot
 p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(SpearmanCorrelation),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
         geom_point(aes(size = size,alpha=sd))+
         theme_bw() + ggtitle("Spearman") +
