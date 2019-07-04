@@ -3,6 +3,7 @@ title: "Komodo Results Report"
 output: html_document
 ---
 
+
 Correlation Plots :
 
 ```{r Correlation Plots,echo=F,warnings=F,message=F}
@@ -10,9 +11,8 @@ library(plotly)
 library(ggplot2)
 library(scales)
 library(DT)
-#prepare data.frame to plot
-#plot
-#SD<-sapply(df_cutoff$sd,function(x) x^-1);
+#Prepare data.frame to plot
+#Plot
 p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(SpearmanCorrelation),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
         geom_point(aes(size = size,alpha=sd))+
         theme_bw() + ggtitle("Spearman") +
@@ -37,7 +37,7 @@ htmltools::tagList(pl1,pl2,pl3)
 
 ```{r Multiplot,echo=F,warning=FALSE}
 Xdf <- KOMODO2$x
-#nice scatterplot, confidence intervals
+#nice scatterplot, with confidence intervals
 names(Xdf) <- "X_var"
 dir.create(paste0(wd,"/correlation_Plots"));
 lis<-list();
@@ -49,10 +49,9 @@ for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a
 #	temp_var <- predict(model1, interval="prediction")
 #	new_Xdf <- cbind(Xdf, temp_var)
 	ID=row.names(Xdf)
-	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID)) + geom_point()+
-#		geom_line(aes(y=lwr), color = "red", linetype = "dashed")+
-#		geom_line(aes(y=upr), color = "red", linetype = "dashed")+
-		geom_smooth(method = "lm", se = TRUE) +
+	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID) ) + 
+		geom_point() +
+		geom_smooth(method = "lm", se = TRUE) + 
 		theme_bw() +
 		ggtitle(i)	
 	p2ly<-ggplotly(p2,tooltip=c('label','X_var','Normalized feature'));
