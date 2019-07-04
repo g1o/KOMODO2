@@ -3,7 +3,6 @@ title: "Komodo Results Report"
 output: html_document
 ---
 
-
 Correlation Plots :
 
 ```{r Correlation Plots,echo=F,warnings=F,message=F}
@@ -36,13 +35,13 @@ pl3 <- ggplotly(p,tooltip=c('size','name','description','x','y'))
 htmltools::tagList(pl1,pl2,pl3)
 ```
 
-<!---```{r Multiplot,echo=F,warning=FALSE}
+```{r Multiplot,echo=F,warning=FALSE}
 Xdf <- KOMODO2$x
 #nice scatterplot, confidence intervals
 names(Xdf) <- "X_var"
 dir.create(paste0(wd,"/correlation_Plots"));
 lis<-list();
-for ( i in  df_cutoff$name[1:200] ){ # get filtered to plot a lot
+for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
 	file<-paste0(wd,'/correlation_Plots/',i,'.html');
 	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
 #	model1 <- lm(Xdf$feature ~ Xdf$X_var)
@@ -60,11 +59,38 @@ for ( i in  df_cutoff$name[1:200] ){ # get filtered to plot a lot
 	htmlwidgets::saveWidget(p2ly,file=file,title=i,libdir='lib',selfcontained=F)
 
 }
+
+Xdf <- as.data.frame(rank(KOMODO2$x[,1]))
+rownames(Xdf) <- rownames(KOMODO2$x)
+#nice scatterplot, confidence intervals
+names(Xdf) <- "X_var"
+dir.create(paste0(wd,"/correlation_Plots2"));
+lis<-list();
+for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
+	file<-paste0(wd,'/correlation_Plots2/',i,'.html');
+	Xdf$feature <- rank(KOMODO2$y[,i]/KOMODO2$denominator)
+##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
+##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), #interval="confidence", level = 0.95)
+##	temp_var <- predict(model1, interval="prediction")
+##	new_Xdf <- cbind(Xdf, temp_var)
+	ID=row.names(Xdf)
+	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID)) + geom_point()+
+##		geom_line(aes(y=lwr), color = "red", linetype = "dashed")+
+##		geom_line(aes(y=upr), color = "red", linetype = "dashed")+
+		geom_smooth(method = "lm", se = TRUE) +
+		theme_bw() +
+		ggtitle(i)	
+	p2ly<-ggplotly(p2,tooltip=c('label','X_var','Normalized feature'));
+	htmlwidgets::saveWidget(p2ly,file=file,title=i,libdir='lib',selfcontained=F)
+}
+
+
 ```
---->
+
 Results table, some columns are not visible by default. 
 ```{r Table,echo=F}
-dtable<- df_cutoff %>% mutate (name = paste0('<a  target=_blank href=', 'correlation_Plots/',name,'.html>', name,'</a>' )  ) #build link to plots
+dtable<- df_cutoff %>% mutate (p_cor_plot = paste0('<a  target=_blank href=', 'correlation_Plots/',name,'.html>', name,'</a>' )  ) #build link to plots
+dtable<- dtable %>% mutate (s_cor_plot = paste0('<a  target=_blank href=', 'correlation_Plots2/',name,'.html>', name,'</a>' )  ) #build link to plots
 dtable<-datatable(dtable,escape=F,filter = 'bottom',extensions = 'Buttons', options = list(dom = 'Bfrtip', buttons = c('colvis','csv'),columnDefs = list(list(visible=FALSE, targets=4:(length(df_cutoff)-2) )))) # prepare table
 #TODO path need to be set
 dtable

@@ -1327,8 +1327,8 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
 
   # Normalizing 
   if (!is.null(denominator)) {
-    y <- as.data.frame(t(t(y) / denominator))
-#    y <- y / denominator
+#    y <- as.data.frame(t(t(y) / denominator))
+    y <- y / denominator
   }
   for (i in 1:ncol(y)) {
     correlations[[i]] <- cor(x[rownames(y), 1], y[, i], method = method)

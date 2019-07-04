@@ -38,6 +38,9 @@
 
 
 # Load data files
+
+KOMODO2$type <- "correlation"
+
 if (KOMODO2$type == "significance") {
 
   # If the paths point to a file with the paths of the genome files
