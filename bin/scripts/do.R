@@ -51,6 +51,8 @@ if (KOMODO2$type == "correlation") {
   
   if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
+    print ("Creating dictionary for GO (it may take a while...)")
+    print ("  Finding GO ancestors, synonyms and obsolete")
     KOMODO2$allAncestor <- ListAncestors()
     KOMODO2$allObsolete <- ListObsoletes()
     KOMODO2$allSynonym <- ListSynonyms()
@@ -61,7 +63,7 @@ if (KOMODO2$type == "correlation") {
   }
 
   if (is.null(KOMODO2$yElementCount)) {
-    print ("Creating annotation term vectors")
+    print ("  Creating annotation term vectors")
     KOMODO2$yElementCount <- GroupElementCount(KOMODO2$y.anno)
   }
   
@@ -173,7 +175,7 @@ if (KOMODO2$type == "correlation") {
 
   cutoff=0.2;
   sumY<-sapply(KOMODO2$y,sum) # done as vector, it is a simply sum and it is fast as this, must check how the list type is used before this one.
-  sumY<-sumY[!sumY==0] # filter out those with 0 counts
+  sumY<-sumY[!sumY==0] # filter out those with no observations
   Y<-KOMODO2$y[,colSums(KOMODO2$y)!=0]
   KOMODO2$sd <- KOMODO2$sd[colSums(KOMODO2$y)!=0]
   plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
@@ -181,8 +183,8 @@ if (KOMODO2$type == "correlation") {
             sumY[order(names(sumY))],
             KOMODO2$results.correlations.pvalue.spearman[order(names(KOMODO2$results.correlations.pvalue.spearman))],
             KOMODO2$results.correlations.pvalue.kendall[order(names(KOMODO2$results.correlations.pvalue.kendall))],
-	  KOMODO2$sd[order(names(KOMODO2$sd))] ,
-            Y[,order(colnames(Y))] )  
+        	  KOMODO2$sd[order(names(KOMODO2$sd))],
+            Y[,order(colnames(Y))])
   rownames(plotframe)[1:6]<-c("corrected_contrasts",
                               "PearsonCorrelation",
                               "size",

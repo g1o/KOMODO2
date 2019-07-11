@@ -36,60 +36,171 @@ htmltools::tagList(pl1,pl2,pl3)
 ```
 
 ```{r Multiplot,echo=F,warning=FALSE}
-Xdf <- KOMODO2$x
-#nice scatterplot, with confidence intervals
-names(Xdf) <- "X_var"
+# multiple scatterplots, with confidence intervals, in a single html page
 dir.create(paste0(wd,"/correlation_Plots"));
 lis<-list();
 for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
+  
+  #creating plot titles and axes labels
+  
+  f <- list(
+#  family = "Verdana",
+  size = 18,
+  color = "black")
+  
+  title_p1 <- list(
+    text = "Raw data",
+    font = f,
+    xref = "Phenotype",
+    yref = "Annotation term frequency",
+    yanchor = "bottom",
+    xanchor = "center",
+    align = "center",
+    x = 0.5,
+    y = 1,
+    showarrow = FALSE
+  )
+
+  title_p2 <- list(
+    text = "Rank data",
+    font = f,
+    xref = "Phenotype rank",
+    yref = "Annotation term frequency rank",
+    yanchor = "bottom",
+    xanchor = "center",
+    align = "center",
+    x = 0.5,
+    y = 1,
+    showarrow = FALSE
+  )
+
+  title_p3 <- list(
+    text = "Phylogeny-aware linear model data",
+    font = f,
+    xref = "Contrasts of phenotypes",
+    yref = "Contrasts of annotation term frequencies",
+    yanchor = "bottom",
+    xanchor = "center",
+    align = "center",
+    x = 0.5,
+    y = 1,
+    showarrow = FALSE
+  )
+
+  #output dir
 	file<-paste0(wd,'/correlation_Plots/',i,'.html');
+
+	#creating data for raw data
+	Xdf <- KOMODO2$x
+  names(Xdf) <- "X_var"
 	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
-#	model1 <- lm(Xdf$feature ~ Xdf$X_var)
-#	conf_interval <- predict(model1, newdata=data.frame(QUET=3), interval="confidence", level = 0.95)
-#	temp_var <- predict(model1, interval="prediction")
-#	new_Xdf <- cbind(Xdf, temp_var)
 	ID=row.names(Xdf)
+	
+	p1 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID) ) + 
+		geom_point() +
+		geom_smooth(method = "lm", se = TRUE) + 
+		theme_bw() +
+	  labs(x = "Phenotype value", y = "Annotation frequency")
+
+	Xdf <- as.data.frame(rank(KOMODO2$x[,1]))
+  rownames(Xdf) <- rownames(KOMODO2$x)
+  names(Xdf) <- "X_var"
+  Xdf$feature <- rank(KOMODO2$y[,i]/KOMODO2$denominator)
+	
 	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID) ) + 
 		geom_point() +
 		geom_smooth(method = "lm", se = TRUE) + 
 		theme_bw() +
-		ggtitle(i)	
-	p2ly<-ggplotly(p2,tooltip=c('label','X_var','Normalized feature'));
-	htmlwidgets::saveWidget(p2ly,file=file,title=i,libdir='lib',selfcontained=F)
+	  labs(x = "Phenotype rank", y = "Annotation frequency rank")
 
+	  
+	tmp_x <- as.vector(as.numeric(KOMODO2$x[,1]))
+  names(tmp_x) <- rownames(KOMODO2$x)
+  contrast_x <- pic(tmp_x, KOMODO2$tree)
+
+  tmp_y <- KOMODO2$y[,i]/KOMODO2$denominator
+  names(tmp_y) <- rownames(KOMODO2$x)
+  contrast_y <- pic(tmp_y, KOMODO2$tree)
+
+  Xdf <- data.frame(contrast_x, contrast_y)
+
+  model <- lm(contrast_y ~ contrast_x + 0)
+  
+	p3 <- ggplot(Xdf, aes(x = contrast_x, y = contrast_y, label=rownames(Xdf))) +
+		geom_point() +
+#		geom_smooth(method = "lm", se = FALSE) +
+	  geom_abline(slope = model$coefficients[1], intercept = 0, color=c("blue"), size=1) +
+#    geom_line(data = fortify(model), aes(x = contrast_x, y = .fitted))
+	  theme_bw()+
+	  labs(x = "contrasts for phenotype", y = "Contrasts for annotation frequency")
+#		ggtitle(paste0("phylogeny-aware linear model data for "), i),
+#    ggtitle("Representation of raw data             Representation of rank data                Representation of phylogenetic-aware linear model data")
+
+	p4 <- subplot(p1, p2, p3, shareX = TRUE, shareY = FALSE)
+
+	p1ly<-ggplotly(p4,tooltip=c('label','X_var','Normalized feature'));
+	htmlwidgets::saveWidget(p1ly,file=file,libdir='lib',selfcontained=F)
 }
-
-Xdf <- as.data.frame(rank(KOMODO2$x[,1]))
-rownames(Xdf) <- rownames(KOMODO2$x)
-#nice scatterplot, confidence intervals
-names(Xdf) <- "X_var"
-dir.create(paste0(wd,"/correlation_Plots2"));
-lis<-list();
-for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
-	file<-paste0(wd,'/correlation_Plots2/',i,'.html');
-	Xdf$feature <- rank(KOMODO2$y[,i]/KOMODO2$denominator)
-##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
-##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), #interval="confidence", level = 0.95)
-##	temp_var <- predict(model1, interval="prediction")
-##	new_Xdf <- cbind(Xdf, temp_var)
-	ID=row.names(Xdf)
-	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID)) + geom_point()+
-##		geom_line(aes(y=lwr), color = "red", linetype = "dashed")+
-##		geom_line(aes(y=upr), color = "red", linetype = "dashed")+
-		geom_smooth(method = "lm", se = TRUE) +
-		theme_bw() +
-		ggtitle(i)	
-	p2ly<-ggplotly(p2,tooltip=c('label','X_var','Normalized feature'));
-	htmlwidgets::saveWidget(p2ly,file=file,title=i,libdir='lib',selfcontained=F)
-}
-
 
 ```
 
+<!--
+#```{r Multiplot,echo=F,warning=FALSE}
+#Xdf <- KOMODO2$x
+##nice scatterplot, with confidence intervals
+#names(Xdf) <- "X_var"
+#dir.create(paste0(wd,"/correlation_Plots"));
+#lis<-list();
+#for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
+#	file<-paste0(wd,'/correlation_Plots/',i,'.html');
+#	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
+##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
+##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), interval="confidence", level = 0.95)
+##	temp_var <- predict(model1, interval="prediction")
+##	new_Xdf <- cbind(Xdf, temp_var)
+#	ID=row.names(Xdf)
+#	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID) ) + 
+#		geom_point() +
+#		geom_smooth(method = "lm", se = TRUE) + 
+#		theme_bw() +
+#		ggtitle(i)	
+#	p2ly<-ggplotly(p2,tooltip=c('label','X_var','Normalized feature'));
+#	htmlwidgets::saveWidget(p2ly,file=file,title=i,libdir='lib',selfcontained=F)
+
+#}
+
+#Xdf <- as.data.frame(rank(KOMODO2$x[,1]))
+#rownames(Xdf) <- rownames(KOMODO2$x)
+##nice scatterplot, confidence intervals
+#names(Xdf) <- "X_var"
+#dir.create(paste0(wd,"/correlation_Plots2"));
+#lis<-list();
+#for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
+#	file<-paste0(wd,'/correlation_Plots2/',i,'.html');
+#	Xdf$feature <- rank(KOMODO2$y[,i]/KOMODO2$denominator)
+##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
+##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), ##interval="confidence", level = 0.95)
+##	temp_var <- predict(model1, interval="prediction")
+##	new_Xdf <- cbind(Xdf, temp_var)
+#	ID=row.names(Xdf)
+#	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID)) + geom_point()+
+##		geom_line(aes(y=lwr), color = "red", linetype = "dashed")+
+##		geom_line(aes(y=upr), color = "red", linetype = "dashed")+
+#		geom_smooth(method = "lm", se = TRUE) +
+#		theme_bw() +
+#		ggtitle(i)	
+#	p2ly<-ggplotly(p2,tooltip=c('label','X_var','Normalized feature'));
+#	htmlwidgets::saveWidget(p2ly,file=file,title=i,libdir='lib',selfcontained=F)
+#}
+
+#```
+
+-->
+
 Results table, some columns are not visible by default. 
 ```{r Table,echo=F}
-dtable<- df_cutoff %>% mutate (p_cor_plot = paste0('<a  target=_blank href=', 'correlation_Plots/',name,'.html>', name,'</a>' )  ) #build link to plots
-dtable<- dtable %>% mutate (s_cor_plot = paste0('<a  target=_blank href=', 'correlation_Plots2/',name,'.html>', name,'</a>' )  ) #build link to plots
+dtable<- df_cutoff %>% mutate (corr_plots = paste0('<a  target=_blank href=', 'correlation_Plots/',name,'.html>', name,'</a>' )  ) #build link to plots
+#dtable<- dtable %>% mutate (s_cor_plot = paste0('<a  target=_blank href=', 'correlation_Plots2/',name,'.html>', name,'</a>' )  ) #build link to plots
 dtable<-datatable(dtable,escape=F,filter = 'bottom',extensions = 'Buttons', options = list(dom = 'Bfrtip', buttons = c('colvis','csv'),columnDefs = list(list(visible=FALSE, targets=4:(length(df_cutoff)-2) )))) # prepare table
 #TODO path need to be set
 dtable
