@@ -53,8 +53,9 @@ while (my $line = <IN>) {
   foreach my $element (@aux) {
     if ($element =~ /^GO:/) {
 #      my $tmp = parse_GO($element);
+      $element =~ s/\|/; /g;
       if (defined $data{$gene_id}) {
-        $data{$gene_id} = join("|", $element, $data{$gene_id});
+        $data{$gene_id} = join("; ", $element, $data{$gene_id});
       } else {
         $data{$gene_id} = $element;
       }
@@ -73,7 +74,7 @@ foreach my $key(keys %data) {
 sub unique_values {
   my $tmp = $_[0];
   my %tmp_data;
-  my @aux = split(/\|/, $tmp);
+  my @aux = split(/; /, $tmp);
   foreach my $element (@aux) {
     if (defined $tmp_data{$element}) {
 
@@ -82,7 +83,7 @@ sub unique_values {
     }
   }
   my @uniquearray = keys %tmp_data;
-  my $tmp_out = join(";", @uniquearray);
+  my $tmp_out = join("; ", @uniquearray);
   return $tmp_out;
 }
 

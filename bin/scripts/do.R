@@ -75,12 +75,15 @@ if (KOMODO2$type == "correlation") {
 
   print("Done")
  
-  print ("Computing standard deviation of annotation elements")
+  print ("Computing basic statistics (standard deviation, mean, coefficient of variation) of annotation elements")
 
   KOMODO2$sd <- lapply(KOMODO2$y, sd)
-
+  KOMODO2$mean <- lapply(KOMODO2$y, mean)
+  KOMODO2$cv <- mapply("/",KOMODO2$sd,KOMODO2$mean,SIMPLIFY = FALSE)
+  KOMODO2$cv[is.na(KOMODO2$cv)] <- 0
+  
   print ("Done")
- 
+
   print("Computing contrasts") 
   tmp <- FindContrasts(KOMODO2$x, KOMODO2$y,
                                   KOMODO2$tree, "pic",
@@ -148,7 +151,8 @@ if (KOMODO2$type == "correlation") {
                                             KOMODO2$ontology)
 
   KOMODO2$sum.cor <- AnnotateResults(KOMODO2$sum, KOMODO2$ontology)
-
+  KOMODO2$cv.cor <- AnnotateResults(KOMODO2$cv, KOMODO2$ontology)
+  
   KOMODO2$sd.cor <- AnnotateResults(KOMODO2$sd, KOMODO2$ontology)
 
   PrintCResults(KOMODO2$contrasts.corrected, KOMODO2$contrasts.cor,
@@ -170,7 +174,10 @@ if (KOMODO2$type == "correlation") {
   
   PrintCResults(KOMODO2$sd, KOMODO2$sd.cor,
                 "sd.tsv", KOMODO2$ontology)
-
+  
+#  PrintCResults(KOMODO2$cv, KOMODO2$cv.cor,
+#                "cv.tsv", KOMODO2$ontology)
+  
   print("Printing html5 output file")
 
   cutoff=0.2;
@@ -178,19 +185,29 @@ if (KOMODO2$type == "correlation") {
   sumY<-sumY[!sumY==0] # filter out those with no observations
   Y<-KOMODO2$y[,colSums(KOMODO2$y)!=0]
   KOMODO2$sd <- KOMODO2$sd[colSums(KOMODO2$y)!=0]
+  KOMODO2$cv <- KOMODO2$cv[colSums(KOMODO2$y)!=0]
+  
   plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
             KOMODO2$results.correlations.pvalue.pearson[order(names(KOMODO2$results.correlations.pvalue.pearson))],
-            sumY[order(names(sumY))],
             KOMODO2$results.correlations.pvalue.spearman[order(names(KOMODO2$results.correlations.pvalue.spearman))],
             KOMODO2$results.correlations.pvalue.kendall[order(names(KOMODO2$results.correlations.pvalue.kendall))],
-        	  KOMODO2$sd[order(names(KOMODO2$sd))],
+            KOMODO2$correlations.pearson[order(names(KOMODO2$correlations.pearson))],
+            KOMODO2$correlations.spearman[order(names(KOMODO2$correlations.spearman))],
+            KOMODO2$correlations.kendall[order(names(KOMODO2$correlations.kendall))],
+            sumY[order(names(sumY))],
+            KOMODO2$sd[order(names(KOMODO2$sd))],
+            KOMODO2$cv[order(names(KOMODO2$cv))],
             Y[,order(colnames(Y))])
-  rownames(plotframe)[1:6]<-c("corrected_contrasts",
-                              "PearsonCorrelation",
+  rownames(plotframe)[1:10]<-c("corrected_contrasts",
+                              "Pearson_qvalue",
+                              "Spearman_qvalue",
+                              "Kendall_qvalue",
+                              "Pearson_cor",
+                              "Spearman_cor",
+                              "Kendall_cor",
                               "size",
-                              "SpearmanCorrelation",
-                              "KendallCorrelation",
-                              "sd")
+                              "sd",
+                              "cv")
 
   plotframe<-as.data.frame(t(plotframe))
   description<-unlist(KOMODO2$annotation.cor)

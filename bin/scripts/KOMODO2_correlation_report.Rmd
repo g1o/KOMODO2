@@ -13,20 +13,20 @@ library(scales)
 library(DT)
 #Prepare data.frame to plot
 #Plot
-p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(SpearmanCorrelation),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
+p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Spearman_qvalue),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
         geom_point(aes(size = size,alpha=sd))+
         theme_bw() + ggtitle("Spearman") +
         labs(x="-log10(Corrected contrasts)",y='-log10(Spearman correlation q-value)')
 pl1 <- ggplotly(p,tooltip=c('size','name','description','x','y'))
 
-p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(KendallCorrelation),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
+p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Kendall_qvalue),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
         geom_point(aes(size = size,alpha=sd))+
         theme_bw() + ggtitle("Kendall") + 
 #	geom_jitter(width = 0.15, height = 0.15) + # Makes a mess 
         labs(x="-log10(Corrected contrasts)",y='-log10(Kendall correlation q-value)')
 pl2 <- ggplotly(p,tooltip=c('x','y','size','name','description'))
 
-p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(PearsonCorrelation),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
+p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Pearson_qvalue),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
         geom_point(aes(size = size,alpha=sd))+
         theme_bw() + ggtitle("Pearson") +
         labs(x="-log10(Corrected contrasts)",y='-log10(Pearson correlation q-value)')
