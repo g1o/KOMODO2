@@ -59,7 +59,7 @@ if (KOMODO2$type == "significance") {
   names(KOMODO2$y) <- KOMODO2$y.name
   names(KOMODO2$x) <- KOMODO2$y.name
 
-  if (length(KOMODO2$denominator) == 0) {
+  if (length(KOMODO2$denominator) <= 1) {
     KOMODO2$denominator <- NULL
   } else {
     names(KOMODO2$denominator) <- KOMODO2$y.name

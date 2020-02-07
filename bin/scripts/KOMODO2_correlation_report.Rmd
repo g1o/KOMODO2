@@ -13,21 +13,21 @@ library(scales)
 library(DT)
 #Prepare data.frame to plot
 #Plot
-p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Spearman_qvalue),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
-        geom_point(aes(size = size,alpha=sd))+
+p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Spearman_qvalue),label=name,description=description,cv=sapply(cv,function(x) x^-1))) +
+        geom_point(aes(size = size,alpha=cv))+
         theme_bw() + ggtitle("Spearman") +
         labs(x="-log10(Corrected contrasts)",y='-log10(Spearman correlation q-value)')
 pl1 <- ggplotly(p,tooltip=c('size','name','description','x','y'))
 
-p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Kendall_qvalue),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
-        geom_point(aes(size = size,alpha=sd))+
+p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Kendall_qvalue),label=name,description=description,cv=sapply(cv,function(x) x^-1))) +
+        geom_point(aes(size = size,alpha=cv))+
         theme_bw() + ggtitle("Kendall") + 
 #	geom_jitter(width = 0.15, height = 0.15) + # Makes a mess 
         labs(x="-log10(Corrected contrasts)",y='-log10(Kendall correlation q-value)')
 pl2 <- ggplotly(p,tooltip=c('x','y','size','name','description'))
 
-p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Pearson_qvalue),label=name,description=description,sd=sapply(sd,function(x) x^-1))) +
-        geom_point(aes(size = size,alpha=sd))+
+p<-ggplot(df_cutoff,aes(x=-log10(corrected_contrasts),y=-log10(Pearson_qvalue),label=name,description=description,cv=sapply(cv,function(x) x^-1))) +
+        geom_point(aes(size = size,alpha=cv))+
         theme_bw() + ggtitle("Pearson") +
         labs(x="-log10(Corrected contrasts)",y='-log10(Pearson correlation q-value)')
 pl3 <- ggplotly(p,tooltip=c('size','name','description','x','y'))
@@ -98,7 +98,8 @@ for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a
 	
 	p1 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID) ) + 
 		geom_point() +
-		geom_smooth(method = "lm", se = TRUE) + 
+#    expand_limits(x = 0, y = 0) +
+	  geom_smooth(method = "lm", se = TRUE) + 
 		theme_bw() +
 	  labs(x = "Phenotype value", y = "Annotation frequency")
 
@@ -109,7 +110,7 @@ for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a
 	
 	p2 <- ggplot(Xdf, aes(x = X_var, y = feature,label=ID) ) + 
 		geom_point() +
-		geom_smooth(method = "lm", se = TRUE) + 
+		geom_smooth(method = "loess", se = TRUE) + 
 		theme_bw() +
 	  labs(x = "Phenotype rank", y = "Annotation frequency rank")
 
@@ -129,7 +130,7 @@ for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a
 	p3 <- ggplot(Xdf, aes(x = contrast_x, y = contrast_y, label=rownames(Xdf))) +
 		geom_point() +
 #		geom_smooth(method = "lm", se = FALSE) +
-	  geom_abline(slope = model$coefficients[1], intercept = 0, color=c("blue"), size=1) +
+	  geom_abline(slope = model$coefficients[1], intercept = 0, color=c("#3366FFFF"), size=1) +
 #    geom_line(data = fortify(model), aes(x = contrast_x, y = .fitted))
 	  theme_bw()+
 	  labs(x = "contrasts for phenotype", y = "Contrasts for annotation frequency")

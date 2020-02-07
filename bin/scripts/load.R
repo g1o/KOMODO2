@@ -101,13 +101,19 @@ if (KOMODO2$type == "significance") {
 #                           header = TRUE, colClasses = "character",
 #                           strip.white = TRUE, comment.char = "")
   
+  
   KOMODO2$y.name <- read.csv(KOMODO2$dataset.info, header = FALSE,
                              strip.white = TRUE, comment.char = "",
                              check.names = FALSE, sep = "\t")
   KOMODO2$x <- KOMODO2$y.name[, KOMODO2$x.column]
-  KOMODO2$denominator <- KOMODO2$y.name[, KOMODO2$denominator.column]
-
+  if (KOMODO2$denominator.column == "") {
+    KOMODO2$denominator <- ""
+  } else {
+    KOMODO2$denominator <- KOMODO2$y.name[, KOMODO2$denominator.column]
+  }
+  
   KOMODO2$y.name <- as.character(KOMODO2$y.name[, 1])
+  KOMODO2$y.name <- paste0(KOMODO2$annotation_files_dir, KOMODO2$y.name)
   KOMODO2$y <- lapply(KOMODO2$y.name, read.csv, sep = "\t", header = TRUE, 
                       colClasses = "character", strip.white = TRUE, 
                       comment.char = "", check.names = FALSE)

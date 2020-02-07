@@ -1,28 +1,20 @@
                         README for KOMODO2
-             (last updated 01/28/2016 - mm/dd/yyyy format)
+             (last updated 02/07/2020 - mm/dd/yyyy format)
 
 AUTHORS
 -=-=-=-
 
 Jorge Augusto Hongo (jorgeahongo@gmail.com)
+Giovanni Marques de Castro (giomcastro@gmail.com)
 Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@embrapa.br)
-Guilherme Pimentel Telles (gpt@ic.unicamp.br)
 
 
 1 - DESCRIPTION
 -=-=-=-=-=-=-=-
 
-KOMODO2 identifies significantly enriched ontology terms when comparing two
-groups of annotated genomes: Test and Background. The former is treated as a 
-representative sample of the phenomenon you want to investigate
-(e.g. pathogenesis), while the latter is considered as representative of its
-absence.
-
-Alternatively, KOMODO2 can search a pattern by correlating a variable that you
-want to investigate (e.g. average life span) with all ontology terms in the
-annotated genomes. The significantly enriched terms are correlated with all
-terms by default.
-
+KOMODO2 is a first-principle, phylogeny-aware comparative genomics software
+to search for annotation terms (e.g Pfam IDs, GO terms) associated with a 
+variable that one wants to investigate (e.g. number of cell types)
 
 
 2 - HOW TO USE - OVERVIEW
@@ -36,8 +28,8 @@ The file "func.R" contains the functions used in the "do.R" file, plus some
 development and support functions. Use its "InstallPackages()" function to
 install KOMODO2's dependencies.
 
-KOMODO2 uses an ontology file, specified in the parameters. Gene Ontology and
-KEGG Orthology are natively supported and don't require this file.
+KOMODO2 uses an ontology file, specified in the parameters. Gene Ontology is
+natively supported and doesn't require this file.
 
 
 2.1 - INSTALL
@@ -46,7 +38,7 @@ KEGG Orthology are natively supported and don't require this file.
 Make sure to have an updated version of R, enough so you can use the packages
 from Bioconductor. Then, run the "InstallPackages()" function from "func.R"
 to install KOMODO2's dependencies.
-  
+
 
 2.2 - PREPARING INPUT FILES 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-

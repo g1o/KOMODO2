@@ -51,7 +51,7 @@ if (KOMODO2$type == "correlation") {
   
   if (tolower(KOMODO2$ontology) == "go" | 
       tolower(KOMODO2$ontology) == "gene ontology") {
-    print ("Creating dictionary for GO (it may take a while...)")
+    print ("Creating dictionary and internal nodes for GO analysis")
     print ("  Finding GO ancestors, synonyms and obsolete")
     KOMODO2$allAncestor <- ListAncestors()
     KOMODO2$allObsolete <- ListObsoletes()
@@ -63,22 +63,29 @@ if (KOMODO2$type == "correlation") {
   }
 
   if (is.null(KOMODO2$yElementCount)) {
-    print ("  Creating annotation term vectors")
+    print ("  Creating annotation term vectors (this will take a while...)")
     KOMODO2$yElementCount <- GroupElementCount(KOMODO2$y.anno)
   }
   
-  KOMODO2$y <- AddGenomeVectors(KOMODO2$y.anno, KOMODO2$y.name) 
+  KOMODO2$y <- AddGenomeVectors(KOMODO2$y.anno, KOMODO2$y.name)
 
-  print ("Computing sum of annotation elements")
-
-  KOMODO2$sum <- lapply(KOMODO2$y, sum)
-
+  #if ontology is GO, the denominator to obtain frequency is sum of GO terms in a species
+  if ((tolower(KOMODO2$ontology) == "go" | 
+      tolower(KOMODO2$ontology) == "gene ontology")&(length(KOMODO2$denominator) <= 1)) {
+    KOMODO2$denominator <- rowSums(KOMODO2$y)
+  } else {
+#    print("Here!")
+  }
+  
   print("Done")
- 
-  print ("Computing basic statistics (standard deviation, mean, coefficient of variation) of annotation elements")
 
+  print ("Computing basic statistics (standard deviation, mean, coefficient of variation) of annotation elements and sum")
+  print ("  Computing sum of annotation elements")
+  KOMODO2$sum <- lapply(KOMODO2$y, sum)
+  print ("  Computing sd of raw values of annotation elements")
   KOMODO2$sd <- lapply(KOMODO2$y, sd)
   KOMODO2$mean <- lapply(KOMODO2$y, mean)
+  print ("  Computing cv of raw values of annotation elements")
   KOMODO2$cv <- mapply("/",KOMODO2$sd,KOMODO2$mean,SIMPLIFY = FALSE)
   KOMODO2$cv[is.na(KOMODO2$cv)] <- 0
   
@@ -131,7 +138,7 @@ if (KOMODO2$type == "correlation") {
   KOMODO2$annotation.cor <- AnnotateResults(KOMODO2$correlations.pearson,
                                             KOMODO2$ontology)
 
-  print("Printing results (1)")
+  print("Printing flat file results (correlations)")
 
   PrintCResults(KOMODO2$correlations.pearson, KOMODO2$annotation.cor, 
                 "p_corr_results.tsv", KOMODO2$ontology)
@@ -145,7 +152,7 @@ if (KOMODO2$type == "correlation") {
   KOMODO2$results.correlations.pvalue.kendall <- MultipleHypothesisCorrection(KOMODO2$correlations.pvalue.kendall)
   KOMODO2$contrasts.corrected <- MultipleHypothesisCorrection(KOMODO2$contrasts)
 
-  print("Printing results (2)")
+  print("Printing flat file results (phylogeny-aware linear models)")
 
   KOMODO2$contrasts.cor <- AnnotateResults(KOMODO2$contrasts,
                                             KOMODO2$ontology)
@@ -161,7 +168,8 @@ if (KOMODO2$type == "correlation") {
   PrintCResults(KOMODO2$contrasts, KOMODO2$contrasts.cor,
                 "contrasts_raw.tsv", KOMODO2$ontology)
 
- 
+  print("Printing flat file results (q-values for association tests)")
+  
   PrintCResults(KOMODO2$results.correlations.pvalue.pearson, KOMODO2$annotation.cor,
                 "p_corr_qvalues_results.tsv", KOMODO2$ontology)
   PrintCResults(KOMODO2$results.correlations.pvalue.spearman, KOMODO2$annotation.cor,
@@ -169,18 +177,25 @@ if (KOMODO2$type == "correlation") {
   PrintCResults(KOMODO2$results.correlations.pvalue.kendall, KOMODO2$annotation.cor,
                 "k_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
 
+  print("Printing flat file results (basic statistics)")
+  
   PrintCResults(KOMODO2$sum, KOMODO2$sum.cor,
                 "sum.tsv", KOMODO2$ontology)
   
   PrintCResults(KOMODO2$sd, KOMODO2$sd.cor,
                 "sd.tsv", KOMODO2$ontology)
   
-#  PrintCResults(KOMODO2$cv, KOMODO2$cv.cor,
-#                "cv.tsv", KOMODO2$ontology)
-  
-  print("Printing html5 output file")
+  PrintCResults(KOMODO2$cv, KOMODO2$cv.cor,
+                "cv.tsv", KOMODO2$ontology)
 
-  cutoff=0.2;
+#  if (exists(KOMODO2$linear_model_cutoff)) { #defining what results will be available in html5 output (only annotations with phylogeny-aware smaller than cutoff will be printed)
+    cutoff=KOMODO2$linear_model_cutoff
+#  } else {
+#    cutoff = 0.5
+#  }
+  
+  text <- paste0("Printing html5 output file for results with phylogeny-aware q-values < ", cutoff)
+  print(text)
   sumY<-sapply(KOMODO2$y,sum) # done as vector, it is a simply sum and it is fast as this, must check how the list type is used before this one.
   sumY<-sumY[!sumY==0] # filter out those with no observations
   Y<-KOMODO2$y[,colSums(KOMODO2$y)!=0]
