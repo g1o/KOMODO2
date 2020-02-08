@@ -1,16 +1,16 @@
                         README for KOMODO2
              (last updated 02/07/2020 - mm/dd/yyyy format)
 
-AUTHORS
--=-=-=-
+##AUTHORS
 
-Jorge Augusto Hongo (jorgeahongo@gmail.com)
-Giovanni Marques de Castro (giomcastro@gmail.com)
-Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
+ - Jorge Augusto Hongo (jorgeahongo@gmail.com)
+
+ - Giovanni Marques de Castro (giomcastro@gmail.com)
+
+ - Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
 
 
-1 - DESCRIPTION
--=-=-=-=-=-=-=-
+##1. DESCRIPTION
 
 KOMODO2 is a first-principle, phylogeny-aware comparative genomics software
 to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies) - 
@@ -19,8 +19,8 @@ genomic componnts - associated with a quantitave/rank variable (e.g. number of
 cell types, genome size or density of specific genomic elements).
 
 
-2 - HOW TO USE - OVERVIEW
--=-=-=-=-=-=-=-=-=-=-=-=-
+2. HOW TO USE - OVERVIEW
+========================
 
 To run KOMODO2, you set the parameters according to the structure shown in the
 "parameters.R file" and use the command "source( file )" on the following
