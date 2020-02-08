@@ -1,7 +1,13 @@
                         README for KOMODO2
              (last updated 02/07/2020 - mm/dd/yyyy format)
 
-##AUTHORS
+# KOMODO2
+
+![alt text][logo]
+
+[logo]: docs/images/KOMODO2_logo.png "Logo Title Text 2"
+
+## AUTHORS
 
  - Jorge Augusto Hongo (jorgeahongo@gmail.com)
 
@@ -10,64 +16,44 @@
  - Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
 
 
-##1. DESCRIPTION
+## 1. DESCRIPTION
 
-KOMODO2 is a first-principle, phylogeny-aware comparative genomics software
-to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies) - 
-formally described in a dictionary-like structure and used to annotate
-genomic componnts - associated with a quantitave/rank variable (e.g. number of
-cell types, genome size or density of specific genomic elements).
+KOMODO2 is a first-principle, phylogeny-aware comparative genomics software to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies), formally described in a dictionary-like structure and used to annotate genomic components, associated with a quantitave/rank variable (e.g. number of cell types, genome size or density of specific genomic elements).
 
 
-2. HOW TO USE - OVERVIEW
-========================
+## 2. HOW TO USE - OVERVIEW
 
-To run KOMODO2, you set the parameters according to the structure shown in the
-"parameters.R file" and use the command "source( file )" on the following
-files: "<your parameter file>.R" "load.R", "clean.R" and "do.R", in this order.
+To run KOMODO2, you set the parameters according to the structure shown in the "parameters.R file" and use the command "source( file )" on the following files: "<your parameter file>.R" "load.R", "clean.R" and "do.R", in this order.
 
-Directory "parameters_validation/" contains all parameter files required to
-locally reproduce the results reported in a soon-to-be-published article. In
-order to use any of them and make file paths to work, please copy any
-configuration file to be used to the directory where KOMODO2 .R files are
-located.
+Directory "parameters_validation/" contains all parameter files required to locally reproduce the results reported in a soon-to-be-published article. In order to use any of them and make file paths to work, please copy any configuration file to be used to the directory where KOMODO2 .R files are located.
 
-The file "func.R" contains the functions used in the "do.R" file, plus some
-development and support functions. Use its "InstallPackages()" function to
-install KOMODO2's dependencies.
+The file "func.R" contains the functions used in the "do.R" file, plus some development and support functions. Use its "InstallPackages()" function to install KOMODO2's dependencies.
 
 
-2.1 - INSTALL
--=-=-=-=-=-=-
+### 2.1 - INSTALL
 
-Make sure to have an updated version of R, enough so you can use the packages
-from Bioconductor. Then, run the "InstallPackages()" function from "func.R"
-to install KOMODO2's dependencies.
+Make sure to have an updated version of R, enough so you can use the packages from Bioconductor. Then, run the "InstallPackages()" function from "func.R" to install KOMODO2's dependencies.
 
 After installation, follow instructions above to check installation success.
 
 
-2.2 - PREPARING YOUR OWN INPUT FILES 
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+### 2.2 - PREPARING YOUR INPUT FILES 
 
-KOMODO2 requires the following files (please check files used to validate
-software install if in doubt about file formats):
+KOMODO2 requires the following files (please check files used to validate software install if in doubt about file formats):
 
-1) A text file for each species describing their set of biologically meaningful
-   genomic elements and their respective annotaton (e.g. non redundant proteomes
-   annotated to GO terms, or non-redundant protein domains annotated to protein
-   domain IDs). An example of such file, where gene products are annotated
-   using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be
-   as follows:
+**genome annotation file** - a text file for each species describing their set of biologically meaningful genomic elements and their respective annotaton (e.g. non redundant proteomes annotated to GO terms, or non-redundant protein domains annotated to protein domain IDs). An example of such file, where gene products are annotated using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be as follows:
 
--------------------------------------------------------------------------------
-Entry Gene_ontology_IDs Cross-reference_KO
-Q7L8J4  GO:0017124; GO:0005737; GO:0035556; GO:1904030; GO:0061099; GO:0004860
-Q8WW27  GO:0016814; GO:0006397; GO:0008270  K18773;
-Q96P50  GO:0005096; GO:0046872  K12489;
--------------------------------------------------------------------------------
+---
 
-  , and is specified as:
+| Entry | Gene_ontology_IDs | KEGG_Orthology_ID |
+| ----- | ----------------- | ------------------ |
+| Q7L8J4 | GO:0017124; GO:0005737; GO:0035556; GO:1904030; GO:0061099; GO:0004860 | |
+| Q8WW27 | GO:0016814; GO:0006397; GO:0008270 | K18773 |
+| Q96P50 | GO:0005096; GO:0046872 | K12489 |
+
+---
+
+And is specified as:
   - Fixed number of columns (minimum 2) separated by tabs, or "\t".
   - First line as the header, each column having a unique column name.
   - Each following line having a unique entry (first column) identifier.
@@ -81,33 +67,35 @@ Q96P50  GO:0005096; GO:0046872  K12489;
    a single annotation schema would have two columns and the following general
    structure:
 
-<file genome_ID_1>
--------------------------------------------------------------------------------
-genomic_element_name/ID_1      annotation_ID_1;(...);annotation_ID_N;
-genomic_element_name/ID_2      annotation_ID_12;
--------------------------------------------------------------------------------
+---
+
+| | |
+| ------ | ------ |
+| genomic_element_name/ID_1   |  annotation_ID_1;(...);annotation_ID_N |
+| genomic_element_name/ID_2   |   annotation_ID_12 |
+
+---
+
+**phylogenetic tree file** - newick or phylip format, containing at least:
+
+   - all species to be analyzed (species IDs in the tree must be the same name of text files from the previous step)
+   - branch lengths proportional to divergence times (a chronogram)
+   - no polytomies (if there are cases, KOMODO2 will resolve star branches using [multi2di] method as implemented in [ape] package.
 
 
-2) A phylogenetic tree file (newick or phylip format) containing:
+A tree in newick format (however, with no branch lengths), would be: 
 
-   * all species to be analyzed (species IDs in the tree must be the same name
-     of text files from the previous step)
-   * branch lengths proportional to divergence times (a chronogram)
+---
 
-   A tree in newick format (however, with no branch lengths), would be: 
-
-<tree.nwk>
--------------------------------------------------------------------------------
 (genome_ID_1,(genome_ID_2,genome_ID_3))
--------------------------------------------------------------------------------
 
+---
 
-3) A metadata file containing:
-
-   * genome ID column (same name of text files and of species in phylogenetic
+**A metadata file** containing species-specific information:
+  - genome ID column (same name of text files and of species in phylogenetic
      trees, must be the first column);
-   * The quantitave/rank variable used to sort/rank genomes;
-   * A normalizing factor (e.g. proteome size or length; number of annotation
+   - The quantitave/rank variable used to sort/rank genomes;
+   - A normalizing factor (e.g. proteome size or length; number of annotation
      terms) to correct for potential biases in datasets (e.g. organisms with
      different annotation levels or with highly discrepant proteome sizes)
      If users are using GO as annotation schema, KOMODO2 can compute a
@@ -306,3 +294,6 @@ results:
       contrasts with intercept forced through origin (model = x ~ y + 0) as
       recomended by Felsenstein, 1985.
 
+
+[multi2di]: <https://rdrr.io/cran/ape/man/multi2di.html>
+[ape]: <http://ape-package.ird.fr/>
