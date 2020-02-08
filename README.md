@@ -1,73 +1,59 @@
                         README for KOMODO2
              (last updated 02/07/2020 - mm/dd/yyyy format)
 
-AUTHORS
--=-=-=-
+# KOMODO2
 
-Jorge Augusto Hongo (jorgeahongo@gmail.com)
-Giovanni Marques de Castro (giomcastro@gmail.com)
-Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
+![alt text][logo]
 
+[logo]: docs/images/KOMODO2_logo.png "Logo Title Text 2"
 
-1 - DESCRIPTION
--=-=-=-=-=-=-=-
+## AUTHORS
 
-KOMODO2 is a first-principle, phylogeny-aware comparative genomics software
-to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies) - 
-formally described in a dictionary-like structure and used to annotate
-genomic componnts - associated with a quantitave/rank variable (e.g. number of
-cell types, genome size or density of specific genomic elements).
+ - Jorge Augusto Hongo (jorgeahongo@gmail.com)
+
+ - Giovanni Marques de Castro (giomcastro@gmail.com)
+
+ - Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
 
 
-2 - HOW TO USE - OVERVIEW
--=-=-=-=-=-=-=-=-=-=-=-=-
+## 1. DESCRIPTION
 
-To run KOMODO2, you set the parameters according to the structure shown in the
-"parameters.R file" and use the command "source( file )" on the following
-files: "<your parameter file>.R" "load.R", "clean.R" and "do.R", in this order.
-
-Directory "parameters_validation/" contains all parameter files required to
-locally reproduce the results reported in a soon-to-be-published article. In
-order to use any of them and make file paths to work, please copy any
-configuration file to be used to the directory where KOMODO2 .R files are
-located.
-
-The file "func.R" contains the functions used in the "do.R" file, plus some
-development and support functions. Use its "InstallPackages()" function to
-install KOMODO2's dependencies.
+KOMODO2 is a first-principle, phylogeny-aware comparative genomics software to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies), formally described in a dictionary-like structure and used to annotate genomic components, associated with a quantitave/rank variable (e.g. number of cell types, genome size or density of specific genomic elements).
 
 
-2.1 - INSTALL
--=-=-=-=-=-=-
+## 2. HOW TO USE - OVERVIEW
 
-Make sure to have an updated version of R, enough so you can use the packages
-from Bioconductor. Then, run the "InstallPackages()" function from "func.R"
-to install KOMODO2's dependencies.
+To run KOMODO2, you set the parameters according to the structure shown in the "parameters.R file" and use the command "source( file )" on the following files: "<your parameter file>.R" "load.R", "clean.R" and "do.R", in this order.
+
+Directory "parameters_validation/" contains all parameter files required to locally reproduce the results reported in a soon-to-be-published article. In order to use any of them and make file paths to work, please copy any configuration file to be used to the directory where KOMODO2 .R files are located.
+
+The file "func.R" contains the functions used in the "do.R" file, plus some development and support functions. Use its "InstallPackages()" function to install KOMODO2's dependencies.
+
+
+### 2.1 - INSTALL
+
+Make sure to have an updated version of R, enough so you can use the packages from Bioconductor. Then, run the "InstallPackages()" function from "func.R" to install KOMODO2's dependencies.
 
 After installation, follow instructions above to check installation success.
 
 
-2.2 - PREPARING YOUR OWN INPUT FILES 
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+### 2.2 - PREPARING YOUR INPUT FILES 
 
-KOMODO2 requires the following files (please check files used to validate
-software install if in doubt about file formats):
+KOMODO2 requires the following files (please check files used to validate software install if in doubt about file formats):
 
-1) A text file for each species describing their set of biologically meaningful
-   genomic elements and their respective annotaton (e.g. non redundant proteomes
-   annotated to GO terms, or non-redundant protein domains annotated to protein
-   domain IDs). An example of such file, where gene products are annotated
-   using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be
-   as follows:
+---
 
--------------------------------------------------------------------------------
-Entry Gene_ontology_IDs Cross-reference_KO
-Q7L8J4  GO:0017124; GO:0005737; GO:0035556; GO:1904030; GO:0061099; GO:0004860
-Q8WW27  GO:0016814; GO:0006397; GO:0008270  K18773;
-Q96P50  GO:0005096; GO:0046872  K12489;
--------------------------------------------------------------------------------
+**genome annotation file** - a text file for each species describing their set of biologically meaningful genomic elements and their respective annotaton (e.g. non redundant proteomes annotated to GO terms, or non-redundant protein domains annotated to protein domain IDs). An example of such file, where gene products are annotated using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be as follows:
 
-  , and is specified as:
+
+| Entry | Gene_ontology_IDs | KEGG_Orthology_ID |
+| ----- | ----------------- | ------------------ |
+| Q7L8J4 | GO:0017124; GO:0005737; GO:0035556; GO:1904030; GO:0061099; GO:0004860 | |
+| Q8WW27 | GO:0016814; GO:0006397; GO:0008270 | K18773 |
+| Q96P50 | GO:0005096; GO:0046872 | K12489 |
+
+
+And is specified as:
   - Fixed number of columns (minimum 2) separated by tabs, or "\t".
   - First line as the header, each column having a unique column name.
   - Each following line having a unique entry (first column) identifier.
@@ -81,33 +67,33 @@ Q96P50  GO:0005096; GO:0046872  K12489;
    a single annotation schema would have two columns and the following general
    structure:
 
-<file genome_ID_1>
--------------------------------------------------------------------------------
-genomic_element_name/ID_1      annotation_ID_1;(...);annotation_ID_N;
-genomic_element_name/ID_2      annotation_ID_12;
--------------------------------------------------------------------------------
+```sh
+genomic_element_name/ID_1     annotation_ID_1;(...);annotation_ID_N
+genomic_element_name/ID_2     annotation_ID_12
+```
+
+---
+
+**phylogenetic tree file** - newick or phylip format, containing at least:
+
+   - all species to be analyzed (species IDs in the tree must be the same name of text files from the previous step)
+   - branch lengths proportional to divergence times (a chronogram)
+   - no polytomies (if there are cases, KOMODO2 will resolve star branches using [multi2di] method as implemented in [ape] package.
 
 
-2) A phylogenetic tree file (newick or phylip format) containing:
+A tree in newick format (however, with no branch lengths), would be: 
 
-   * all species to be analyzed (species IDs in the tree must be the same name
-     of text files from the previous step)
-   * branch lengths proportional to divergence times (a chronogram)
-
-   A tree in newick format (however, with no branch lengths), would be: 
-
-<tree.nwk>
--------------------------------------------------------------------------------
+```sh
 (genome_ID_1,(genome_ID_2,genome_ID_3))
--------------------------------------------------------------------------------
+```
 
+---
 
-3) A metadata file containing:
-
-   * genome ID column (same name of text files and of species in phylogenetic
+**A metadata file** containing species-specific information:
+  - genome ID column (same name of text files and of species in phylogenetic
      trees, must be the first column);
-   * The quantitave/rank variable used to sort/rank genomes;
-   * A normalizing factor (e.g. proteome size or length; number of annotation
+   - The quantitave/rank variable used to sort/rank genomes;
+   - A normalizing factor (e.g. proteome size or length; number of annotation
      terms) to correct for potential biases in datasets (e.g. organisms with
      different annotation levels or with highly discrepant proteome sizes)
      If users are using GO as annotation schema, KOMODO2 can compute a
@@ -119,13 +105,15 @@ genomic_element_name/ID_2      annotation_ID_12;
    genome IDs, column 2 contains the variable to rank genomes and column 3
    contains the normalizing factor could be as follows:
 
--------------------------------------------------------------------------------
+
+```sh
 ../projects/my_project/genome_ID_1  1.7  2537
 ../projects/my_project/genome_ID_2  1.2  10212
 ../projects/my_project/genome_ID_3  0.9  1534
--------------------------------------------------------------------------------
+```
 
   Metatada files are specified as follows:
+  
   - Fixed number of columns (minimum 2) separated by tabs.
   - No header.
   - Each line having a unique identifier (first column) with the path of the
@@ -145,7 +133,7 @@ meaningful descriptions. Our software currently supports two dictionary types:
     annotation term IDs (e.g. "46456") to their descriptions (e.g. "All alpha
     proteins"), separated by tabs. An example of such file would be:
 
--------------------------------------------------------------------------------
+```sh
 Annotation_ID     Annotation_definition
 annotation_ID_1   All alpha proteins
 annotation_ID_2   Globin-like
@@ -153,15 +141,14 @@ annotation_ID_3   Globin-like
 annotation_ID_4   Truncated hemoglobin
 (...)
 annotation_ID_N   annotation_ID_description
--------------------------------------------------------------------------------
+```
 
 KOMODO2 can treat each identifier as its own description, saving the work from
 preparing an ontology that isn't natively supported. For that, specify no
 ontology file and set the ontology parameter as "other" ("ontology = other").
 
 
-2.3 - SETTING UP KOMODO2 PARAMETERS 
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+### 2.3 - SETTING UP KOMODO2 PARAMETERS 
 
 KOMODO2's parameters are listed at the header of the "parameters.R" file.
 The file itself contains the default structure, ready to be filled. Directory
@@ -173,7 +160,7 @@ examples to teach how to use KOMODO2.
 
 Exaple of the structure:
 
--------------------------------------------------------------------------------
+```sh
 KOMODO2 <- list(annotation_files_dir = "../../data/Pfam/"
                 output.dir = "../../results/Pfam_Pan_proxy/",
                 dataset.info = "../../data/metadata/Pfam_metadata.txt",
@@ -187,7 +174,7 @@ KOMODO2 <- list(annotation_files_dir = "../../data/Pfam/"
                 cores = 4,
                 linear_model_cutoff = 0.5
                 )
--------------------------------------------------------------------------------
+```
 
    Below are the parameters of the current version:
 
@@ -227,30 +214,29 @@ KOMODO2 <- list(annotation_files_dir = "../../data/Pfam/"
    tree_type:            (char) type of phylogenetic tree (either "phylip" or
                                 "nexus" provided in "tree_path".
 
-2.4 - RUNNING KOMODO2
--=-=-=-=-=-=-=-=-=-=-
+### 2.4 - RUNNING KOMODO2
 
 Set parameters according to the structure from "parameters.R" and use it to
 create the KOMODO2's variable
 
-> source("<your_parameter_file.R>")
-
+```sh
+source("<your_parameter_file.R>")
+```
 Then, run:
 
-> source("load.R")
-> source("clean.R")
-> source("do.R")
-
-If executed successfully, KOMODO2 will save results in the path specified in
-the "output.dir" parameter (e.g. output.dir = "../results/my_experiment"). 
+```sh
+source("load.R")
+source("clean.R")
+source("do.R")
+```
+If executed successfully, KOMODO2 will save results in the path specified in the path provided by "output.dir" parameter (e.g. output.dir = "../results/my_experiment").
 
 Note that R is case-sensitive and requires quote marks (' or ") to treat
 your input as a character, rather than an existing variable.
 
 
 
-3 - KOMODO2 OUTPUT 
--=-=-=-=-=-=-=-=-=-
+## 3 - KOMODO2 OUTPUT 
 
 KOMODO2 produces as main output a dynamical HMTL5 page containing two major
 results:
@@ -279,30 +265,33 @@ results:
    the distribution pattern of individual annotation terms associated with the
    quantitative variable under analysis. Three plots are provided:
 
-   * Leftmost scatter plot - contains actual data values:
+  - Leftmost scatter plot - contains actual data values:
 
-     * x-axis are the values of variable used to rank/sort data
-     * y-axis are the values of frequencies of annotation terms
-     * blue line is the linear model regression
-     * gray areas are confidence intervals
+   - x-axis are the values of variable used to rank/sort data
+   - y-axis are the values of frequencies of annotation terms
+   - blue line is the linear model regression
+   - gray areas are confidence intervals
 
-  * Center scatter plot - contains ranks of data values:
+ - Center scatter plot - contains ranks of data values:
 
-    * x-axis values are ranks of variable used to rank/sort data (ties are treated as
+  - x-axis values are ranks of variable used to rank/sort data (ties are treated as
                average in R "rank()" function)
-    * y-axis contain ranks of frequencies of annotation terms (ties are treated as
+  - y-axis contain ranks of frequencies of annotation terms (ties are treated as
                average in R "rank()" function)
-    * blue line is the loess regression for rank data distribution
-    * gray areas are confidence intervals
+  - blue line is the loess regression for rank data distribution
+  - gray areas are confidence intervals
 
- * Rightmost scatter plot - contains phylogeny-aware linear models for
+ - Rightmost scatter plot - contains phylogeny-aware linear models for
                             contrasts:
 
-    * x-axis values are phylogenetically independent contrasts for variables
+  - x-axis values are phylogenetically independent contrasts for variables
       used to rank/sort data
-    * y-axis values are phylogenetically independent contrasts for frequencies
+  - y-axis values are phylogenetically independent contrasts for frequencies
       of annotation terms
-    * blue line are the linear models for phylogenetically independent
+  - blue line are the linear models for phylogenetically independent
       contrasts with intercept forced through origin (model = x ~ y + 0) as
       recomended by Felsenstein, 1985.
 
+
+[multi2di]: <https://rdrr.io/cran/ape/man/multi2di.html>
+[ape]: <http://ape-package.ird.fr/>
