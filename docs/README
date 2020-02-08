@@ -280,15 +280,29 @@ results:
    quantitative variable under analysis. Three plots are provided:
 
    * Leftmost scatter plot - contains actual data values:
-     * x-axis contains values of variable used to rank/sort data
-     * y-axis contains frequencies of annotation terms
+
+     * x-axis are the values of variable used to rank/sort data
+     * y-axis are the values of frequencies of annotation terms
      * blue line is the linear model regression
      * gray areas are confidence intervals
 
   * Center scatter plot - contains ranks of data values:
-    * x-axis - rank values for 
-     intervals)
 
+    * x-axis values are ranks of variable used to rank/sort data (ties are treated as
+               average in R "rank()" function)
+    * y-axis contain ranks of frequencies of annotation terms (ties are treated as
+               average in R "rank()" function)
+    * blue line is the loess regression for rank data distribution
+    * gray areas are confidence intervals
 
+ * Rightmost scatter plot - contains phylogeny-aware linear models for
+                            contrasts:
 
+    * x-axis values are phylogenetically independent contrasts for variables
+      used to rank/sort data
+    * y-axis values are phylogenetically independent contrasts for frequencies
+      of annotation terms
+    * blue line are the linear models for phylogenetically independent
+      contrasts with intercept forced through origin (model = x ~ y + 0) as
+      recomended by Felsenstein, 1985.
 
