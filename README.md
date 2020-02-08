@@ -5,16 +5,13 @@
 
 ![alt text][logo]
 
-[logo]: docs/images/KOMODO2_logo.png "Logo Title Text 2"
+[logo]: docs/images/KOMODO2_logo.png "How cool is this? My dad drew it!"
 
-## AUTHORS
+## MAIN DEVELOPERS
 
  - Jorge Augusto Hongo (jorgeahongo@gmail.com)
-
  - Giovanni Marques de Castro (giomcastro@gmail.com)
-
  - Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
-
 
 ## 1. DESCRIPTION
 
@@ -23,9 +20,21 @@ KOMODO2 is a first-principle, phylogeny-aware comparative genomics software to s
 
 ## 2. HOW TO USE - OVERVIEW
 
-To run KOMODO2, you set the parameters according to the structure shown in the "parameters.R file" and use the command "source( file )" on the following files: "<your parameter file>.R" "load.R", "clean.R" and "do.R", in this order.
+To run KOMODO2, set the parameters according to the structure shown in the "parameters.R" file, creating a file with your data/metadata. Then, use the R command
 
-Directory "parameters_validation/" contains all parameter files required to locally reproduce the results reported in a soon-to-be-published article. In order to use any of them and make file paths to work, please copy any configuration file to be used to the directory where KOMODO2 .R files are located.
+```sh
+source("your_edited_parameter.R")
+```
+To create a KOMODO2 object in R with a list containing all variable values defined in your_edited_parameter.R. Then, execute sequentially:
+
+```sh
+source("load.R")
+source("clean.R")
+source("do.R")
+```
+to produce a dynamic HTML5 output and text files in output directory as defined in your_edited_parameter.R.
+
+Directory "bin/scripts/parameters_validation/" contains all parameter files required to locally reproduce the results reported in a soon-to-be-published article. In order to use any of them and make file paths to work, please copy any configuration file to be used to the directory bin/scripts/ where KOMODO2 .R files are located.
 
 The file "func.R" contains the functions used in the "do.R" file, plus some development and support functions. Use its "InstallPackages()" function to install KOMODO2's dependencies.
 
@@ -34,7 +43,7 @@ The file "func.R" contains the functions used in the "do.R" file, plus some deve
 
 Make sure to have an updated version of R, enough so you can use the packages from Bioconductor. Then, run the "InstallPackages()" function from "func.R" to install KOMODO2's dependencies.
 
-After installation, follow instructions above to check installation success.
+After installation, follow instructions above to analyze the Eukarya complexity data (data files available in "data/", parameter files pointing to data files in "bin/scripts/parameters_validation") to check installation success.
 
 
 ### 2.2 - PREPARING YOUR INPUT FILES 
@@ -46,12 +55,12 @@ KOMODO2 requires the following files (please check files used to validate softwa
 **genome annotation file** - a text file for each species describing their set of biologically meaningful genomic elements and their respective annotaton (e.g. non redundant proteomes annotated to GO terms, or non-redundant protein domains annotated to protein domain IDs). An example of such file, where gene products are annotated using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be as follows:
 
 
-| Entry | Gene_ontology_IDs | KEGG_Orthology_ID |
-| ----- | ----------------- | ------------------ |
-| Q7L8J4 | GO:0017124; GO:0005737; GO:0035556; GO:1904030; GO:0061099; GO:0004860 | |
-| Q8WW27 | GO:0016814; GO:0006397; GO:0008270 | K18773 |
-| Q96P50 | GO:0005096; GO:0046872 | K12489 |
-
+```sh
+Entry   GO_IDs   KEGG_Orthology_ID
+Q7L8J4  GO:0017124;GO:0005737;GO:0035556;GO:1904030;GO:0061099;GO:0004860
+Q8WW27  GO:0016814;GO:0006397;GO:0008270  K18773
+Q96P50  GO:0005096;GO:0046872   K12489
+```
 
 And is specified as:
   - Fixed number of columns (minimum 2) separated by tabs, or "\t".
@@ -78,7 +87,7 @@ genomic_element_name/ID_2     annotation_ID_12
 
    - all species to be analyzed (species IDs in the tree must be the same name of text files from the previous step)
    - branch lengths proportional to divergence times (a chronogram)
-   - no polytomies (if there are cases, KOMODO2 will resolve star branches using [multi2di] method as implemented in [ape] package.
+   - no polytomies (if there are such cases, KOMODO2 will resolve star branches using [multi2di] method as implemented in [ape] package.
 
 
 A tree in newick format (however, with no branch lengths), would be: 
@@ -178,40 +187,40 @@ KOMODO2 <- list(annotation_files_dir = "../../data/Pfam/"
 
    Below are the parameters of the current version:
 
-   annotation_files_dir: (char) path to directory where genome annotation files
+ -   annotation_files_dir: (char) path to directory where genome annotation files
                                 are located (files linking genomic component
                                 IDs to annotation_IDs). 
 
-   output.dir:           (char) path where to place the output files.
+ -   output.dir:           (char) path where to place the output files.
 
-   ontology:             (char) which ontology to use: "GO" (or "Gene
+ -   ontology:             (char) which ontology to use: "GO" (or "Gene
                                 Ontology") or "other".
 
-   dict.path:            (char) ontology's dictionary file (terms and their
+ -   dict.path:            (char) ontology's dictionary file (terms and their
                                 meaning). Used if 'ontology = "other"'.
 
-   column:               (char) column name to use from the annotation files
+ -   column:               (char) column name to use from the annotation files
                                 (y variable for correlation analysis).
 
-   cores:                (integer) maximum number of processes to run
+ -   cores:                (integer) maximum number of processes to run
                                    simultaneously.
 
-   dataset.info:         (char) path to the metadata file containing
+ -   dataset.info:         (char) path to the metadata file containing
                                 genome IDs (genome ID column) and attribute
                                 values (variable to rank/sort genomes and
                                 normalizing factor). First column must contain
                                 genome IDs.
 
-   x.column:             (integer) number of column of metadata file to be used
+ -   x.column:             (integer) number of column of metadata file to be used
                                    as the rank/sort variable.
 
-   denominator.column:   (integer) optional parameter, number of column to be
+ -   denominator.column:   (integer) optional parameter, number of column to be
                                    used to normalize annotation counts
 
-   tree_path:            (char) path to phylogenetic tree file to be used when
+ -   tree_path:            (char) path to phylogenetic tree file to be used when
                                 computing phylogeny-aware linear models.
 
-   tree_type:            (char) type of phylogenetic tree (either "phylip" or
+ -   tree_type:            (char) type of phylogenetic tree (either "phylip" or
                                 "nexus" provided in "tree_path".
 
 ### 2.4 - RUNNING KOMODO2
