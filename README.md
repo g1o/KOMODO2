@@ -1,11 +1,9 @@
-                        README for KOMODO2
-             (last updated 02/07/2020 - mm/dd/yyyy format)
+                        README - KOMODO2
+             (last updated 02/08/2020 - mm/dd/yyyy format)
 
 # KOMODO2
 
-![alt text][logo]
-
-[logo]: docs/images/KOMODO2_logo.png "How cool is this? My dad drew it!"
+<img src="docs/images/KOMODO2_logo.png" alt="How cool is this? My dad drew it!" height="200"/>
 
 ## MAIN DEVELOPERS
 
@@ -257,9 +255,11 @@ results:
    * y axis are -log10(q-value(association test))
    * point size are proportional to log10(sum of annotation term count))
    * point color are proportional to coefficient of variation
+   * Mouseover operations provide additional information about each data point.
+   * Funcions as zoom in and out and image save available
 
-   Mouseover operations provide additional information about each data point.
-   Funcions as zoom in and out and image save available
+
+<p align="center"><img src="docs/images/scatterplot_q_values.png" alt="screenshot of KOMODO2 output" height="400")></center>
 
 
  - Interactive table for annotation terms, where users can:
@@ -274,12 +274,23 @@ results:
    the distribution pattern of individual annotation terms associated with the
    quantitative variable under analysis. Three plots are provided:
 
+---
+
+<p align="center"><img src="docs/images/scatterplot_data.png" alt="screenshot of KOMODO2 output" height="400"/>
+</center>
+
   - Leftmost scatter plot - contains actual data values:
 
    - x-axis are the values of variable used to rank/sort data
    - y-axis are the values of frequencies of annotation terms
    - blue line is the linear model regression
    - gray areas are confidence intervals
+  
+
+---
+
+<p align="center"><img src="docs/images/scatterplot_rank.png" alt="This is an actual printscreen of KOMODO2 output" height="400"/>
+</center>
 
  - Center scatter plot - contains ranks of data values:
 
@@ -289,6 +300,12 @@ results:
                average in R "rank()" function)
   - blue line is the loess regression for rank data distribution
   - gray areas are confidence intervals
+
+
+---
+
+<p align="center"><img src="docs/images/scatterplot_phylogeny_aware_linear_model.png" alt="This is an actual printscreen of KOMODO2 output" height="400"></center>
+
 
  - Rightmost scatter plot - contains phylogeny-aware linear models for
                             contrasts:
