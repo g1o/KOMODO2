@@ -283,7 +283,10 @@ results:
 
 ---
 
-### Leftmost scatter plot - contains actual data values:
+### Leftmost scatter plots
+<p>
+ - contains actual data values to inspect raw data distribution pattern:
+</p>
 
 <p align="center"><img src="docs/images/scatterplot_data.png" alt="screenshot of KOMODO2 output" height="400"/>
 </center>
@@ -292,12 +295,13 @@ results:
    - y-axis are the values of frequencies of annotation terms
    - blue line is the linear model regression
    - gray areas are confidence intervals
-  
 
 ---
 
-### Center scatter plot - contains ranks of data values:
-
+### Center scatter plot
+<p>
+ - contains ranks of data values to inspect monotonic non-linear associations:
+</p>
 
 <p align="center"><img src="docs/images/scatterplot_rank.png" alt="This is an actual printscreen of KOMODO2 output" height="400"/>
 </center>
@@ -313,7 +317,11 @@ results:
 
 ---
 
-### Rightmost scatter plot - contains phylogeny-aware linear models for contrasts:
+### Rightmost scatter plot
+
+<p>
+ - contains phylogeny-aware linear models of contrasts to inspect linear association after taking phylogenetic relatedness into account:
+</p>
 
 <p align="center"><img src="docs/images/scatterplot_phylogeny_aware_linear_model.png" alt="This is an actual printscreen of KOMODO2 output" height="400"></center>
 
@@ -323,8 +331,9 @@ results:
       of annotation terms
   - blue line are the linear models for phylogenetically independent
       contrasts with intercept forced through origin (model = x ~ y + 0) as
-      recomended by Felsenstein, 1985.
+      recomended by [Felsenstein, 1985].
 
 
 [multi2di]: <https://rdrr.io/cran/ape/man/multi2di.html>
 [ape]: <http://ape-package.ird.fr/>
+[Felsenstein, 1985]: <https://www.jstor.org/stable/2461605>
