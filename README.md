@@ -267,6 +267,9 @@ results:
    * Funcions as zoom in and out and image save available
 
 ### Interactive table for annotation terms, where users can:
+
+<p align="center"><img src="docs/images/KOMODO2_interactive_table.png" alt="screenshot of KOMODO2 output" height="400"/>
+</center>
    
    * Insert or remove data columns
    * Filter results using column values and defining data ranges
