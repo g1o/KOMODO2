@@ -1,9 +1,8 @@
-                        README - KOMODO2
-             (last updated 02/08/2020 - mm/dd/yyyy format)
-
 # KOMODO2
 
+<p align="center">
 <img src="docs/images/KOMODO2_logo.png" alt="How cool is this? My dad drew it!" height="200"/>
+</p>
 
 ## MAIN DEVELOPERS
 
@@ -15,42 +14,49 @@
 
 KOMODO2 is a first-principle, phylogeny-aware comparative genomics software to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies), formally described in a dictionary-like structure and used to annotate genomic components, associated with a quantitave/rank variable (e.g. number of cell types, genome size or density of specific genomic elements).
 
+Our software has been freely inspired into/explicitly modelled to take into account information from/ ideas and tools as diverse as comparative phylogenetics methods, genome annotation, gene enrichment analysis and data visualization and interactivity.
+
 
 ## 2. HOW TO USE - OVERVIEW
 
-To run KOMODO2, set the parameters according to the structure shown in the "parameters.R" file, creating a file with your data/metadata. Then, use the R command
+To run KOMODO2, set the parameters according to the structure shown in the "parameters.R" file, creating a file pointing to your data/metadata fils. Then, use the R command
 
 ```sh
 source("your_edited_parameter.R")
 ```
-To create a KOMODO2 object in R with a list containing all variable values defined in your_edited_parameter.R. Then, execute sequentially:
+To create a KOMODO2 object in R, which is a list initially containing all variable values defined in your_edited_parameter.R. Then, execute sequentially:
 
 ```sh
 source("load.R")
 source("clean.R")
 source("do.R")
 ```
-to produce a dynamic HTML5 output and text files in output directory as defined in your_edited_parameter.R.
+to produce several R objects, which can be further explored, a dynamic HTML5 output and several text files in a directory as defined in "your_edited_parameter.R".
 
-Directory "bin/scripts/parameters_validation/" contains all parameter files required to locally reproduce the results reported in a soon-to-be-published article. In order to use any of them and make file paths to work, please copy any configuration file to be used to the directory bin/scripts/ where KOMODO2 .R files are located.
+Directory "KOMODO2/bin/scripts/parameters_validation/" contains all parameter files required to locally reproduce the results reported in a soon-to-be-published article. In order to use any of them so relative file paths work as expected, please copy any of these configuration files to "KOMODO2/bin/scripts/" (where KOMODO2 .R files are located). From there, parameter_files should provide relative paths to allow KOMODO2 to access text files containing:
 
-The file "func.R" contains the functions used in the "do.R" file, plus some development and support functions. Use its "InstallPackages()" function to install KOMODO2's dependencies.
+ - genome annotation data files (found in "../../data/Pfam/" or "../../data/gene2GO/")
+ - metadata files (found in "../../data/metadata/" or "../../data/metadata/")
+ - phylogenetic tree files (found in "../../data/trees/")
+ - dictionary files (found in "../../data/dics/")
+ 
+The file "func.R" contains the functions used in the "do.R" file, plus some development and support functions. Use its "InstallPackages()" function to install KOMODO2's dependencies. The vast majority of functions are thoroughly commented on source codes.
 
 
 ### 2.1 - INSTALL
 
-Make sure to have an updated version of R, enough so you can use the packages from Bioconductor. Then, run the "InstallPackages()" function from "func.R" to install KOMODO2's dependencies.
+Make sure to have an updated version of R, enough so you can use and install packages from Bioconductor. Then, run "InstallPackages()" function from "func.R" to install KOMODO2's dependencies.
 
 After installation, follow instructions above to analyze the Eukarya complexity data (data files available in "data/", parameter files pointing to data files in "bin/scripts/parameters_validation") to check installation success.
 
 
 ### 2.2 - PREPARING YOUR INPUT FILES 
 
-KOMODO2 requires the following files (please check files used to validate software install if in doubt about file formats):
+KOMODO2 requires the following files (please check files used to validate software install if in doubt about file specifications):
 
 ---
 
-**genome annotation file** - a text file for each species describing their set of biologically meaningful genomic elements and their respective annotaton (e.g. non redundant proteomes annotated to GO terms, or non-redundant protein domains annotated to protein domain IDs). An example of such file, where gene products are annotated using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be as follows:
+**genome annotation file** - a text file for each species describing their set of biologically meaningful genomic elements and their respective annotation IDs (e.g. non redundant proteomes annotated to GO terms, or non-redundant protein domains annotated to protein domain IDs). An example of such file, where gene products are annotated using Gene Ontology (GO) terms and Kegg Orthology (KO) identifiers would be as follows:
 
 
 ```sh
@@ -61,9 +67,9 @@ Q96P50  GO:0005096;GO:0046872   K12489
 ```
 
 And is specified as:
-  - Fixed number of columns (minimum 2) separated by tabs, or "\t".
+  - Fixed number of columns per file (minimum 2) separated by tabs, or "\t".
   - First line as the header, each column having a unique column name.
-  - Each following line having a unique entry (first column) identifier.
+  - Each following line having an instance of a genomic feature represented by an unique ID (a specific coding-gene locus found in a genome, for instance)  identifier.
   - Multiple terms of the same entry (e.g. a gene annotated to multiple GO
     terms) should be in the same column and separated by ";", with any number
     of spaces before and after it. It's use after the last term is optional.
@@ -248,9 +254,11 @@ your input as a character, rather than an existing variable.
 KOMODO2 produces as main output a dynamical HMTL5 page containing two major
 results:
 
- - Interactive scatterplots where each point corresponds to an annotation term
+ ### Interactive scatterplots where each point corresponds to an annotation term
    and the following proterties are available:
-   
+
+<p align="center"><img src="docs/images/scatterplot_q_values.png" alt="screenshot of KOMODO2 output" height="400")></center>
+
    * x axis are -log10(q-value(linear model test))
    * y axis are -log10(q-value(association test))
    * point size are proportional to log10(sum of annotation term count))
@@ -258,11 +266,7 @@ results:
    * Mouseover operations provide additional information about each data point.
    * Funcions as zoom in and out and image save available
 
-
-<p align="center"><img src="docs/images/scatterplot_q_values.png" alt="screenshot of KOMODO2 output" height="400")></center>
-
-
- - Interactive table for annotation terms, where users can:
+### Interactive table for annotation terms, where users can:
    
    * Insert or remove data columns
    * Filter results using column values and defining data ranges
@@ -276,10 +280,10 @@ results:
 
 ---
 
+### Leftmost scatter plot - contains actual data values:
+
 <p align="center"><img src="docs/images/scatterplot_data.png" alt="screenshot of KOMODO2 output" height="400"/>
 </center>
-
-  - Leftmost scatter plot - contains actual data values:
 
    - x-axis are the values of variable used to rank/sort data
    - y-axis are the values of frequencies of annotation terms
@@ -289,10 +293,12 @@ results:
 
 ---
 
+### Center scatter plot - contains ranks of data values:
+
+
 <p align="center"><img src="docs/images/scatterplot_rank.png" alt="This is an actual printscreen of KOMODO2 output" height="400"/>
 </center>
 
- - Center scatter plot - contains ranks of data values:
 
   - x-axis values are ranks of variable used to rank/sort data (ties are treated as
                average in R "rank()" function)
@@ -304,11 +310,9 @@ results:
 
 ---
 
+### Rightmost scatter plot - contains phylogeny-aware linear models for contrasts:
+
 <p align="center"><img src="docs/images/scatterplot_phylogeny_aware_linear_model.png" alt="This is an actual printscreen of KOMODO2 output" height="400"></center>
-
-
- - Rightmost scatter plot - contains phylogeny-aware linear models for
-                            contrasts:
 
   - x-axis values are phylogenetically independent contrasts for variables
       used to rank/sort data
