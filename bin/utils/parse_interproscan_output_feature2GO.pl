@@ -1,11 +1,19 @@
 use strict;
 use warnings;
 
-if (!$ARGV[1]) {
+if (!$ARGV[2]) {
   print_help();
-} 
+}
 
-my @path = split(/\//, $ARGV[0]);
+my $infile = $ARGV[0];
+
+my $feature_name = $ARGV[1];
+
+my $outdir = $ARGV[2];
+
+chomp $outdir;
+
+my @path = split(/\//, $infile);
 
 my $file_name = pop @path;
 
@@ -15,18 +23,21 @@ my $final_name = join("_", $tmp_name[0], $tmp_name[1]);
 
 $final_name =~ s/\./_/g;
 
-my $infile = $ARGV[0];
+my $outfile = join("/", $outdir, $final_name);
 
-my $feature_name = $ARGV[1];
-chomp $feature_name;
+$outfile = join(".", $outfile, "$feature_name"."2GO.txt");
+
+print ("Generating file $outfile\n");
 
 open(IN, "<$infile") || die($!);
+
+open(OUT, ">$outfile") || die ($!);
 
 #my $header = <IN>;
 
 #my @col_names = split(/\t/, $header);
 
-print("Feature\t$feature_name\n");
+print OUT ("Feature\t$feature_name\n");
 
 #my %data;
 
@@ -42,7 +53,7 @@ while (my $line = <IN>) {
     my $GOs = get_GO($line);
     if (defined $GOs) { #new feature has GO terms; print them
       $GOs =~ s/\|/;/g;
-      print "$feature_name\_$i\t$GOs\n";
+      print OUT "$feature_name\_$i\t$GOs\n";
       $i++;
     } else {
       next();
@@ -50,11 +61,12 @@ while (my $line = <IN>) {
   }
 }
 
-
 close IN;
 
+close OUT;
+
 sub print_help {
-  die("Use this program like: perl parse_interproscan_feature2GO.pl <path to interproscan output file> <feature to extract (e.g. \"Pfam\")>\n");
+  die("Use this program like: perl parse_interproscan_feature2GO.pl <path to interproscan output file> <feature to extract (e.g. \"Pfam\")> <output dir>\n");
 }
 
 sub get_GO {
@@ -67,4 +79,3 @@ sub get_GO {
   }
   return undef;
 }
-

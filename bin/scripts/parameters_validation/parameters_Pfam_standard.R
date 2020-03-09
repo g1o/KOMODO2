@@ -1,9 +1,9 @@
 #This is a sample parameter file for KOMODO2. Most variables are self-explanatory, and a formal definition of each can be found in KOMODO2 documentation.
 
-KOMODO2 <- list(annotation_files_dir = "/Users/chico/projects/KOMODO2/development/KOMODO2/bin/validation/data/Pfam/", #Directory where annotation files are located. If not provided, file described in variable "dataset.info" should contain absolute paths to annotation files
-                output.dir = "../validation/results/Pfam_standard/", #output directory for results
+KOMODO2 <- list(annotation_files_dir = "../../data/Pfam/", #Directory where annotation files are located. If not provided, file described in variable "dataset.info" should contain absolute paths to annotation files
+                output.dir = "../../results/Pfam_standard/", #output directory for results
 
-                dataset.info = "../validation/data/metadata/Pfam_metadata_standard.txt", #genome metadata file, it should contain at least, for each genome: 1) path for annotation data; 2) phenotype data (numeric); 3) normalization data (numeric)
+                dataset.info = "../../data/metadata/Pfam_metadata_standard.txt", #genome metadata file, it should contain at least, for each genome: 1) path for annotation data; 2) phenotype data (numeric); 3) normalization data (numeric)
 
                 x.column = 2, #which column contains phenotype data?
 

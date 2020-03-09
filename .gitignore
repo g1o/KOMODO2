@@ -1,3 +1,4 @@
 bin/validation/*
 bin/scripts/*RData
 results/*
+data/interpro/*

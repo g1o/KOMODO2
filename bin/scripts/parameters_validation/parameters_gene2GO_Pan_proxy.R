@@ -1,7 +1,7 @@
 #This is a sample parameter file for KOMODO2. Most variables are self-explanatory, and a formal definition of each can be found in KOMODO2 documentation.
 
 KOMODO2 <- list(annotation_files_dir = "../../data/gene2GO/", #Directory where annotation files are located. If not provided, file described in variable "dataset.info" should contain absolute paths to annotation files
-                output.dir = "../../results/GO_Pan_proxy_2/", #output directory for results
+                output.dir = "../../results/gene2GO_Pan_proxy/", #output directory for results
 
                 dataset.info = "../../data/metadata/GO_metadata_Pan_proxy.txt", #genome metadata file, it should contain at least, for each genome: 1) path for annotation data; 2) phenotype data (numeric); 3) normalization data (numeric)
 

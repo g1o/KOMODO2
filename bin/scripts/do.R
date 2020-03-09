@@ -42,7 +42,7 @@ if (KOMODO2$type == "correlation") {
     stop("tree_type must be defined as either nexus of newick (case-sensitive)")
   }
   
-  #creating a fully dicotomic tree
+  #creating a fully dicotomic tree as required by pic function
   KOMODO2$tree<-multi2di(KOMODO2$tree)
   
   #creating data structure for dictionary, GO is a special case.
@@ -80,14 +80,56 @@ if (KOMODO2$type == "correlation") {
   print("Done")
 
   print ("Computing basic statistics (standard deviation, mean, coefficient of variation) of annotation elements and sum")
+
   print ("  Computing sum of annotation elements")
-  KOMODO2$sum <- lapply(KOMODO2$y, sum)
+  tmp <- as.numeric(lapply(KOMODO2$y, sum))
+  names(tmp) <- names(KOMODO2$y)
+  KOMODO2$sum <- tmp
+  rm(tmp)
+  
   print ("  Computing sd of raw values of annotation elements")
-  KOMODO2$sd <- lapply(KOMODO2$y, sd)
-  KOMODO2$mean <- lapply(KOMODO2$y, mean)
+  tmp <- as.numeric(lapply(KOMODO2$y, sd))
+  names(tmp) <- names(KOMODO2$y)
+  KOMODO2$sd <- tmp
+  rm(tmp)
+  
+  tmp <- lapply(KOMODO2$y, mean)
+  tmp <- as.numeric(tmp)
+  names(tmp) <- names(KOMODO2$y)
+  KOMODO2$mean <- tmp
+  rm(tmp)
+  
   print ("  Computing cv of raw values of annotation elements")
-  KOMODO2$cv <- mapply("/",KOMODO2$sd,KOMODO2$mean,SIMPLIFY = FALSE)
-  KOMODO2$cv[is.na(KOMODO2$cv)] <- 0
+  
+  tmp <- as.numeric(mapply("/",KOMODO2$sd,KOMODO2$mean,SIMPLIFY = FALSE))
+  names(tmp) <- names(KOMODO2$y)
+  tmp[is.na(tmp)] <- 0
+  KOMODO2$cv <- tmp
+  rm(tmp)
+  
+  print ("Done")
+  
+  print("  Computing coverage (defined as # samples with annotation term count > 0)")
+  
+  tmp <- as.numeric(lapply(KOMODO2$y, greaterthanzero))
+  tmp <- (mapply("-", length(KOMODO2$y.name), tmp))
+  names(tmp) <- names(KOMODO2$y)
+  KOMODO2$greaterthanzero <- tmp
+  rm(tmp)
+  
+  print ("Done")
+  
+  print ("  Computing sample heterogenity (defined as # of samples distinct from sample's mode)")
+  
+  mode <- lapply(KOMODO2$y, getmode)
+  
+  tmp <- lapply(mapply("==", KOMODO2$y,mode,SIMPLIFY = FALSE), sum)
+  
+  KOMODO2$heterogeneity <- as.list(mapply("-", length(KOMODO2$y.name), tmp))
+  
+  names(KOMODO2$heterogeneity) <- names(tmp)
+  
+  rm(tmp, mode)
   
   print ("Done")
 
@@ -124,6 +166,8 @@ if (KOMODO2$type == "correlation") {
 
   KOMODO2$correlations.kendall <- tmp$cor
 
+  KOMODO2$mode <- lapply(KOMODO2$y, getmode)
+  
   KOMODO2$correlations.pvalue.kendall <- tmp$cor.pvalue
 
   print("Done")
@@ -163,30 +207,30 @@ if (KOMODO2$type == "correlation") {
   KOMODO2$sd.cor <- AnnotateResults(KOMODO2$sd, KOMODO2$ontology)
 
   PrintCResults(KOMODO2$contrasts.corrected, KOMODO2$contrasts.cor,
-                "contrasts_corrected.tsv", KOMODO2$ontology)
+                "contrasts_corrected.tsv", "q_value")
   
   PrintCResults(KOMODO2$contrasts, KOMODO2$contrasts.cor,
-                "contrasts_raw.tsv", KOMODO2$ontology)
+                "contrasts_raw.tsv", "correlation")
 
   print("Printing flat file results (q-values for association tests)")
   
   PrintCResults(KOMODO2$results.correlations.pvalue.pearson, KOMODO2$annotation.cor,
-                "p_corr_qvalues_results.tsv", KOMODO2$ontology)
+                "p_corr_qvalues_results.tsv", "q_value")
   PrintCResults(KOMODO2$results.correlations.pvalue.spearman, KOMODO2$annotation.cor,
-                "s_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
+                "s_corr_qvalues_corr_results.tsv", "q_value")
   PrintCResults(KOMODO2$results.correlations.pvalue.kendall, KOMODO2$annotation.cor,
-                "k_corr_qvalues_corr_results.tsv", KOMODO2$ontology)
+                "k_corr_qvalues_corr_results.tsv", "q_value")
 
   print("Printing flat file results (basic statistics)")
   
   PrintCResults(KOMODO2$sum, KOMODO2$sum.cor,
-                "sum.tsv", KOMODO2$ontology)
+                "sum.tsv", "sum")
   
   PrintCResults(KOMODO2$sd, KOMODO2$sd.cor,
-                "sd.tsv", KOMODO2$ontology)
+                "sd.tsv", "sd")
   
   PrintCResults(KOMODO2$cv, KOMODO2$cv.cor,
-                "cv.tsv", KOMODO2$ontology)
+                "cv.tsv", "cv")
 
 #  if (exists(KOMODO2$linear_model_cutoff)) { #defining what results will be available in html5 output (only annotations with phylogeny-aware smaller than cutoff will be printed)
     cutoff=KOMODO2$linear_model_cutoff
@@ -201,6 +245,8 @@ if (KOMODO2$type == "correlation") {
   Y<-KOMODO2$y[,colSums(KOMODO2$y)!=0]
   KOMODO2$sd <- KOMODO2$sd[colSums(KOMODO2$y)!=0]
   KOMODO2$cv <- KOMODO2$cv[colSums(KOMODO2$y)!=0]
+  KOMODO2$greaterthanzero <- KOMODO2$greaterthanzero[colSums(KOMODO2$y)!=0]
+  KOMODO2$heterogeneity <- KOMODO2$heterogeneity[colSums(KOMODO2$y)!=0]
   
   plotframe<-rbind(KOMODO2$contrasts.corrected[order(names(KOMODO2$contrasts.corrected))],
             KOMODO2$results.correlations.pvalue.pearson[order(names(KOMODO2$results.correlations.pvalue.pearson))],
@@ -212,8 +258,10 @@ if (KOMODO2$type == "correlation") {
             sumY[order(names(sumY))],
             KOMODO2$sd[order(names(KOMODO2$sd))],
             KOMODO2$cv[order(names(KOMODO2$cv))],
+            KOMODO2$greaterthanzero[order(names(KOMODO2$greaterthanzero))],
+            KOMODO2$heterogeneity[order(names(KOMODO2$heterogeneity))],
             Y[,order(colnames(Y))])
-  rownames(plotframe)[1:10]<-c("corrected_contrasts",
+  rownames(plotframe)[1:12]<-c("corrected_contrasts",
                               "Pearson_qvalue",
                               "Spearman_qvalue",
                               "Kendall_qvalue",
@@ -222,7 +270,9 @@ if (KOMODO2$type == "correlation") {
                               "Kendall_cor",
                               "size",
                               "sd",
-                              "cv")
+                              "cv",
+                              "distribution",
+                              "heterogeneity")
 
   plotframe<-as.data.frame(t(plotframe))
   description<-unlist(KOMODO2$annotation.cor)

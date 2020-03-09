@@ -1255,10 +1255,10 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
 #  names(models3) <- colnames(y)
 #  names(correlations) <- colnames(y)
   
-  # Normalizing 
+  # Normalizing
     if (!is.null(denominator)) {
 #    y <- as.data.frame(t(t(y) / denominator))
-      y <- y / denominator
+      y <- (y / denominator)
     }
   
     for (i in 1:ncol(y)) {
@@ -1279,7 +1279,7 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
 
   # Normalizing 
     if (!is.null(denominator)) {
-      y_norm <- y / denominator
+      y_norm <- t(y / denominator)
       y_norm = y_norm * 10^6 #getting counts per million to avoid false convergence (8) error from gls function for small values, see http://r.789695.n4.nabble.com/quot-False-convergence-quot-in-LME-td860675.html
     }
 
@@ -1735,7 +1735,7 @@ PrintNPResults <- function(KOMODO2, test, outputName) {
 }
 
 
-PrintCResults <- function(correlations, annotation, outputName, ontology) {
+PrintCResults <- function(correlations, annotation, outputName, type) {
   # Generates a file with the results of the analysis.
   #
   # Args:
@@ -1743,7 +1743,7 @@ PrintCResults <- function(correlations, annotation, outputName, ontology) {
   #                          and variable.
   #   annotation: (list) translation of the ontology's terms.
   #   outputName: (char) name of the output file.
-  #   ontology: (char) which ontology was used for correlation.
+  #   ontology: (char) which type of file is being produced.
   # Returns:
   #   none.
 
@@ -1761,15 +1761,28 @@ PrintCResults <- function(correlations, annotation, outputName, ontology) {
   df.output <- data.frame(matrix(unlist(output), nrow = length(output),
                           byrow = T, dimnames = list(names(output))))
 
-  ontology <- tolower(ontology)
-  if (ontology == "go" | ontology == "gene ontology") {
-    id <- "GO"
-  } else if (ontology == "kegg") {
-    id <- "KO"
-  } else if (ontology == "other") {
-    id <- "ID"
+  type <- tolower(type)
+#  if (ontology == "go" | ontology == "gene ontology") {
+#    id <- "GO"
+#  } else if (ontology == "kegg") {
+#    id <- "KO"
+#  } else if (ontology == "other") {
+#    id <- "ID"
+#  }
+  
+  if (type == "correlation") {
+    type_col <- "CC"
+  } else if (type == "sum") {
+    type_col <- "sum"
+  } else if (type == "cv") {
+    type_col <- "cv"
+  } else if (type == "q_value") {
+    type_col <- "q_val"
+  } else {
+    type_col <- "generic"
   }
-  output.columns <- c(id, "CC", "annotation")
+  
+  output.columns <- c("ann_term", type_col, "annotation")
 
   if (!is.null(KOMODO2$output.dir)) { 
     outputName <- file.path(KOMODO2$output.dir, outputName)
@@ -2698,4 +2711,13 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 #  
 #}
 
+getmode <- function(v) {
+  #takes as input a vector v and returns the most frequent value (int or char)
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}
 
+
+greaterthanzero <- function(v) {
+  length(v[v > 0])
+}

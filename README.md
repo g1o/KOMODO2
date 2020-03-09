@@ -251,6 +251,8 @@ your input as a character, rather than an existing variable.
 
 ## 3 - KOMODO2 OUTPUT 
 
+Live examples of KOMODO2 output HTML5 pages can be found <a href="http://www.labbioinfo.icb.ufmg.br/complexity/" target="new">here</a>.
+
 KOMODO2 produces as main output a dynamical HMTL5 page containing two major
 results:
 
