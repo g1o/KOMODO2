@@ -1,44 +1,25 @@
 # KOMODO2
 
 <p align="center">
-<img src="inst/images/KOMODO2_logo.png" alt="How cool is this? My dad drew it!" height="200"/>
+<img src="docs/images/KOMODO2_logo.png" alt="How cool is this? My dad drew it!" height="200"/>
 </p>
 
 ## MAIN DEVELOPERS
 
  - Jorge Augusto Hongo (jorgeahongo@gmail.com)
  - Giovanni Marques de Castro (giomcastro@gmail.com)
- - Felipe Campelo (f.campelo@aston.ac.uk, fcampelo@gmail.com)
  - Francisco Pereira Lobo (franciscolobo@gmail.com, francisco.lobo@ufmg.br)
 
-## DESCRIPTION
+## 1. DESCRIPTION
 
 KOMODO2 is a first-principle, phylogeny-aware comparative genomics software to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies), formally described in a dictionary-like structure and used to annotate genomic components, associated with a quantitave/rank variable (e.g. number of cell types, genome size or density of specific genomic elements).
 
-Our software has been freely inspired by (and explicitly modelled to take into account information from) ideas and tools as diverse as comparative phylogenetics methods, genome annotation, gene enrichment analysis, and data visualization and interactivity.
-
-## HOW TO INSTALL
-The latest version of KOMODO2 can be installed directly from the repository using `devtools::install_github()`:
-
-```
-devtools::install_github("fcampelo/KOMODO2")
-```
+Our software has been freely inspired into/explicitly modelled to take into account information from/ ideas and tools as diverse as comparative phylogenetics methods, genome annotation, gene enrichment analysis and data visualization and interactivity.
 
 
-## HOW TO USE - OVERVIEW
+## 2. HOW TO USE - OVERVIEW
 
-To run KOMODO2 there are two requirements: a set of data, and an input list 
-defining the path to that data and what is to be done. 
-
-### Retrieving data
-Example data folders and files can be downloaded directly from the R console by 
-using function `retrieve_data_files()`. For instance, a call:
-
-```
-library(KOMODO2)
-
-```
-
+To run KOMODO2, set the parameters according to the structure shown in the "parameters.R" file, creating a file pointing to your data/metadata fils. Then, use the R command
 
 ```sh
 source("your_edited_parameter.R")
