@@ -1,35 +1,33 @@
-#' Generates phyletic vectors of each genome in a group, which stores the
-#' count of appearences of a GO term in that genome.
-#'
-#' Generates phyletic vectors of each genome in a group, which stores the
-#' count of occurrences of a GO term in that genome.
-#'
-#' @param defs an enriched KOMODO2-type list object containing at least the
-#'             fields named in parameters `anno` and `genome.names`, as well as
-#'             a field named `ontology` (containing the name of the ontology to
-#'             use). Depending on the ontology other fields may be needed.
-#' @param anno name of the field in `defs` containing a list with annotation
-#'             from the original input data
-#' @param genome.names name of the field in `defs` containing a char vector with
-#'             the names of the genomes to select.
-#' @param someGV data.frame containing a previously processed set of genome
-#'             vectors.
-#'
-#' @return list with the phyletic vector of each genome of the input group.
-#'
-#' @importFrom assertthat assert_that
-#' @importFrom pbmcapply pbmclapply
+# Generates phyletic vectors of each genome in a group, which stores the
+# count of appearences of a GO term in that genome.
+#
+# Generates phyletic vectors of each genome in a group, which stores the
+# count of occurrences of a GO term in that genome.
+#
+# @param defs an enriched KOMODO2-type list object containing at least the
+#             fields named in parameters `anno` and `genome.names`, as well as
+#             a field named `ontology` (containing the name of the ontology to
+#             use). Depending on the ontology other fields may be needed.
+# @param anno name of the field in `defs` containing a list with annotation
+#             from the original input data
+# @param genome.names name of the field in `defs` containing a char vector with
+#             the names of the genomes to select.
+# @param someGV data.frame containing a previously processed set of genome
+#             vectors.
+#
+# @return list with the phyletic vector of each genome of the input group.
+#
 
 AddGenomeVectors <- function(defs, anno, genome.names,
                              someGV = NULL) {
 
   # ================== Sanity checks ==================
-  assert_that(all(c("list", "KOMODO2") %in% class(defs)),
-              is.character(anno), length(anno) == 1,
-              is.character(genome.names), length(genome.names) == 1,
-              all(c(anno, genome.names, "ontology") %in% names(defs)),
-              is.null(someGV) || is.data.frame(someGV),
-              msg = "input error in KOMODO2::AddGenomeVectors()")
+  assertthat::assert_that(all(c("list", "KOMODO2") %in% class(defs)),
+                          is.character(anno), length(anno) == 1,
+                          is.character(genome.names), length(genome.names) == 1,
+                          all(c(anno, genome.names, "ontology") %in% names(defs)),
+                          is.null(someGV) || is.data.frame(someGV),
+                          msg = "input error in KOMODO2::AddGenomeVectors()")
 
 
   # To generate genome vectors, we need some information about the ontology.
@@ -39,9 +37,9 @@ AddGenomeVectors <- function(defs, anno, genome.names,
   if (ontologyInfo$ontology %in% c("go", "gene ontology")) {
 
     # TODO: add these to the function documentation
-    assert_that(all(c("allAncestor",
-                      "allObsolete",
-                      "allSynonym") %in% names(defs)))
+    assertthat::assert_that(all(c("allAncestor",
+                                  "allObsolete",
+                                  "allSynonym") %in% names(defs)))
 
     ontologyInfo$allAncestor <- defs$allAncestor
     ontologyInfo$allObsolete <- defs$allObsolete
@@ -49,11 +47,11 @@ AddGenomeVectors <- function(defs, anno, genome.names,
     ontologyInfo$name        <- names(defs$allAncestor)
 
   } else if (ontologyInfo$ontology == "kegg") {
-    assert_that("allKOs" %in% names(defs))
+    assertthat::assert_that("allKOs" %in% names(defs))
     ontologyInfo$name <- names(defs$allKOs)
 
   } else if (ontologyInfo$ontology == "other") {
-    assert_that("dictionary" %in% names(defs))
+    assertthat::assert_that("dictionary" %in% names(defs))
     ontologyInfo$name <- names(defs$dictionary)
 
   } else{
@@ -69,12 +67,12 @@ AddGenomeVectors <- function(defs, anno, genome.names,
 
   # Add the genome vectors and fit them into a data.frame format.
   cat("\n Generating Genome Vectors:\n")
-  genomeVectors <- pbmclapply(X              = someAnno,
-                              FUN            = GenerateGenomeVector,
-                              ontologyInfo   = ontologyInfo,
-                              column         = defs$column,
-                              mc.preschedule = FALSE,
-                              mc.cores       = defs$cores)
+  genomeVectors <- pbmcapply::pbmclapply(X              = someAnno,
+                                         FUN            = GenerateGenomeVector,
+                                         ontologyInfo   = ontologyInfo,
+                                         column         = defs$column,
+                                         mc.preschedule = FALSE,
+                                         mc.cores       = defs$cores)
 
   genomeVectors <- as.data.frame(do.call(rbind, genomeVectors),
                                  optional = TRUE)
