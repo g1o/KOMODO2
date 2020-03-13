@@ -2,7 +2,7 @@
 * Initial release
 
 ## Test environments
-* macOS Mojave 10.14.6, R version 3.6.1, x86_64-apple-darwin15.6.0 (64-bit), 
+* macOS Catalina 10.15.3, R version 3.6.2, x86_64-apple-darwin15.6.0 (64-bit), 
 using `devtools::check()`
 * Ubuntu 14.04.5 LTS (on **travis-ci v6.2.1**), R version 3.6.1
 * win-builder, using `devtools::check_win_devel()` and  `devtools::check_win_release()`
