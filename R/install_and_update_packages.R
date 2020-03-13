@@ -54,7 +54,7 @@ install_and_update_packages <- function(which = "all",
 
 
   if (which %in% c("cran", "all")){
-    do.call(install.packages, cran.args)
+    do.call(utils::install.packages, cran.args)
   }
 
   if (which %in% c("bioc", "all")){
