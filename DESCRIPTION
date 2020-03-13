@@ -1,8 +1,8 @@
 Package: KOMODO2
 Type: Package
 Title: Kegg Orthology EnrichMent Online DetectiOn
-Version: 0.1.0.9000
-Date: 2020-02-08
+Version: 0.9.0.9000
+Date: 2020-03-13
 Authors@R: c(person("Francisco", "Lobo",
     email   = "franciscolobo@gmail.com",
     role    = c("aut", "cre")),

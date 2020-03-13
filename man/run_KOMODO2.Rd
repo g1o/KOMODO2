@@ -4,11 +4,14 @@
 \alias{run_KOMODO2}
 \title{Run the KOMODO2 pipeline}
 \usage{
-run_KOMODO2(defs, cores = NULL, render.report = TRUE)
+run_KOMODO2(defs, type = "correlation", cores = NULL, render.report = TRUE)
 }
 \arguments{
 \item{defs}{either a KOMODO2-type list object or
 a path to a text file containing the required definitions (see Details).}
+
+\item{type}{type of analysis to perform. Currently only "correlation" is
+supported.}
 
 \item{cores}{positive integer, how many CPU cores to use (multicore
 acceleration does not work in Windows systems). Setting
