@@ -1,2 +1,5 @@
-language: r
+language: R
+sudo: false
 cache: packages
+r: cran
+bioc_packages: AnnotationDbi, KEGGREST, GO.db
