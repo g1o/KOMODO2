@@ -32,6 +32,17 @@ install.packages("KOMODO2")
 
 In either case, please make sure that you have the latest R version (at least 3.6.1) as well as updated versions of all installed packages.
 
+## INSTALLING AND UPDATING DEPENDENCIES
+KOMODO2 depends on packages from both **CRAN** and **Bioconductor**. This requires an extra installation step before KOMODO2 can be used. simply run:
+
+```
+library(KOMODO2)
+install_and_update_packages(which = "all")
+```
+
+to install / update all dependencies (packages listed as KOMODO2's `imports` and `suggests`) to their latest versions.
+
+---
 ## HOW TO USE - OVERVIEW
 
 To run KOMODO2 you need two things: (i) a set of data and (ii) an input list 

@@ -31,6 +31,7 @@ retrieve_data_files <- function(target.dir,
                                 unzip  = getOption("unzip"),
                                 url = "https://github.com/fcampelo/KOMODO2-CRAN/"){
 
+  # ================== Sanity checks ==================
   assertthat::assert_that(is.character(target.dir),
                           length(target.dir) == 1,
                           is.character(url),
