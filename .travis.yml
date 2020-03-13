@@ -1,5 +1,16 @@
-language: R
+# Use R language
+language: r
+#Define multiple R-versions:
+r:
+  - oldrel
+  - release
+  - devel
+  - bioc-devel
+  - bioc-release
 sudo: false
 cache: packages
-r: cran
-bioc_packages: AnnotationDbi, KEGGREST, GO.db
+# Bioconductor packages
+bioc_packages:
+  - AnnotationDbi
+  - KEGGREST
+  - GO.db
