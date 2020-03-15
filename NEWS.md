@@ -1,0 +1,2 @@
+# KOMODO2 version 1.0.0
+* Initial release on CRAN.

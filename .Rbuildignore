@@ -1,0 +1,13 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^.*\.yml$
+^cran-comments.md$
+docs$
+^doc$
+^Meta$
+^CRAN-RELEASE$
+data_files$
+results$
+data_folder$
+zz_original_scripts$
+^LICENSE$

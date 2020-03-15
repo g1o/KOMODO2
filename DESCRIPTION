@@ -1,0 +1,53 @@
+Package: KOMODO2
+Type: Package
+Title: KOMODO2 Kegg Orthology EnrichMent Online DetectiOn
+Version: 0.9.1
+Date: 2020-03-13
+Authors@R: c(person("Francisco", "Lobo",
+    email   = "franciscolobo@gmail.com",
+    role    = c("aut", "cre")),
+    person("Jorge Augusto", "Hongo",
+    email   = "jorgeahongo@gmail.com",
+    role    = "aut"),
+    person("Giovanni", "Marques de Castro",
+    email   = "giomcastro@gmail.com",
+    role    = "aut"),
+    person("Felipe", "Campelo",
+    email   = "f.campelo@aston.ac.uk",
+    role    = "aut"))
+Authors: Francisco Lobo [aut, cre],
+  Jorge Augusto Hongo [aut],
+  Giovanni Marques de Castron [aut],
+  Felipe Campelo [aut]
+Maintainer: Felipe Campelo <f.campelo@aston.ac.uk>
+Description: KOMODO2 is a first-principle, phylogeny-aware comparative 
+             genomics software to search for annotation terms (e.g Pfam IDs, 
+             GO terms) associated with a variable that one wants to 
+             investigate (e.g. number of cell types).
+License: GPL-2
+Depends: R (>= 3.6.0)
+Imports: assertthat (>= 0.2.1),
+         pbmcapply (>= 1.5.0),
+         dplyr (>= 0.8.4),
+         utils (>= 3.6.2),
+         ape (>= 5.3.0),
+         rmarkdown (>= 2.1.0),
+         nlme (>= 3.1.0),
+         BiocManager (>= 1.30.10),
+         taxize (>= 0.9.92)
+Suggests: AnnotationDbi,
+          KEGGREST,
+          GO.db,
+          ggplot2,
+          scales,
+          plotly,
+          DT,
+          htmltools,
+          htmlwidgets,
+          pkgdown, 
+          knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+VignetteBuilder: knitr
+URL: https://github.com/fcampelo/KOMODO2

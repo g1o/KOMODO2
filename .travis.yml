@@ -1,0 +1,15 @@
+# Use R language
+language: r
+#Define multiple R-versions:
+r:
+  - release
+  - devel
+  - bioc-devel
+  - bioc-release
+sudo: false
+cache: packages
+# Bioconductor packages
+bioc_packages:
+  - AnnotationDbi
+  - KEGGREST
+  - GO.db
