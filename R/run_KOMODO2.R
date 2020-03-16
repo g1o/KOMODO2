@@ -114,7 +114,6 @@ run_KOMODO2 <- function(defs, type = "correlation",
     defs$x.column <- as.numeric(defs$x.column)
   }
 
-
   if(is.null(defs$type)) defs$type <- type
 
   # ================== Set up parallel processing ==================

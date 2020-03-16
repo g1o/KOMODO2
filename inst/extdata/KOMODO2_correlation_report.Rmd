@@ -84,9 +84,12 @@ title_p3$xref <- "Contrasts of phenotypes"
 title_p3$yref <- "Contrasts of annotation term frequencies"
 
 # TODO: multicore-parallelize this for loop.
-for (i in df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a lot
+for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a lot
+  
+  fname <- df_cutoff$name[i]
+  
   #output dir
-  file <- paste0(cpd, i, ".html")
+  file <- paste0(cpd, fname, ".html")
   
   # setting up data
   Xdf         <- defs$x
@@ -162,6 +165,29 @@ for (i in df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a l
 
 ```
 
+Results table, some columns are not visible by default. 
+```{r Table, echo = F}
+
+# CHECK HERE - NAMES, INDICES, URL ETC.
+
+dtable <- dplyr::mutate(df_cutoff, 
+                        corr_plots = paste0('<a  target=_blank href=', 
+                                            cpd, "/", name,'.html>', 
+                                            name,'</a>' )) #build link to plots
+
+dtable <- DT::datatable(dtable,
+                        escape = FALSE, 
+                        filter = 'bottom',
+                        extensions = 'Buttons', 
+                        options = list(dom = 'Bfrtip', 
+                                       buttons = c('colvis','csv'),
+                                       columnDefs = list(list(visible = FALSE,
+                                                              targets = 4:(length(df_cutoff) - 2))))) # prepare table
+
+dtable
+```
+
+
 <!--
 #```{r Multiplot,echo=F,warning=FALSE}
 #Xdf <- KOMODO2$x
@@ -214,22 +240,3 @@ for (i in df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a l
 #```
 
 -->
-
-Results table, some columns are not visible by default. 
-```{r Table, echo = F}
-dtable <- dplyr::mutate(df_cutoff, 
-                        corr_plots = paste0('<a  target=_blank href=', 
-                                            cpd, "/", name,'.html>', 
-                                            name,'</a>' )) #build link to plots
-
-dtable <- DT::datatable(dtable,
-                        escape = FALSE, 
-                        filter = 'bottom',
-                        extensions = 'Buttons', 
-                        options = list(dom = 'Bfrtip', 
-                                       buttons = c('colvis','csv'),
-                                       columnDefs = list(list(visible = FALSE,
-                                                              targets = 4:(length(df_cutoff) - 2))))) # prepare table
-
-dtable
-```

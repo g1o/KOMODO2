@@ -19,10 +19,10 @@ column = "GO" #which column in annotation file should be used (column name)
 
 denominator.column = "" #which column contains normalization data (numeric)
 
-tree_path = "./data_folder/trees/tree_genome_IDs.nwk" #path for tree file
+tree.path = "./data_folder/trees/tree_genome_IDs.nwk" #path for tree file
 
-tree_type = "newick" #tree file type (either "nexus" or "newick" case-sensitive)
+tree.type = "newick" #tree file type (either "nexus" or "newick" case-sensitive)
 
 # cores = 4 #how many cores to use?
 
-linear_model_cutoff = 0.5 # basically to tell KOMODO2 how much graphical output it should produce. We configure it to generate plots only for annotation terms with corrected q-values for phylogenetically independent contrasts smaller than 0.5.
+linear.model.cutoff = 0.5 # basically to tell KOMODO2 how much graphical output it should produce. We configure it to generate plots only for annotation terms with corrected q-values for phylogenetically independent contrasts smaller than 0.5.
