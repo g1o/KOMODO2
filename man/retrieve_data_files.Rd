@@ -8,7 +8,7 @@ retrieve_data_files(
   target.dir,
   method = "auto",
   unzip = getOption("unzip"),
-  url = "https://github.com/fcampelo/KOMODO2-CRAN/"
+  url = "https://github.com/fcampelo/KOMODO2/"
 )
 }
 \arguments{
