@@ -66,9 +66,9 @@ make_correlation_report <- function(defs){
   if(!dir.exists(cpd)) dir.create(cpd, recursive = TRUE)
 
   # Copy report template into output dir
-  fp <- gsub("//", "/", paste0(normalizePath(defs$output.dir),
-                               "/K2rep.Rmd"),
+  fp <- gsub("//", "/", paste0(normalizePath(defs$output.dir), "/K2rep.Rmd"),
              fixed = TRUE)
+
   file.copy(system.file("extdata", "KOMODO2_correlation_report.Rmd",
                         package = "KOMODO2"), to = fp, overwrite = TRUE)
 

@@ -52,7 +52,6 @@ install_and_update_packages <- function(which = "all",
                       "GO.db")
 
 
-
   if (which %in% c("cran", "all")){
     do.call(utils::install.packages, cran.args)
   }

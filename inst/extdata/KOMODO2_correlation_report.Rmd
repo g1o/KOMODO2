@@ -168,14 +168,13 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
 Results table, some columns are not visible by default. 
 ```{r Table, echo = F}
 
-# CHECK HERE - NAMES, INDICES, URL ETC.
+# build link to plots
+cplots <- paste0('<a  target=_blank href="', 
+                 paste0('correlation_Plots/', df_cutoff$name,'.html'),
+                 '">', df_cutoff$name,'</a>')
 
 dtable <- dplyr::mutate(df_cutoff, 
-                        corr_plots = gsub("//", "/", 
-                                          paste0('<a  target=_blank href=', 
-                                                 cpd, "/", name,'.html>', 
-                                                 name,'</a>'),
-                                          fixed = TRUE)) #build link to plots
+                        corr_plots = cplots) 
 
 dtable <- DT::datatable(dtable,
                         escape = FALSE, 
