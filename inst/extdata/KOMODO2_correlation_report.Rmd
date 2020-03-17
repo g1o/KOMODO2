@@ -171,9 +171,11 @@ Results table, some columns are not visible by default.
 # CHECK HERE - NAMES, INDICES, URL ETC.
 
 dtable <- dplyr::mutate(df_cutoff, 
-                        corr_plots = paste0('<a  target=_blank href=', 
-                                            cpd, "/", name,'.html>', 
-                                            name,'</a>' )) #build link to plots
+                        corr_plots = gsub("//", "/", 
+                                          paste0('<a  target=_blank href=', 
+                                                 cpd, "/", name,'.html>', 
+                                                 name,'</a>'),
+                                          fixed = TRUE)) #build link to plots
 
 dtable <- DT::datatable(dtable,
                         escape = FALSE, 
