@@ -73,6 +73,9 @@
 #' @examples
 #' \dontrun{
 #'
+#' # Install and update packages from CRAN and Bioconductor
+#' install_and_update_packages()
+#'
 #' # Download required files
 #' retrieve_data_files(target.dir = "./data_folder")
 #'
