@@ -13,8 +13,6 @@ library(kableExtra)
 
 dirs <- dir("./results/")
 
-# Change here for verification of different pairs of final lists
-# Still need to come back later and test i = 1
 for (kk in seq_along(dirs)){
 
   data1 <- readRDS(paste0("./results/", dirs[kk], "/final_defs.rds"))    # created using package
