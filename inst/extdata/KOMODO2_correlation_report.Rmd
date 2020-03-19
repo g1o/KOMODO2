@@ -55,7 +55,7 @@ htmltools::tagList(pl1, pl2, pl3)
 ```
 
 
-```{r Multiplot, echo = F, warning = FALSE}
+```{r Multiplot, echo = FALSE, warning = FALSE, message = FALSE}
 
 # multiple scatterplots, with confidence intervals, in a single html page
 
@@ -84,17 +84,16 @@ title_p3$xref <- "Contrasts of phenotypes"
 title_p3$yref <- "Contrasts of annotation term frequencies"
 
 # TODO: multicore-parallelize this for loop.
-for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a lot
-  
-  fname <- df_cutoff$name[i]
-  
+
+for (i in seq_along(df_cutoff$name)){
   #output dir
-  file <- paste0(cpd, fname, ".html")
+  fname <- df_cutoff$name[i]
+  file  <- paste0(cpd, fname, ".html")
   
   # setting up data
   Xdf         <- defs$x
   names(Xdf)  <- "X_var"
-  Xdf$feature <- defs$y[, i] / defs$denominator
+  Xdf$feature <- defs$y[, fname] / defs$denominator
   ID          <- row.names(Xdf)
   
   p1 <- ggplot2::ggplot(data    = Xdf, 
@@ -111,7 +110,7 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
   Xdf           <- as.data.frame(rank(defs$x[, 1]))
   rownames(Xdf) <- rownames(defs$x)
   names(Xdf)    <- "X_var"
-  Xdf$feature   <- rank(defs$y[, i] / defs$denominator)
+  Xdf$feature   <- rank(defs$y[, fname] / defs$denominator)
   
   p2 <- ggplot2::ggplot(data    = Xdf, 
                         mapping = ggplot2::aes(x     = X_var, 
@@ -129,7 +128,7 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
   names(tmp_x) <- rownames(defs$x)
   contrast_x   <- ape::pic(x = tmp_x, phy = defs$tree)
   
-  tmp_y        <- defs$y[, i] / defs$denominator
+  tmp_y        <- defs$y[, fname] / defs$denominator
   names(tmp_y) <- rownames(defs$x)
   contrast_y   <- ape::pic(x = tmp_y, phy = defs$tree)
   

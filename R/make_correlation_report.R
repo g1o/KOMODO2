@@ -72,9 +72,10 @@ make_correlation_report <- function(defs){
   file.copy(system.file("extdata", "KOMODO2_correlation_report.Rmd",
                         package = "KOMODO2"), to = fp, overwrite = TRUE)
 
-  suppressWarnings(rmarkdown::render(fp,
-                                     output_file = "KOMODO2_report.html",
-                                     quiet = TRUE))
+  suppressMessages(
+    suppressWarnings(rmarkdown::render(fp,
+                                       output_file = "KOMODO2_report.html",
+                                       quiet = TRUE)))
   file.remove(fp)
   cat("done")
 

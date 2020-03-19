@@ -3,6 +3,8 @@ devtools::install_github("fcampelo/KOMODO2")
 
 library(KOMODO2)
 
+install_and_update_packages()
+
 # Retrieve fresh data files:
 retrieve_data_files("./data_folder")
 
