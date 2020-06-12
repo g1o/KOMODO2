@@ -46,13 +46,7 @@ install_and_update_packages <- function(which = "all",
                       "htmltools",
                       "htmlwidgets",
                       "pkgdown",
-                      "knitr",
-                      "RColorBrewer",
-                      "gplots",
-                      "preprocessCore",
-                      "extrafont",
-                      "dendextend",
-                      "heatmaply")
+                      "knitr")
   bioc.args$pkgs <- c("AnnotationDbi",
                       "KEGGREST",
                       "GO.db")

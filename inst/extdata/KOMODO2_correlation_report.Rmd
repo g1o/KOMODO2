@@ -3,131 +3,6 @@ title: "KOMODO2 - results report"
 output: html_document
 ---
 
-Heatmap
-
-```{r Heatmaps, echo = T, warnings = F, message = F}
-#Prepare data.frame to plot
-
-#getting data frame linking genome IDs to groups and short names
-
-y.name <- defs$y.name
-groups <- defs$groups
-short.name <- defs$short.name
-
-#y.name
-#groups
-#short.name
-
-names <- data.frame(y.name, groups, short.name)
-colnames(names) <- c("genomeID", "group", "shortName")
-
-#names
-
-#getting relevant annotation IDs
-ids <- as.vector(df_cutoff$name)
-
-#ids
-
-#getting annotation frequencies
-tmp <- defs$y[as.vector(ids)]
-norm <- tmp/defs$denominator
-#norm <- tmp
-
-#norm
-
-#rm(tmp)
-
-rownames(norm) <- names$shortName[match(rownames(norm), names$genomeID)]
-colnames(norm) <- paste0(ids, " - ", defs$annotation.cor[ids])
-
-#norm
-
-tree <- defs$tree
-
-#getting a good tree
-
-#replacing genome IDs by short names
-tree$tip.label<-names[[3]][match(tree$tip.label, names[[1]])]
-
-#2char
-tree$tip.label <- sapply(tree$tip.label, function(x) as.character(x))
-
-#final tree must be a dendrogram
-tree2 <- as.dendrogram(ape::as.phylo(tree))
-
-#plot(tree2)
-
-clade_order <- order.dendrogram(tree2)
-
-max <- ncol(norm)
-
-mat <- as.matrix(norm[,1:max])
-
-ord.mat <- mat[tree$tip.label,]
-
-#ord.mat
-
-my_palette <- colorRampPalette(c("white","blue"))(n = 51)
-
-
-jColors <-
-   with(names,
-        data.frame(LABEL = levels(group),
-                   COLOR = I(RColorBrewer::brewer.pal(nlevels(group), name = 'Set1'))))
-
-jColors
-
-tmp <- list()
-tmp$species <- rownames(ord.mat)
-tmp$group <- names$group[match(tmp$species, names$shortName)]
-tmp$COLOR <- jColors$COLOR[match(tmp$group, jColors$LABEL)]
-species2color <- unique(as.data.frame(tmp)[,c("species","COLOR")])
-#rm(tmp)
-
-species2color
-
-#tmp <- normalize.quantiles(as.matrix(ord.mat))
-#colnames(tmp) <- colnames(ord.mat)
-#rownames(tmp) <- rownames(ord.mat)
-
-#ord.norm.mat <- tmp
-#rm(tmp)
-
-distance2 = dist(as.matrix(t(ord.mat)), method = "euclidean")
-#cluster2 = hclust(distance2, method = "ward.D2")
-
-cluster2_final = dendextend::set(as.dendrogram(hclust(distance2, method=c("average"))), "branches_lwd", 1)
-
-#plot(cluster2_final)
-
-tree_final <- dendextend::set(tree2, "branches_lwd", 1)
-
-plot(tree_final)
-
-#Plot
-
-heatmaply::heatmaply(
-                          heatmaply::normalize(ord.mat),
-                          file="heatmap.html",
-                          Rowv = tree_final,
-                          Colv = hclust(distance2, method=c("average")),
-                          col = my_palette,
-                          row_dend_left = TRUE,
-                          RowSideColors = species2color$COLOR,
-                          plot_method = "plotly"
-                        )
-
-```
-
-Heatmap of annotation terms
-
-```{r catso, echo = F, warnings = F, message = F}
-
-htmltools::includeHTML("heatmap.html")
-
-```
-
-
 Annotation terms: q-values, size and coefficient of variation
 
 ```{r Correlation Plots, echo = F, warnings = F, message = F}
@@ -180,7 +55,7 @@ htmltools::tagList(pl1, pl2, pl3)
 ```
 
 
-```{r Multiplot, echo = F, warning = FALSE}
+```{r Multiplot, echo = FALSE, warning = FALSE, message = FALSE}
 
 # multiple scatterplots, with confidence intervals, in a single html page
 
@@ -209,12 +84,11 @@ title_p3$xref <- "Contrasts of phenotypes"
 title_p3$yref <- "Contrasts of annotation term frequencies"
 
 # TODO: multicore-parallelize this for loop.
-for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a lot
-  
-  fname <- df_cutoff$name[i]
-  
+
+for (i in seq_along(df_cutoff$name)){
   #output dir
-  file <- paste0(cpd, fname, ".html")
+  fname <- df_cutoff$name[i]
+  file  <- paste0(cpd, fname, ".html")
   
   # setting up data
   Xdf         <- defs$x
@@ -228,7 +102,7 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
                                                label = ID)) + 
     ggplot2::geom_point() +
     #    expand_limits(x = 0, y = 0) +
-    ggplot2::geom_smooth(method = "lm", formula = y ~ x, se = TRUE) + 
+    ggplot2::geom_smooth(method = "lm", se = TRUE) + 
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Phenotype value", 
                   y = "Annotation frequency")
@@ -243,7 +117,7 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
                                                y     = feature,
                                                label = ID)) + 
     ggplot2::geom_point() +
-    ggplot2::geom_smooth(method = "loess", formula = y ~ x, se = TRUE) + 
+    ggplot2::geom_smooth(method = "loess", se = TRUE) + 
     ggplot2::theme_bw() +
     ggplot2::labs(x = "Phenotype rank", 
                   y = "Annotation frequency rank")
@@ -293,12 +167,13 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
 Results table, some columns are not visible by default. 
 ```{r Table, echo = F}
 
-# CHECK HERE - NAMES, INDICES, URL ETC.
+# build link to plots
+cplots <- paste0('<a  target=_blank href="', 
+                 paste0('correlation_Plots/', df_cutoff$name,'.html'),
+                 '">', df_cutoff$name,'</a>')
 
 dtable <- dplyr::mutate(df_cutoff, 
-                        corr_plots = paste0('<a  target=_blank href=', 
-                                            cpd, "/", name,'.html>', 
-                                            name,'</a>' )) #build link to plots
+                        corr_plots = cplots) 
 
 dtable <- DT::datatable(dtable,
                         escape = FALSE, 
