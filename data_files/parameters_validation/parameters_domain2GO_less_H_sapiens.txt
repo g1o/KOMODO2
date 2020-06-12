@@ -11,6 +11,10 @@ dataset.info = "./data_folder/metadata/GO_metadata_less_H_sapiens.txt" #genome m
 
 x.column = 2 #which column contains phenotype data?
 
+short.name.column = 4 #short name for species/lineages to be used when plotting data
+
+group.column = 6 #group to be used when colouring heatmap
+
 ontology = "GO" #which dictionary data type?
 
 dict.path = "" #file for dictionary file (two-column file containing annotation IDs and their descriptions). Not needed for GO
@@ -23,6 +27,52 @@ tree.path = "./data_folder/trees/tree_genome_IDs_less_H_sapiens.nwk" #path for t
 
 tree.type = "newick" #tree file type (either "nexus" or "newick" case-sensitive)
 
-# cores = 4 #how many cores to use?
+type = "correlation"
 
-linear.model.cutoff = 0.5 # Basically to tell KOMODO2 how much graphical output it should produce. We configure it to generate plots only for annotation terms with corrected q-values for phylogenetically independent contrasts smaller than 0.5.
+MHT.method = "BH"
+
+cores = 7 #how many cores to use?
+
+# cutoffs are basically to tell KOMODO2 how much graphical output it should produce. If you want further results digging up, text files contain all results.
+
+#q-values cutoffs for correlation and phylogeny-aware linear models (only values smaller than cutoffs will be shown)
+
+spearman.qvalue.cutoff = 0.05
+pearson.qvalue.cutoff = 1
+kendall.qvalue.cutoff = 1
+linear_model.qvalue.cutoff = 0.2
+
+
+#correlation cutoffs
+
+spearman.cor.upper.cutoff = -1
+spearman.cor.lower.cutoff = 1
+pearson.cor.upper.cutoff = -1
+pearson.cor.lower.cutoff = 1
+kendall.cor.upper.cutoff = -1
+kendall.cor.lower.cutoff = 1
+
+#standard deviation and coefficient of variation cutoffs (only values greater than cutoff will be shown)
+
+sd.cutoff = 0
+cv.cutoff = 0
+
+
+# sum of annotation term cutoff (only values greater than cutoff will be shown)
+
+annotation_size.cutoff = 22
+
+
+#prevalence and heterogeneity cutoffs (only values greater than cutoff will be shown)
+
+#prevalence is defined as the percentage of lineages where annotation term was observed at least once
+prevalence.cutoff = 0
+
+#heterogeneity is defined as the percentage of lineages where annotation term count is different from median
+heterogeneity.cutoff = 0
+
+
+#advanced configurations (please, only change if you know what you are doing :-)
+
+raw_data_sd_filter = TRUE #removes all annotation terms where standard deviation for annotation raw values before normalization different from zero. This filter is used to remove the (quite common) bias when QPAL (phenotype) and normalizing factors are strongly associated by chance.
+
