@@ -1,87 +1,65 @@
 ---
-title: "KOMODO2 - results report"
+  title: "KOMODO2 - results report"
 output: html_document
 ---
+  
+  Heatmap
 
-Heatmap
-
-```{r Heatmaps, echo = T, warnings = F, message = F}
+```{r Heatmaps, echo = TRUE, warnings = FALSE, message = FALSE}
 #Prepare data.frame to plot
 
 #getting data frame linking genome IDs to groups and short names
 
-y.name <- defs$y.name
-groups <- defs$groups
-short.name <- defs$short.name
-
-#y.name
-#groups
-#short.name
-
-names <- data.frame(y.name, groups, short.name)
-colnames(names) <- c("genomeID", "group", "shortName")
-
-#names
+mynames <- data.frame(genomeID  = defs$y.name, 
+                      group     = defs$groups, 
+                      shortName = defs$short.name)
 
 #getting relevant annotation IDs
 ids <- as.vector(df_cutoff$name)
 
-#ids
-
 #getting annotation frequencies
-tmp <- defs$y[as.vector(ids)]
-norm <- tmp/defs$denominator
-#norm <- tmp
+tmp  <- defs$y[as.vector(ids)]
+norm <- tmp / defs$denominator
 
-#norm
-
-#rm(tmp)
-
-rownames(norm) <- names$shortName[match(rownames(norm), names$genomeID)]
+rownames(norm) <- mynames$shortName[match(rownames(norm), mynames$genomeID)]
 colnames(norm) <- paste0(ids, " - ", defs$annotation.cor[ids])
-
-#norm
 
 tree <- defs$tree
 
 #getting a good tree
 
 #replacing genome IDs by short names
-tree$tip.label<-names[[3]][match(tree$tip.label, names[[1]])]
+tree$tip.label <- mynames$shortName[match(tree$tip.label, mynames$genomeID)]
 
 #2char
 tree$tip.label <- sapply(tree$tip.label, function(x) as.character(x))
 
 #final tree must be a dendrogram
-tree2 <- as.dendrogram(ape::as.phylo(tree))
+tree2 <- stats::as.dendrogram(ape::as.phylo(tree))
 
 #plot(tree2)
 
-clade_order <- order.dendrogram(tree2)
+clade_order <- stats::order.dendrogram(tree2)
 
-max <- ncol(norm)
-
-mat <- as.matrix(norm[,1:max])
-
-ord.mat <- mat[tree$tip.label,]
+mat     <- as.matrix(norm[, 1:ncol(norm)])
+ord.mat <- mat[tree$tip.label, ]
 
 #ord.mat
 
-my_palette <- colorRampPalette(c("white","blue"))(n = 51)
+my_palette <- RColorBrewer::colorRampPalette(c("white", "blue"))(n = 51)
 
 
-jColors <-
-   with(names,
-        data.frame(LABEL = levels(group),
-                   COLOR = I(RColorBrewer::brewer.pal(nlevels(group), name = 'Set1'))))
+jColors <- data.frame(LABEL = levels(mynames$group),
+                      COLOR = I(RColorBrewer::brewer.pal(nlevels(mynames$group), 
+                                                         name = 'Set1')))
 
 jColors
 
-tmp <- list()
-tmp$species <- rownames(ord.mat)
-tmp$group <- names$group[match(tmp$species, names$shortName)]
-tmp$COLOR <- jColors$COLOR[match(tmp$group, jColors$LABEL)]
-species2color <- unique(as.data.frame(tmp)[,c("species","COLOR")])
+tmp <- data.frame(species = rownames(ord.mat),
+                  group   = mynames$group[match(tmp$species, mynames$shortName)],
+                  COLOR   = jColors$COLOR[match(tmp$group, jColors$LABEL)])
+
+species2color <- unique(tmp[, c("species", "COLOR")])
 #rm(tmp)
 
 species2color
@@ -93,29 +71,33 @@ species2color
 #ord.norm.mat <- tmp
 #rm(tmp)
 
-distance2 = dist(as.matrix(t(ord.mat)), method = "euclidean")
+distance2 <- stats::dist(t(ord.mat), method = "euclidean")
 #cluster2 = hclust(distance2, method = "ward.D2")
 
-cluster2_final = dendextend::set(as.dendrogram(hclust(distance2, method=c("average"))), "branches_lwd", 1)
+cluster2_final <- dendextend::set(
+  stats::as.dendrogram(
+    stats::hclust(distance2, method = "average")), 
+  what  = "branches_lwd", 
+  value = 1)
 
 #plot(cluster2_final)
 
-tree_final <- dendextend::set(tree2, "branches_lwd", 1)
+tree_final <- dendextend::set(tree2, what = "branches_lwd", value = 1)
 
 plot(tree_final)
 
 #Plot
 
 heatmaply::heatmaply(
-                          heatmaply::normalize(ord.mat),
-                          file="heatmap.html",
-                          Rowv = tree_final,
-                          Colv = hclust(distance2, method=c("average")),
-                          col = my_palette,
-                          row_dend_left = TRUE,
-                          RowSideColors = species2color$COLOR,
-                          plot_method = "plotly"
-                        )
+  heatmaply::normalize(ord.mat),
+  file          = "heatmap.html",
+  Rowv          = tree_final,
+  Colv          = stats::hclust(distance2, method = "average"),
+  col           = my_palette,
+  row_dend_left = TRUE,
+  RowSideColors = species2color$COLOR,
+  plot_method   = "plotly"
+)
 
 ```
 
@@ -180,7 +162,7 @@ htmltools::tagList(pl1, pl2, pl3)
 ```
 
 
-```{r Multiplot, echo = F, warning = FALSE}
+```{r Multiplot, echo = FALSE, warning = FALSE}
 
 # multiple scatterplots, with confidence intervals, in a single html page
 
@@ -209,7 +191,8 @@ title_p3$xref <- "Contrasts of phenotypes"
 title_p3$yref <- "Contrasts of annotation term frequencies"
 
 # TODO: multicore-parallelize this for loop.
-for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) { # get filtered to plot a lot
+for (i in seq_along(df_cutoff$name)){
+  #for (i in seq_along(df_cutoff$name[1:length(df_cutoff[, 1])]) { # filter to plot a lot
   
   fname <- df_cutoff$name[i]
   
@@ -314,17 +297,17 @@ dtable
 
 
 <!--
-#```{r Multiplot,echo=F,warning=FALSE}
-#Xdf <- KOMODO2$x
-##nice scatterplot, with confidence intervals
-#names(Xdf) <- "X_var"
-#dir.create(paste0(wd,"/correlation_Plots"));
-#lis<-list();
-#for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
-#	file<-paste0(wd,'/correlation_Plots/',i,'.html');
-#	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
-##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
-##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), interval="confidence", level = 0.95)
+  #```{r Multiplot,echo=F,warning=FALSE}
+  #Xdf <- KOMODO2$x
+  ##nice scatterplot, with confidence intervals
+  #names(Xdf) <- "X_var"
+  #dir.create(paste0(wd,"/correlation_Plots"));
+  #lis<-list();
+  #for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
+  #	file<-paste0(wd,'/correlation_Plots/',i,'.html');
+  #	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
+  ##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
+  ##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), interval="confidence", level = 0.95)
 ##	temp_var <- predict(model1, interval="prediction")
 ##	new_Xdf <- cbind(Xdf, temp_var)
 #	ID=row.names(Xdf)
@@ -365,3 +348,4 @@ dtable
 #```
 
 -->
+  
