@@ -1,0 +1,77 @@
+# This is a sample parameter file for KOMODO2.
+# NOTICE: It assumes that the relevant data files (including this one) were
+# retrieved using KOMODO2::retrieve_data_files("./data_folder").
+# Change the target folder/file paths below if needed
+
+annotation.files.dir = "./data_folder/domain2GO/" #Directory where annotation files are located. If not provided. file described in variable "dataset.info" should contain absolute paths to annotation files
+
+output.dir = "./results/domain2GO_standard/" #output directory for results
+
+dataset.info = "./data_folder/metadata/GO_metadata_standard.txt" #genome metadata file. it should contain at least. for each genome: 1) path for annotation data; 2) phenotype data (numeric); 3) normalization data (numeric)
+
+x.column = 2 #which column contains phenotype data?
+
+short.name.column = 4 #short name for species/lineages to be used when plotting data
+
+group.column = 6 #group to be used when colouring heatmap
+
+ontology = "GO" #which dictionary data type?
+
+dict.path = "" #file for dictionary file (two-column file containing annotation IDs and their descriptions. not needed for GO
+
+column = "Pfam" #which column in annotation file should be used (column name)
+
+denominator.column = "" #which column contains normalization data (numeric)
+
+tree.path = "./data_folder/trees/tree_genome_IDs.nwk" #path for tree file
+
+tree.type = "newick" #tree file type (either "nexus" or "newick". case-sensitive)
+
+type = "correlation"
+
+MHT.method = "BH"
+
+cores = 7 #how many cores to use?
+
+# cutoffs are basically to tell KOMODO2 how much graphical output it should produce. If you want further results digging up, text files contain all results.
+
+#q-values cutoffs for correlation and phylogeny-aware linear models (only values smaller than cutoffs will be shown)
+
+spearman.qvalue.cutoff = 0.05
+pearson.qvalue.cutoff = 1
+kendall.qvalue.cutoff = 1
+linear_model.qvalue.cutoff = 0.2
+
+
+#correlation cutoffs
+
+spearman.cor.upper.cutoff = -1
+spearman.cor.lower.cutoff = 1
+pearson.cor.upper.cutoff = -1
+pearson.cor.lower.cutoff = 1
+kendall.cor.upper.cutoff = -1
+kendall.cor.lower.cutoff = 1
+
+#standard deviation and coefficient of variation cutoffs (only values greater than cutoff will be shown)
+
+sd.cutoff = 0
+cv.cutoff = 0
+
+
+# sum of annotation term cutoff (only values greater than cutoff will be shown)
+
+annotation_size.cutoff = 22
+
+
+#prevalence and heterogeneity cutoffs (only values greater than cutoff will be shown)
+
+#prevalence is defined as the percentage of lineages where annotation term was observed at least once
+prevalence.cutoff = 0
+
+#heterogeneity is defined as the percentage of lineages where annotation term count is different from median
+heterogeneity.cutoff = 0
+
+
+#advanced configurations (please, only change if you know what you are doing :-)
+
+raw_data_sd_filter = TRUE #removes all annotation terms where standard deviation for annotation raw values before normalization different from zero. This filter is used to remove the (quite common) bias when QPAL (phenotype) and normalizing factors are strongly associated by chance.
