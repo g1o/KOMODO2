@@ -20,7 +20,7 @@
 
 # RStudio files
 # RStudio files
-.Rproj.user/
+#.Rproj.user/
 
 # produced vignettes
 vignettes/*.html
@@ -39,7 +39,5 @@ vignettes/*.pdf
 .DS_Store
 
 data_folder/
-
 results/
-
 /zz_original_scripts/results
