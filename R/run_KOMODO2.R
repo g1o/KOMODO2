@@ -73,9 +73,6 @@
 #' @examples
 #' \dontrun{
 #'
-#' # Install and update packages from CRAN and Bioconductor
-#' install_and_update_packages()
-#'
 #' # Download required files
 #' retrieve_data_files(target.dir = "./data_folder")
 #'
@@ -115,6 +112,7 @@ run_KOMODO2 <- function(defs, type = "correlation",
     defs <- read_komodo2_file(defs)
     defs$linear.model.cutoff <- as.numeric(defs$linear.model.cutoff)
     defs$x.column <- as.numeric(defs$x.column)
+    defs$cores <- as.numeric(defs$cores)
   }
 
   if(is.null(defs$type)) defs$type <- type

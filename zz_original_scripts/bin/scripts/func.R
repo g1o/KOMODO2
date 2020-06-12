@@ -14,12 +14,12 @@ GenerateTree <- function(taxonIds) {
   plot(taxize_tree)
 #  return(tree)
 }
-
+  
 
 
 InstallPackages <- function() {
   # Install the latest version of Bioconductor and all necessary libraries.
-  #
+  # 
   # Args:
   #   none.
   # Returns:
@@ -28,34 +28,34 @@ InstallPackages <- function() {
   # Additional notes:
   #   optional function, use it if LoadBioconductor() fails to run.
 
-  # source("http://bioconductor.org/biocLite.R")
-  # biocLite()
-  # biocLite("GO.db")
-  # biocLite("KEGGREST")
-  # install.packages("boot")
-  # install.packages("Cairo")
-  # install.packages("vcd")
-  # install.packages("gplots")
-  # install.packages("ggplot2")
-  # install.packages("foreach")
-  # install.packages("doParallel")
-  # install.packages("iterators")
-  # install.packages("itertools")
-  # install.packages("CHNOSZ")
-  # install.packages("taxize")
-  # install.packages("plotly")   #for visualization of results
-  # install.packages("ggplot2")  #for visualization of results
-  # install.packages("scales")   #for visualization of results
-  # install.packages("DT")       #for visualization of results
-  # install.packages("rmarkdown")#for visualization of results
-  # install.packages("knitr")    #for visualization of results
+  source("http://bioconductor.org/biocLite.R")
+  biocLite()
+  biocLite("GO.db")
+  biocLite("KEGGREST")
+  install.packages("boot")
+  install.packages("Cairo")
+  install.packages("vcd")
+  install.packages("gplots")
+  install.packages("ggplot2")
+  install.packages("foreach")
+  install.packages("doParallel")
+  install.packages("iterators")
+  install.packages("itertools")
+  install.packages("CHNOSZ")
+  install.packages("taxize")
+  install.packages("plotly")   #for visualization of results
+  install.packages("ggplot2")  #for visualization of results
+  install.packages("scales")   #for visualization of results
+  install.packages("DT")       #for visualization of results
+  install.packages("rmarkdown")#for visualization of results
+  install.packages("knitr")    #for visualization of results
 
 }
 
 
 LoadBioconductor <- function() {
   # Loads Bioconductor and all KOMODO2's dependencies.
-  #
+  # 
   # Args:
   #   none.
   # Returns:
@@ -66,7 +66,7 @@ LoadBioconductor <- function() {
   #   and similar functions.
 
 
-  #suppressMessages(source("http://bioconductor.org/biocLite.R"))
+  suppressMessages(source("http://bioconductor.org/biocLite.R"))
   suppressMessages(library("GO.db"))
   suppressMessages(library("taxize"))
   suppressMessages(library("ape"))
@@ -94,13 +94,13 @@ LoadBioconductor <- function() {
 
 ReloadFunc <- function() {
   # Function for debugging, updates the funcions in func.R mid-analysis
-  #  without erasing any data carried so far.
+  #  without erasing any data carried so far. 
   #
   # Args:
   #   none.
   # Returns:
   #   none.
-
+  
   KOMODO2.env <- new.env()
   suppressMessages(sys.source("func.R", envir = KOMODO2.env))
   suppressMessages(attach(KOMODO2.env))
@@ -112,9 +112,9 @@ ReloadFunc <- function() {
 # -=-=-=- Ontology manipulation -=-=-=-
 
 ListAncestors <- function() {
-  # Prepares a listing of ancestors for each GO ID. Used to vectorize later
+  # Prepares a listing of ancestors for each GO ID. Used to vectorize later 
   # operations.
-  #
+  # 
   # Args:
   #   none.
   # Returns:
@@ -123,7 +123,7 @@ ListAncestors <- function() {
 
   allAncestor <- c(as.list(GOBPANCESTOR), as.list(GOCCANCESTOR),
                    as.list(GOMFANCESTOR))
-
+  
   return(allAncestor)
 }
 
@@ -131,7 +131,7 @@ ListAncestors <- function() {
 ListSynonyms <- function() {
   # Prepares a listing of synonymous for GO IDs with alternative ids. Used to
   # vectorize later operations.
-  #
+  # 
   # Args:
   #   none.
   # Returns:
@@ -145,7 +145,7 @@ ListSynonyms <- function() {
 
 ListObsoletes <- function() {
   # Prepares a listing of obsolete GO IDs. Used to vectorize later operations.
-  #
+  # 
   # Args:
   #   none.
   # Returns:
@@ -160,7 +160,7 @@ ListObsoletes <- function() {
 
 ListKOs <- function() {
   # Prepares a listing of KO and their annotation.
-  #
+  # 
   # Args:
   #   none.
   # Returns:
@@ -175,10 +175,10 @@ ListKOs <- function() {
 CreateDictionary <- function(test.anno, back.anno = NULL) {
   # Creates an dictionary of valid terms from the data; does not contain an
   #  annotation description.
-  #
+  # 
   # Args:
   #   test.anno: (list) genomes in the test group, each with a data frame that
-  #                     maps each genomic element to its annotations.
+  #                     maps each genomic element to its annotations. 
   #   back.anno: (list) genomes in the background group, each with a data frame
   #                     that maps each genomic element to its annotations.
   # Returns:
@@ -187,7 +187,7 @@ CreateDictionary <- function(test.anno, back.anno = NULL) {
   # Parsing the tab format from Uniprot
   dict <- unique(unlist(sapply(test.anno, unlist)))
   if (!is.null(back.anno)){
-    dict <- unique(c(dict, unlist(sapply(back.anno, unlist))))
+    dict <- unique(c(dict, unlist(sapply(back.anno, unlist)))) 
   }
   names(dict) <- dict
 
@@ -197,7 +197,7 @@ CreateDictionary <- function(test.anno, back.anno = NULL) {
 
 RemoveObsoleteAndAlternative <- function(geneIDs, allObsolete, allSynonym) {
   # Removes GOs that are obsolete and replace alternative ids for main ids.
-  #
+  # 
   # Args:
   #   geneIDs: (vector) vector of char factors mapping gene IDs to GO ID's.
   #   allObsolete: (vector) vector with GOOBSOLETE's mapping.
@@ -222,14 +222,14 @@ RemoveObsoleteAndAlternative <- function(geneIDs, allObsolete, allSynonym) {
 
 ObtainGeneGOancestors <- function(geneIDs, allAncestor) {
   # Finds all GO ID ancestors for a given gene
-  #
+  # 
   # Args:
   #   geneIDs: (vector) vector of char factors mapping gene IDs to GO ID's.
   #   allAncestor: (list) All GOXXANCESTOR combined.
   #                       Used to vectorize ObtainGeneGOancestors().
   # Returns:
   #   geneIDs: (char) vector with all GO IDs found for the gene.
-
+  
   geneAncestors <- unlist(allAncestor[geneIDs], use.names = FALSE)
   geneAncestors <- geneAncestors[!is.null(geneAncestors)]
   geneAncestors <- geneAncestors[!geneAncestors == "all"]
@@ -245,38 +245,38 @@ ObtainGeneGOancestors <- function(geneIDs, allAncestor) {
 
 GroupElementCount <- function(someAnno, genome.names=NULL, mode = "default") {
   # Returns a vector with the number of genes in each genome of a group.
-  #
+  # 
   # Args:
   #   someAnno: (list) list of genomes, each with a data frame that maps
-  #                    each gene to its annotations (GO, KO).
+  #                    each gene to its annotations (GO, KO). 
   #   genome.names: (vector) names of the genomes to count elements. May
   #                          restrict which genomes to count in this function.
   #   mode: (char) defines whether KOMODO2 must consider all elements in all
   #                genomes (default), or treat each element independently of
-  #                others (experiment). The latter is an experiment for
+  #                others (experiment). The latter is an experiment for 
   #                alignments.
   # Returns:
   #   elementCount: (integer) vector with the number of elements in each genome
   #                           of someAnno.
-
+  
   if (is.null(genome.names) | length(genome.names) == 0) {
     return(0)
   }
-
+  
   if (mode == "default") {
     elementCount <- sapply(someAnno[genome.names], length)
   } else if (mode == "experiment") {
     elementCount <- rep(1, length(someAnno[genome.names]))
     names(elementCount) <- names(someAnno[genome.names])
   }
-
+  
   return(elementCount)
 }
 
 
 FileAddition <- function(file, column) {
   # Obtains the annotation from a file about a specific genome.
-  #
+  # 
   # Args:
   #   file: (char) path to the file with the annotation.
   #   column: (char) label (or index) of column with the desired annotation.
@@ -286,7 +286,7 @@ FileAddition <- function(file, column) {
   anno <- read.table(file, sep = "\t", header = TRUE, colClasses = "character",
                    strip.white = TRUE, comment.char = "", row.names = 1,
                    check.names = FALSE)
-
+  
   # Parsing the tab format from Uniprot
   genomeMap <- strsplit(anno[, column], " *; *")
   names(genomeAnno) <- rownames(anno)
@@ -298,7 +298,7 @@ FileAddition <- function(file, column) {
 
 GenerateGenomeVector <- function(genomeAnno, ontologyInfo) {
   # Generates a phyletic vector for a specific genome.
-  #
+  # 
   # Args:
   #   genomeAnno: (list) annotation of the genome.
   #   ontologyInfo: (list) wrapper the ontology. Since it may be GO, KO, or an
@@ -307,7 +307,7 @@ GenerateGenomeVector <- function(genomeAnno, ontologyInfo) {
   # Returns:
   #   genomeVector: (list) list with the frequency count of each term
   #                        in that genome.
-
+  
   # Check input format (file or annotation list), adapt if possible
   if (is.character(genomeAnno)) {
     if (file_test("-f", genomeAnno)) {
@@ -320,7 +320,7 @@ GenerateGenomeVector <- function(genomeAnno, ontologyInfo) {
 
   genomeVector <- rep.int(0, times = length(ontologyInfo$name))
   names(genomeVector) <- ontologyInfo$name
-
+  
   if (is.element(ontologyInfo$ontology, c("go", "gene ontology"))) {
     genomeAnno <- lapply(genomeAnno, RemoveObsoleteAndAlternative,
                           ontologyInfo$allObsolete, ontologyInfo$allSynonym)
@@ -354,7 +354,7 @@ GenerateGenomeVector <- function(genomeAnno, ontologyInfo) {
 AddGenomeVectors <- function(someAnno, genome.names, someGV = NULL) {
   # Generates phyletic vectors of each genome in a group, which stores the
   # count of appearences of a GO term in that genome.
-  #
+  # 
   # Args:
   #   someAnno: (list) annotation from the original input data.
   #   genome.names: (char) a vector with the names of the genomes to select.
@@ -364,10 +364,10 @@ AddGenomeVectors <- function(someAnno, genome.names, someGV = NULL) {
   #                         the input group.
 
   # To generate genome vectors, we need some information about the ontology.
-  # Since it may be GO, KO or an arbitrary one, the information may come
+  # Since it may be GO, KO or an arbitrary one, the information may come 
   # from different variables, hence the following wrapper.
   ontologyInfo <- list(ontology = tolower(KOMODO2$ontology))
-  if (is.element(ontologyInfo$ontology, c("go", "gene ontology"))) {
+  if (is.element(ontologyInfo$ontology, c("go", "gene ontology"))) { 
     ontologyInfo$allAncestor <- KOMODO2$allAncestor
     ontologyInfo$allObsolete <- KOMODO2$allObsolete
     ontologyInfo$allSynonym <- KOMODO2$allSynonym
@@ -376,13 +376,13 @@ AddGenomeVectors <- function(someAnno, genome.names, someGV = NULL) {
     ontologyInfo$name <- names(KOMODO2$allKOs)
   } else if (ontologyInfo$ontology == "other") {
     ontologyInfo$name <- names(KOMODO2$dictionary)
-  }
-
+  }  
+  
   # Select genomes from someAnno that are in genome.names and not in someGV,
   # so we don't add genome vectors that already exist.
   genome.names <- setdiff(genome.names, rownames(someGV))
   someAnno <- someAnno[genome.names]
-
+  
   # Add the genome vectors and fit them into a data.frame format.
   genomeVectors <- foreach(genomeAnno = iter(someAnno), .combine = "rbind",
                            .export = "GenerateGenomeVector") %dopar% {
@@ -390,27 +390,27 @@ AddGenomeVectors <- function(someAnno, genome.names, someGV = NULL) {
   }
   rownames(genomeVectors) <- names(someAnno)
   genomeVectors <- as.data.frame(genomeVectors, optional = TRUE)
-
+  
   # Merge with the existing genome vectors, if given.
   if (!is.null(someGV)) {
     genomeVectors <- rbind(someGV, genomeVectors)
   }
-
+  
   return(genomeVectors)
 }
 
 
 SelectGenomeVectors <- function(someGV, genome.names) {
-  # Select genomes from someAnno that are in genome.names. We don't do it
+  # Select genomes from someAnno that are in genome.names. We don't do it 
   # directly because some genomes of genome.names may be missing in someGV.
-  #
+  # 
   # Args:
   #   someGV: (data.frame) a previously processed set of genome vectors.
   #   genome.names: (char) a vector with the names of the genomes to select.
   # Returns:
   #   someGV: (data.frame) a previously processed set of genome vectors, with
   #                        only the existing genomes in genome.names.
-
+  
   return(someGV[intersect(genome.names, rownames(someGV)), ])
 }
 
@@ -419,7 +419,7 @@ SelectGenomeVectors <- function(someGV, genome.names) {
 UpdateGenomeVector <- function(oldGenomeAnno, newGenomeAnno, genomeVector,
                                ontologyInfo) {
   # Generates a difference phyletic vector for a genome annotation update.
-  #
+  # 
   # Args:
   #   oldGenomeAnno: (list) genome annotation from a previous run.
   #   newGenomeAnno: (list) genome annotation to be analyzed.
@@ -439,7 +439,7 @@ UpdateGenomeVector <- function(oldGenomeAnno, newGenomeAnno, genomeVector,
   if (!is.list(newGenomeAnno) || !is.list(oldGenomeAnno)) {
     return(NULL)
   }
-
+  
   # For common elements
   inCommon <- intersect(names(oldGenomeAnno), names(newGenomeAnno))
   isEqual <- Map("setequal", oldGenomeAnno[inCommon],
@@ -449,11 +449,11 @@ UpdateGenomeVector <- function(oldGenomeAnno, newGenomeAnno, genomeVector,
     remove <- oldGenomeAnno[[i]]
     add <- newGenomeAnno[[i]]
     if (is.element(ontologyInfo$ontology, c("go", "gene ontology"))) {
-      remove <- RemoveObsoleteAndAlternative(remove,
+      remove <- RemoveObsoleteAndAlternative(remove, 
                                              ontologyInfo$allObsolete,
                                              ontologyInfo$allSynonym)
       remove <- ObtainGeneGOancestors(remove, ontologyInfo$allAncestor)
-      add <- RemoveObsoleteAndAlternative(add,
+      add <- RemoveObsoleteAndAlternative(add, 
                                           ontologyInfo$allObsolete,
                                           ontologyInfo$allSynonym)
       add <- ObtainGeneGOancestors(add, ontologyInfo$allAncestor)
@@ -467,7 +467,7 @@ UpdateGenomeVector <- function(oldGenomeAnno, newGenomeAnno, genomeVector,
   for (i in removedAnno) {
     remove <- oldGenomeAnno[[i]]
     if (is.element(ontologyInfo$ontology, c("go", "gene ontology"))) {
-      remove <- RemoveObsoleteAndAlternative(remove,
+      remove <- RemoveObsoleteAndAlternative(remove, 
                                              ontologyInfo$allObsolete,
                                              ontologyInfo$allSynonym)
       remove <- ObtainGeneGOancestors(remove, ontologyInfo$allAncestor)
@@ -480,14 +480,14 @@ UpdateGenomeVector <- function(oldGenomeAnno, newGenomeAnno, genomeVector,
   for (i in introducedAnno) {
     add <- newGenomeAnno[[i]]
     if (is.element(ontologyInfo$ontology, c("go", "gene ontology"))) {
-      add <- RemoveObsoleteAndAlternative(add,
+      add <- RemoveObsoleteAndAlternative(add, 
                                           ontologyInfo$allObsolete,
                                           ontologyInfo$allSynonym)
       add <- ObtainGeneGOancestors(add, ontologyInfo$allAncestor)
     }
     genomeVector[add] <- genomeVector[add] + 1
   }
-
+  
   return(genomeVector)
 }
 
@@ -496,12 +496,12 @@ UpdateGenomeVector <- function(oldGenomeAnno, newGenomeAnno, genomeVector,
 
 
 
-ParameterVectors <- function(testGV, backGV,
+ParameterVectors <- function(testGV, backGV, 
                              testElementCount, backElementCount) {
   # Creates a summary of both test and background groups about the number of
   # annotated genes for each GO term.
   #
-  # Args:
+  # Args: 
   #   testGV (list) list of the number of occurrences of each term among the
   #                 genomes in the test group.
   #   backGV (list) list of the number of occurrences of each term among the
@@ -541,13 +541,13 @@ BootGenomeVectorsIndices <- function(testGV, backGV, R = 100) {
   # Bootstraps the genome listings and return a list with the indices of the
   # bootstrap.
   #
-  # Args:
+  # Args: 
   #   testGV: (list) list of the number of occurrences of each term among the
   #                  genomes in the test group.
   #   backGV: (list) list of the number of occurrences of each term among the
   #                  genomes in the background group.
   #   R: (numeric) number of samples to run in the bootstrap.
-  #
+  #   
   # Returns:
   #   bootIndices: (list) list with the indices on the genome listings used by
   #                       the bootstrap.
@@ -574,7 +574,7 @@ BootParameterVectors <- function(testGV, backGV, testElementCount,
   # Creates a summary of both test and background groups about the number of
   # genes that are annotated for each GO term.
   #
-  # Args:
+  # Args: 
   #   testGV: (list) list of the number of occurrences of each term among the
   #                  genomes in the test group.
   #   backGV: (list) list of the number of occurrences of each term among the
@@ -594,17 +594,17 @@ BootParameterVectors <- function(testGV, backGV, testElementCount,
   # Not the case of future functions, so we're making it local
   testGV <- as.matrix(testGV)
   backGV <- as.matrix(backGV)
-
+  
   # Accessing data from the bootstrap with the indices
-  t1 <- foreach(sample = iter(bootIndices$test, by = "row"),
+  t1 <- foreach(sample = iter(bootIndices$test, by = "row"), 
                 .combine = "rbind") %dopar% {
     colSums(testGV[sample, bootIndices$columns, drop=FALSE])
   }
   b1 <- foreach(sample = iter(bootIndices$back, by = "row"),
                 .combine = "rbind") %dopar% {
     colSums(backGV[sample, bootIndices$columns, drop=FALSE])
-  }
-
+  } 
+   
   t1 <- t1[, (colSums(t1) > 0 | colSums(b1) > 0), drop=FALSE]
   b1 <- b1[, colnames(t1), drop=FALSE]
 
@@ -614,10 +614,10 @@ BootParameterVectors <- function(testGV, backGV, testElementCount,
                                     parameter = c("t1", "b1", "t0", "b0"))
   bParameterVectors[, , "t1"] <- t1
   bParameterVectors[, , "b1"] <- b1
-
+  
   bParameterVectors[, , "t0"] <- sum(testElementCount) - t1
   bParameterVectors[, , "b0"] <- sum(backElementCount) - b1
-
+  
   return(bParameterVectors)
 }
 
@@ -629,7 +629,7 @@ StatisticalTest <- function(parameterVectors, test = "fisher.over") {
   # Computes the chosen statistical test between two phyletic vectors.
   #
   # Args:
-  #   parameterVectors: (list) the phyletic vector with the number of
+  #   parameterVectors: (list) the phyletic vector with the number of 
   #                            occurrences of each term among the genomes
   #                            in the groups. Format: (t0, t1, b0, b1).
   #   test: (char) the statistical test to perform.
@@ -639,9 +639,9 @@ StatisticalTest <- function(parameterVectors, test = "fisher.over") {
 
   results <- vector(mode = "numeric", length = length(parameterVectors))
   names(results) <- names(parameterVectors)
-
+  
   chunkSize <- ceiling(length(parameterVectors)/getDoParWorkers())
-
+  
   if (test == "chi2") {
     # Separating data in chunks to improve memory usage when allocating
     # and managing multiple cores
@@ -672,13 +672,13 @@ StatisticalTest <- function(parameterVectors, test = "fisher.over") {
                        mode = "character"), .combine = "c") %dopar% {
       for (term in chunk) {
         parameters <- matrix(parameterVectors[[term]], nrow = 2)
-        results[[term]] <- fisher.test(parameters,
+        results[[term]] <- fisher.test(parameters, 
                                        alternative = "less")$p.value
       }
       results[chunk]
     }
   }
-
+  
   results <- sort(results)
   return(results)
 }
@@ -689,7 +689,7 @@ BootStatisticalTest <- function(bParameterVectors, test = "fisher.over") {
   # Computes the chosen statistical test between two phyletic vectors.
   #
   # Args:
-  #   bParameterVectors: (list) the phyletic vector with the number of
+  #   bParameterVectors: (list) the phyletic vector with the number of 
   #                             occurrences of each term among the genomes
   #                             in the groups. Format: (t1, b1, t0, b0).
   #   test: (char) the statistical test to perform.
@@ -703,7 +703,7 @@ BootStatisticalTest <- function(bParameterVectors, test = "fisher.over") {
   # evaluated.
   bresults <- vector(mode = "list", length = R)
   names(bresults) <- c(1:R)
-  nonZero <- as.matrix((bParameterVectors[, , "t1"] +
+  nonZero <- as.matrix((bParameterVectors[, , "t1"] + 
                         bParameterVectors[, , "b1"]) > 0)
   for (sample in 1:R) {
     bresults[[sample]] <- bParameterVectors[sample, nonZero[sample, ], "t1",
@@ -777,7 +777,7 @@ CompareDistributions <- function(parameterVectors, testGV, backGV,
   names(results) <- names(parameterVectors)
 
   chunkSize <- ceiling(length(parameterVectors)/getDoParWorkers())
-
+  
   if (test == "ks.over") {
     results <- foreach(chunk = ichunk(names(parameterVectors), chunkSize,
                        mode = "character"), .combine = "c") %dopar% {
@@ -815,7 +815,7 @@ CompareDistributions <- function(parameterVectors, testGV, backGV,
       for (term in chunk) {
         test <- testGV[[term]]
         back <- backGV[[term]]
-        results[[term]] <- wilcox.test(test, back,
+        results[[term]] <- wilcox.test(test, back, 
                                        alternative = "less")$p.value
       }
       results[chunk]
@@ -861,15 +861,15 @@ BootDistributions <- function(bParameterVectors, bootIndices, testGV, backGV,
   # evaluated.
   bresults <- vector(mode = "list", length = R)
   names(bresults) <- c(1:R)
-  nonZero <- as.matrix((bParameterVectors[, , "t1"] +
+  nonZero <- as.matrix((bParameterVectors[, , "t1"] + 
                         bParameterVectors[, , "b1"]) > 0)
   for (sample in 1:R) {
     bresults[[sample]] <- bParameterVectors[sample, nonZero[sample, ], "t1",
                                             drop=FALSE]
   }
-
+  
   if (test == "ks.over") {
-    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"),
+    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"), 
                         .combine = "c") %dopar% {
       for (sample in chunk) {
         bterms <- colnames(bresults[[sample]])
@@ -887,7 +887,7 @@ BootDistributions <- function(bParameterVectors, bootIndices, testGV, backGV,
       bresults[chunk]
     }
   } else if (test == "ks.under") {
-    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"),
+    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"), 
                         .combine = "c") %dopar% {
       for (sample in chunk) {
         bterms <- colnames(bresults[[sample]])
@@ -905,7 +905,7 @@ BootDistributions <- function(bParameterVectors, bootIndices, testGV, backGV,
       bresults[chunk]
     }
   } else if (test == "wilcox.over") {
-    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"),
+    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"), 
                         .combine = "c") %dopar% {
       for (sample in chunk) {
         bterms <- colnames(bresults[[sample]])
@@ -923,7 +923,7 @@ BootDistributions <- function(bParameterVectors, bootIndices, testGV, backGV,
       bresults[chunk]
     }
   } else if (test == "wilcox.under") {
-    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"),
+    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"), 
                         .combine = "c") %dopar% {
       for (sample in chunk) {
         bterms <- colnames(bresults[[sample]])
@@ -941,7 +941,7 @@ BootDistributions <- function(bParameterVectors, bootIndices, testGV, backGV,
       bresults[chunk]
     }
   } else if (test == "kruskal") {
-    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"),
+    bresults <- foreach(chunk = ichunk(1:R, chunkSize, mode = "character"), 
                         .combine = "c") %dopar% {
       for (sample in chunk) {
         bterms <- colnames(bresults[[sample]])
@@ -982,10 +982,10 @@ MultipleHypothesisCorrection <- function(pvalue, method = "BH") {
   #                   "hommel" - Hommel (1988)
   #                   "BH" or "fdr" - Benjamini & Hochberg (1995)
   #                   "BY" - Benjamini & Yekutieli (2001)
-  # Returns:
+  # Returns: 
   #   results: (list) p-value of all terms, corrected for multple
   #                   hypothesis.
-  #
+  # 
 
   results <- p.adjust(pvalue, method = method)
   return(results)
@@ -1004,10 +1004,10 @@ Boot_MHCorrection <- function(bpvalue, method = "BH") {
   #                   "hommel" - Hommel (1988)
   #                   "BH" or "fdr" - Benjamini & Hochberg (1995)
   #                   "BY" - Benjamini & Yekutieli (2001)
-  # Returns:
+  # Returns: 
   #   results: (list) p-value of all terms, corrected for multple
   #                   hypothesis.
-  #
+  # 
 
   R <- length(bpvalue)
 
@@ -1034,17 +1034,17 @@ SignificantSamples <- function(results, parameterVectors,
   #                            Format: (t0, t1, b0, b1).
   #   criticalValue: (numeric) cutoff for the significance criteria. The terms
   #                            must show a value below it to be significant.
-  # Returns:
-  #   count: (vector) number of significant occurrences among the bootstrap
+  # Returns: 
+  #   count: (vector) number of significant occurrences among the bootstrap 
   #                   samples. Evaluates terms available in parameterVectors.
-  #
-
+  # 
+  
   R <- length(results)
 
   if (is.null(names(parameterVectors))) {  # Case when using the TS algorithm.
     terms <- character(0)
     for (i in 1:R) {
-      terms <- union(terms, names(parameterVectors[[i]]))
+      terms <- union(terms, names(parameterVectors[[i]])) 
     }
     count <- rep.int(0, times = length(terms))
     names(count) <- terms
@@ -1052,7 +1052,7 @@ SignificantSamples <- function(results, parameterVectors,
     count <- rep.int(0, times = length(parameterVectors))
     names(count) <- names(parameterVectors)
   }
-
+  
   for (sample in 1:R) {
     terms <- names(results[[sample]][results[[sample]] < criticalValue])
     count[terms] <- count[terms] + 1
@@ -1074,7 +1074,7 @@ GetPhiCoefficient <- function(parameterVectors) {
 
   results <- vector(mode = "numeric", length = length(parameterVectors))
   names(results) <- names(parameterVectors)
-
+  
   for (i in names(results)) {
     results[[i]] <- assocstats(matrix(parameterVectors[[i]], nrow = 2))$phi
   }
@@ -1109,7 +1109,7 @@ Get.r.Coefficient <- function (testGV, backGV, pvalue) {
   terms <- names(pvalue)
   ranks <- Map("c", testGV[, terms, drop=FALSE], backGV[, terms, drop=FALSE])
   ranks <- sapply(ranks, rank)
-
+  
   # wStatistic is what we need to calculate z and, therefore, r
   if (testLen < backLen) {
     ranks <- ranks[1:testLen, , drop=FALSE]
@@ -1122,19 +1122,19 @@ Get.r.Coefficient <- function (testGV, backGV, pvalue) {
     ranks2 <- ranks[(testLen + 1):(testLen + backLen), , drop=FALSE]
     wStatistic <- unlist(Map("min", colSums(ranks1), colSums(ranks2)))
   }
-
+  
   z <- (wStatistic - wMean) / wSError
   results <- abs(z/sqrtn)
-
+  
   return(results)
-
+  
 #   label <- factor(c(rep("test", length(testGV[[names(pvalue)[1]]][, 1])),
 #                     rep("back", length(backGV[[names(pvalue)[1]]][, 1]))))
 #   sqrtn <- sqrt(length(label))
-#
+# 
 #   for (i in names(pvalue)) {
 #     values <- c(testGV[[i]][, 1], backGV[[i]][, 1])
-#
+# 
 #     z <- statistic(wilcox_test(values ~ label), type = "standardized")
 # #     z <- slot(w@statistic, "teststatistic")
 #     pvalue[[i]] <- abs(z/sqrtn)
@@ -1149,7 +1149,7 @@ ConfidenceInterval <- function(effectSize, sd, type, test.name = NULL,
   # Args:
   #   effectSize: (list) effect size (Phi Coefficient) of all terms.
   #   sd: (numeric) number of standard deviations for confidence.
-  #   type: (char) whether the result was from a parametric (P) or from a
+  #   type: (char) whether the result was from a parametric (P) or from a 
   #                non-parametric (N) test.
   #   test.name: (char) name of the genomes used in the test group.
   #   back.name: (char) name of the genomes used in the background group.
@@ -1162,7 +1162,7 @@ ConfidenceInterval <- function(effectSize, sd, type, test.name = NULL,
   names(confInterval) <- names(effectSize)
 
 #   colnames(parameterVectors) <- c("t1", "b1", "t0", "b0")
-
+  
   if (type == "P") {
     ntest <- parameterVectors[[1]][1] + parameterVectors[[1]][3]
     nback <- parameterVectors[[1]][2] + parameterVectors[[1]][4]
@@ -1175,7 +1175,7 @@ ConfidenceInterval <- function(effectSize, sd, type, test.name = NULL,
                  (effectSize^2 / (2 * (ntest + nback))))
   margin <- sd * sigma
   confInterval <- cbind(effectSize - margin, effectSize + margin)
-
+                       
   return(confInterval)
 
 }
@@ -1186,11 +1186,11 @@ CalculateFoldChange <- function(parameterVectors, type = "P",
   # Calculates the fold change between the two genome groups.
   #
   # Args:
-  #   parameterVectors: (list) phyletic vector with the number of occurrences
+  #   parameterVectors: (list) phyletic vector with the number of occurrences 
   #                          of each term among the genomes in the groups.
-  #   type: (char) whether the result was from a parametric (P) or from a
+  #   type: (char) whether the result was from a parametric (P) or from a 
   #                non-parametric (N) test.
-  #   test.name: (char) name of the genomes used in the test group, used if
+  #   test.name: (char) name of the genomes used in the test group, used if 
   #                     type is "N".
   #   back.name: (char) name of the genomes used in the background group,
   #                     used if type is "N".
@@ -1207,10 +1207,10 @@ CalculateFoldChange <- function(parameterVectors, type = "P",
   # For parametric (P) tests, we compare the change in proportion p = x/(n-x)
   # For non-parametric (N) ones, we compare the change in the population mean
   if (type == "P") {
-    foldChange <- (parameterVectors[, "t1"] / parameterVectors[, "t0"]) /
+    foldChange <- (parameterVectors[, "t1"] / parameterVectors[, "t0"]) / 
                   (parameterVectors[, "b1"] / parameterVectors[, "b0"])
   } else if (type == "N") {
-    foldChange <- (parameterVectors[, "t1"] / length(test.name)) /
+    foldChange <- (parameterVectors[, "t1"] / length(test.name)) / 
                   (parameterVectors[, "b1"] / length(back.name))
   }
 
@@ -1227,12 +1227,12 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
 
 
 
-  # Produces a vector with the correlation of each ontology term with the
+  # Produces a vector with the correlation of each ontology term with the 
   # attribute in question after correcting for phylogenetic bias (see
   # Felsenstein 1985 and APE package for details).
   #
   # Args:
-  #   x: (vector) variable with the counting of an attribute of
+  #   x: (vector) variable with the counting of an attribute of 
   #               interest, like G+C, gene count or longevity.
   #   y: (data.frame) table counting the presence of annotations
   #                   of an ontology in each genome.
@@ -1241,7 +1241,7 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
   # Returns:
   #   correlations: (vector) correlation of all listed ontology terms for the
   #                          attribute in question.
-
+  
   if (method == "pic") {
     tmp_x <- as.vector(as.numeric(KOMODO2$x[,1]))
     names(tmp_x) <- rownames(KOMODO2$x)
@@ -1254,13 +1254,13 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
 #  names(models2) <- colnames(y)
 #  names(models3) <- colnames(y)
 #  names(correlations) <- colnames(y)
-
+  
   # Normalizing
     if (!is.null(denominator)) {
 #    y <- as.data.frame(t(t(y) / denominator))
       y <- (y / denominator)
     }
-
+  
     for (i in 1:ncol(y)) {
       tmp_y <- as.vector(as.numeric(y[, i]))
       names(tmp_y) <- rownames(x)
@@ -1277,7 +1277,7 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
     models <- vector(mode="numeric", length=ncol(y))
     names(models) <- colnames(y)
 
-  # Normalizing
+  # Normalizing 
     if (!is.null(denominator)) {
       y_norm <- t(y / denominator)
       y_norm = y_norm * 10^6 #getting counts per million to avoid false convergence (8) error from gls function for small values, see http://r.789695.n4.nabble.com/quot-False-convergence-quot-in-LME-td860675.html
@@ -1307,11 +1307,11 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1) {
 
 # Consider adding differentiation for x and y denominator column.
 FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
-  # Produces a vector with the correlation of each ontology term with the
+  # Produces a vector with the correlation of each ontology term with the 
   # attribute in question.
   #
   # Args:
-  #   x: (vector) variable with the counting of an attribute of
+  #   x: (vector) variable with the counting of an attribute of 
   #               interest, like G+C, gene count or longevity.
   #   y: (data.frame) table counting the presence of annotations
   #                   of an ontology in each genome.
@@ -1325,7 +1325,7 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
   names(correlations) <- colnames(y)
   names(correlations.pvalue) <- colnames(y)
 
-  # Normalizing
+  # Normalizing 
   if (!is.null(denominator)) {
 #    y <- as.data.frame(t(t(y) / denominator))
     y <- y / denominator
@@ -1337,9 +1337,9 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
 
   correlations <- sort(correlations, decreasing = TRUE)
   correlations.pvalue <- sort(correlations.pvalue, decreasing = TRUE)
-
+  
   results <- list("cor" = correlations, "cor.pvalues" = correlations.pvalue)
-
+  
   return(results)
 #  return(correlations)
 }
@@ -1347,35 +1347,35 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1) {
 
 AddVariableX <- function(x.path) {
   # Produces a vector with the variable x of a correlation analysis from a
-  # tab-separated file with two columns: genome names and variable, no header.
+  # tab-separated file with two columns: genome names and variable, no header. 
   #
   # Args:
-  #   x.path: (char) path to the file with the variable data.
-  #
+  #   x.path: (char) path to the file with the variable data. 
+  # 
   # Returns:
   #   x: (vector) vector with the data of variable x for correlation analysis.
 
   if (is.null(x.path) | file.exists(x.path) == FALSE) {
     return(NULL)
   }
-
+  
   x.table <- read.table(x.path, sep = "\t", header = FALSE, colClasses = "character",
                         strip.white = TRUE, comment.char = "")
   x <- as.numeric(x.table[, 2])
   names(x) <- x.table[, 1]
   x <- as.data.frame(x)
-
+  
   return(x)
 }
 
 
-VariableCorrelation <- function(x, results, method = "pearson",
+VariableCorrelation <- function(x, results, method = "pearson", 
                                 testGV = NULL, backGV = NULL) {
-  # Produces a vector with the correlation of each ontology term with the
+  # Produces a vector with the correlation of each ontology term with the 
   # variable x in question.
   #
   # Args:
-  #   x: (vector) variable with the counting of an attribute of
+  #   x: (vector) variable with the counting of an attribute of 
   #               interest, like G+C, gene count or longevity.
   #   results: (list) p-value of all terms.
   #   method: (char) method to use, allows "pearson", "spearman" and "kendall".
@@ -1390,7 +1390,7 @@ VariableCorrelation <- function(x, results, method = "pearson",
   if (is.null(testGV) && is.null(backGV)) {
     return (NULL)
   }
-
+  
   # check variable x: if it is a path to a tabular file, read it.
   if (is.character(x) == TRUE) {
     x <- AddVariableX(x)
@@ -1398,7 +1398,7 @@ VariableCorrelation <- function(x, results, method = "pearson",
   if (is.null(x)) {
     return(NULL)
   }
-
+  
   # obtain the frequency of every term among the genomes
   if (!is.null(testGV) && !is.null(backGV)) {
     y <- rbind(testGV[names(results)], backGV[names(results)])
@@ -1407,7 +1407,7 @@ VariableCorrelation <- function(x, results, method = "pearson",
   } else if (!is.null(backGV)) {
     y <- backGV[names(results)]
   }
-
+  
   variableCor <- FindCorrelations(x, y, method)
   return (variableCor)
 
@@ -1415,13 +1415,13 @@ VariableCorrelation <- function(x, results, method = "pearson",
 
 
 PrintVariableCor <- function (x, ontology, results, annotation,
-                              method = "pearson", testGV = NULL,
+                              method = "pearson", testGV = NULL, 
                               backGV = NULL, outputName) {
-  # Wrapper that prints the result of VariableCorrelation. Analogous to
+  # Wrapper that prints the result of VariableCorrelation. Analogous to 
   # PrintResults().
   #
   # Args:
-  #   x: (vector) variable with the counting of an attribute of
+  #   x: (vector) variable with the counting of an attribute of 
   #               interest, like G+C, gene count or longevity.
   #   ontology: (char) which ontology is used: GO, KO, other.
   #   results: (list) p-value of all terms.
@@ -1437,12 +1437,12 @@ PrintVariableCor <- function (x, ontology, results, annotation,
 
   corr.dir <- file.path(KOMODO2$output.dir, "correlations", method)
   dir.create(corr.dir, recursive = TRUE, showWarnings = FALSE)
-
+  
   variableCor <- VariableCorrelation(x, results, method, testGV, backGV)
-
+  
   if (length(variableCor) != 0) {
     outputName <- file.path("correlations", method, outputName)
-    PrintCResults(variableCor, annotation, outputName, ontology)
+    PrintCResults(variableCor, annotation, outputName, ontology)    
   }
 }
 
@@ -1451,18 +1451,18 @@ PrintVariableCor <- function (x, ontology, results, annotation,
 
 TermCorrelation <- function(term, results, method = "pearson",
                             testGV = NULL, backGV = NULL) {
-  # Produces a vector with the correlation of each ontology term with the
+  # Produces a vector with the correlation of each ontology term with the 
   # term in question.
   #
   # Args:
-  #   term: (char) which term to correlate with the rest.
+  #   term: (char) which term to correlate with the rest. 
   #   results: (list) p-value of all terms.
   #   method: (char) method to use, allows "pearson", "spearman" and "kendall".
   #   testGV: (list) list of the number of occurrences of each term among the
   #                  genomes in the test group.
   #   backGV: (list) list of the number of occurrences of each term among the
   #                  genomes in the background group.
-  #
+  # 
   # Returns:
   #   termCor: (vector) correlation of all listed ontology terms for the
   #                     term in question.
@@ -1483,7 +1483,7 @@ TermCorrelation <- function(term, results, method = "pearson",
     termFreq <- backGV[term]
     allFreq <- backGV[names(results)]
   }
-
+  
   termCor <- FindCorrelations(termFreq, allFreq, method)
   return (termCor)
 
@@ -1491,7 +1491,7 @@ TermCorrelation <- function(term, results, method = "pearson",
 
 
 PrintSignTermCor <- function (ontology, results, annotation,
-                              method = "pearson", testGV = NULL,
+                              method = "pearson", testGV = NULL, 
                               backGV = NULL, criticalValue = 0.05) {
   # TermCorrelation() applied to all significant terms of an analysis. Prints
   # a file for each significant term.
@@ -1516,18 +1516,18 @@ PrintSignTermCor <- function (ontology, results, annotation,
   } else {
     termsToPrint <- names(results)
   }
-
+  
   if (is.null(termsToPrint)) {
     return(NULL)
   }
 
   corr.dir <- file.path(KOMODO2$output.dir, "correlations", method)
   dir.create(corr.dir, recursive = TRUE, showWarnings = FALSE)
-
+  
   for (term in termsToPrint) {
     termCor <- TermCorrelation(term, results, method, testGV, backGV)
     if (length(termCor) > 1) {
-      outputName <- file.path("correlations", method,
+      outputName <- file.path("correlations", method, 
                               paste0(tolower(gsub(":", "", term)), "_cor.tsv"))
       PrintCResults(termCor, annotation, outputName, ontology)
     }
@@ -1549,7 +1549,7 @@ AnnotateResults <- function(results, ontology) {
   #   annotation: (list) translation of the ontology's terms.
 
   ontology <- tolower(ontology)
-
+  
   if (ontology == "go" | ontology == "gene ontology") {
     annotation <- as.list(Term(GOTERM[names(results)]))
   } else if (ontology == "kegg") {
@@ -1557,7 +1557,7 @@ AnnotateResults <- function(results, ontology) {
   } else if (ontology == "other") {
     annotation <- KOMODO2$dictionary[names(results)]
   }
-
+  
   return(annotation)
 
 }
@@ -1572,7 +1572,7 @@ PrintResults <- function(KOMODO2, test, outputName) {
   #   outputName: (char) name of the output file.
   # Returns:
   #   none.
-
+  
   pvalue <- switch(test, chi2 = "pvalue.chi2",
                          f.over = "pvalue.f.over",
                          f.under = "pvalue.f.under")
@@ -1638,7 +1638,7 @@ PrintResults <- function(KOMODO2, test, outputName) {
                         "b1", "t0", "b0", "annotation")
   }
 
-  if (!is.null(KOMODO2$output.dir)) {
+  if (!is.null(KOMODO2$output.dir)) { 
     outputName <- file.path(KOMODO2$output.dir, outputName)
     dir.create(KOMODO2$output.dir, recursive = TRUE, showWarnings = FALSE)
   }
@@ -1657,7 +1657,7 @@ PrintNPResults <- function(KOMODO2, test, outputName) {
   #   outputName: (char) name of the output file.
   # Returns:
   #   none.
-
+  
   pvalue <- switch(test, ks.over = "pvalue.ks.over",
                          ks.under = "pvalue.ks.under",
                          w.over = "pvalue.w.over",
@@ -1725,7 +1725,7 @@ PrintNPResults <- function(KOMODO2, test, outputName) {
                         "annotation")
   }
 
-  if (!is.null(KOMODO2$output.dir)) {
+  if (!is.null(KOMODO2$output.dir)) { 
     outputName <- file.path(KOMODO2$output.dir, outputName)
     dir.create(KOMODO2$output.dir, recursive = TRUE, showWarnings = FALSE)
   }
@@ -1769,7 +1769,7 @@ PrintCResults <- function(correlations, annotation, outputName, type) {
 #  } else if (ontology == "other") {
 #    id <- "ID"
 #  }
-
+  
   if (type == "correlation") {
     type_col <- "CC"
   } else if (type == "sum") {
@@ -1781,10 +1781,10 @@ PrintCResults <- function(correlations, annotation, outputName, type) {
   } else {
     type_col <- "generic"
   }
-
+  
   output.columns <- c("ann_term", type_col, "annotation")
 
-  if (!is.null(KOMODO2$output.dir)) {
+  if (!is.null(KOMODO2$output.dir)) { 
     outputName <- file.path(KOMODO2$output.dir, outputName)
     dir.create(KOMODO2$output.dir, recursive = TRUE, showWarnings = FALSE)
   }
@@ -1802,19 +1802,19 @@ HierarchicalClustering <- function(KOMODO2, test = "f.over",
                                    height = 3840, res = 200, units = "px",
                                    margins = c(5, 5), nResults = NULL) {
   # Generates a hierarchical clustering and presents it in a heatmap.
-  #
+  # 
   # Args:
   #   KOMODO2: contains supertestGV and backGV.
   #   test: (char) name of the statistical test whose results this function
   #                will print.
   #   annot: (char) replaces GO terms by their annotation if TRUE. Does
-  #                 nothing if FALSE.
+  #                 nothing if FALSE. 
   #   criticalValue: (float) p-value cutoff of each term; those above it won't
   #                          be presented in the heatmap.
   #   outputName: (char) name of the PNG file to be produced. If it receives
   #                       no value (NULL), then KOMODO2 will only show the
   #                       heatmap in screen.
-  #   dendrogram: (char) parameter for which dendrograms will appear, allows
+  #   dendrogram: (char) parameter for which dendrograms will appear, allows 
   #                      "both", "row", "column" and "none".
   #   rowv: (logical) whether to show a dendrogram for rows.
   #   colv: (logical) whether to show a dendrogram for columns.
@@ -1825,11 +1825,11 @@ HierarchicalClustering <- function(KOMODO2, test = "f.over",
   #                 also be "in" (inches), "cm" or "mm".
   #   margins: (vector) space for column and row names (terms and genomes).
   #   nResults: (numeric) number of significant results to show in the heatmap.
-  #
+  # 
   # Returns:
   #   nothing, just prints the heatmap in a file.
 
-
+  
   results <- switch(test, chi2 = "results.chi2",
                           f.over = "results.f.over",
                           f.under = "results.f.under",
@@ -1839,14 +1839,14 @@ HierarchicalClustering <- function(KOMODO2, test = "f.over",
                           w.under = "results.w.under",
                           kruskal = "results.kruskal")
   results <- KOMODO2[[results]]
-
+  
   # Filtering results for clear visualization and sanity check.
   # The heatmap algorithm requires at least two terms to work.
   results <- results[results < criticalValue]
   if (length(results) < 2) {
     return(NULL)
   }
-
+  
   # Ensures no error from trying to print more values than results available,
   # or from bypassing the above sanity check. Also, no floats, if they appear
   # for some reason.
@@ -1858,32 +1858,32 @@ HierarchicalClustering <- function(KOMODO2, test = "f.over",
   terms <- names(results)
   testData <- KOMODO2$testGV[, terms]
   backData <- KOMODO2$backGV[, terms]
-
+  
   # For cases when some genomes have no element
   testData <- testData[rowSums(testData) > 0, ]
-  backData <- backData[rowSums(backData) > 0, ]
-
+  backData <- backData[rowSums(backData) > 0, ]  
+  
   type <- switch(test, chi2 = "P", f.over = "P", f.under = "P", ks.over = "N",
                        ks.under = "N", w.over = "N", w.under = "N",
                        kruskal = "N")
-
+   
   if (type == "P") {
     testData <- testData / (KOMODO2$testElementCount[rownames(testData)]
                             - testData)
     backData <- backData / (KOMODO2$backElementCount[rownames(backData)]
                             - backData)
   }
-
+  
 #   rownames(testData) <- basename(KOMODO2$test.name)
 #   rownames(backData) <- basename(KOMODO2$back.name)
 
-  if (isTRUE(annot)){
+  if (isTRUE(annot)){ 
     names(testData) <- unlist(KOMODO2$annotation[names(testData)])
     names(backData) <- unlist(KOMODO2$annotation[names(backData)])
   }
 
   fullData <- rbind(testData, backData)
-
+  
   # Colors to help identifying the group of each genome in the heatmap
   groupColors <- c(rep("blue", times = nrow(testData)),
                    rep("red", times = nrow(backData)))
@@ -1891,14 +1891,14 @@ HierarchicalClustering <- function(KOMODO2, test = "f.over",
 
   # preparing to print heatmap in a PNG file
   if (!is.null(outputName)) {
-    if (!is.null(KOMODO2$output.dir)) {
+    if (!is.null(KOMODO2$output.dir)) { 
       output.dir <- file.path(KOMODO2$output.dir, "heatmaps")
       dir.create(output.dir, recursive = TRUE, showWarnings = FALSE)
       outputName <- file.path(output.dir, outputName)
     }
     png(outputName, width = width, height = height, res = res, units = units)
   }
-
+  
   heatmap.2(as.matrix(fullData), scale = "column", trace = "none",
             lhei = c(2,8), col = greenred(75), symkey = FALSE,
             RowSideColors = groupColors, cexRow = 1, cexCol = 2,
@@ -1915,24 +1915,24 @@ HierarchicalClustering <- function(KOMODO2, test = "f.over",
 
 HierarchicalClusteringCor <- function(y, KOMODO2, annot = TRUE,
                                       criticalValue, outputName = NULL,
-                                      dendrogram = "both", rowv = TRUE,
+                                      dendrogram = "both", rowv = TRUE, 
                                       colv = TRUE, width = 3840, height = 3840,
                                       res = 200, units = "px",
                                       margins = c(5, 5), nResults = NULL) {
   # Generates a hierarchical clustering and presents it in a heatmap.
-  #
+  # 
   # Args:
   #   y: (data.frame) table counting the presence of annotations
   #                   of an ontology in each genome.
   #   KOMODO2: contains testGV and backGV.
   #   annot: (char) replaces GO terms by their annotation if TRUE. Does
-  #                 nothing if FALSE.
-  #   criticalValue: (numeric) cutoff for the annotation; columns without
+  #                 nothing if FALSE. 
+  #   criticalValue: (numeric) cutoff for the annotation; columns without 
   #                            elements above it won't appear in the heatmap.
   #   outputName: (char) name of the PNG file to be produced. If it receives
   #                      no value (NULL), then KOMODO2 will only show the
   #                      heatmap in screen.
-  #   dendrogram: (char) parameter for which dendrograms will appear, allows
+  #   dendrogram: (char) parameter for which dendrograms will appear, allows 
   #                      "both", "row", "column" and "none".
   #   rowv: (logical) whether to show a dendrogram for rows.
   #   colv: (logical) whether to show a dendrogram for columns.
@@ -1943,11 +1943,11 @@ HierarchicalClusteringCor <- function(y, KOMODO2, annot = TRUE,
   #                 also be "in" (inches), "cm" or "mm".
   #   margins: (vector) space for column and row names (terms and genomes).
   #   nResults: (numeric) number of significant results to show in the heatmap.
-  #
+  # 
   # Returns:
   #   nothing, just prints the heatmap in a file.
 
-
+  
   # Filtering columns according to the criteria given by criticalValue
   termOccurrence <- colSums(y >= criticalValue)
   removal <- as.numeric(names(termOccurrence[termOccurrence == 0]))
@@ -1955,18 +1955,18 @@ HierarchicalClusteringCor <- function(y, KOMODO2, annot = TRUE,
   if (length(y) < 2) {
     return(NULL)
   }
-
+  
   # Normalization with Z-score
   colSd <- apply(y, 2, sd)
   normalizedAnno <- (y - colMeans(y)) / colSd
 
-  if (isTRUE(annot)){
+  if (isTRUE(annot)){ 
     names(normalizedAnno) <- unlist(KOMODO2$annotation[names(y)])
   }
 
   # preparing to print heatmap in a PNG file
   if (!is.null(outputName)) {
-    if (!is.null(KOMODO2$output.dir)) {
+    if (!is.null(KOMODO2$output.dir)) { 
       output.dir <- file.path(KOMODO2$output.dir, "heatmaps")
       dir.create(output.dir, recursive = TRUE, showWarnings = FALSE)
       outputName <- file.path(output.dir, outputName)
@@ -1974,14 +1974,14 @@ HierarchicalClusteringCor <- function(y, KOMODO2, annot = TRUE,
     png(outputName, width = width, height = height, res = res, units = units)
   }
 
-#   colorMap <- function(genomeName) {
+#   colorMap <- function(genomeName) { 
 #     if (is.element(genomeName, basename(KOMODO2$test.name))) "blue" else "red"
 #   }
 #   groupColors <- sapply(rownames(fullData), colorMap))
 
   heatmap.2(as.matrix(normalizedAnno), scale = "column", trace = "none",
             lhei = c(2,8), col = greenred(75), symkey = FALSE,
-            cexRow = 1, cexCol = 1, margin = c(25, 10),
+            cexRow = 1, cexCol = 1, margin = c(25, 10), 
             dendrogram = dendrogram, Rowv = rowv, Colv = colv)
 
   if (!is.null(outputName)) {
@@ -2004,13 +2004,13 @@ PrintVolcanoPlot <- function(foldChange, results, outputName = NULL) {
   if (is.null(foldChange) | length(results) == 0) {
     return(NULL)
   }
-
+  
   logFoldChange <- log2(foldChange)
   threshold <- as.factor(abs(logFoldChange) > 2 & unlist(results) < 0.01)
   info <- data.frame(pvalue = unlist(results), logFC = logFoldChange,
                      threshold = threshold, annotation = names(logFoldChange))
 
-#   nameInThreshold <- function(name) {
+#   nameInThreshold <- function(name) { 
 #     if (threshold[name] == TRUE) name else NA
 #   }
 #   info$annotation <- unlist(lapply(names(logFoldChange), nameInThreshold))
@@ -2028,7 +2028,7 @@ PrintVolcanoPlot <- function(foldChange, results, outputName = NULL) {
 #                  colour = "black", hjust = 1, vjust = 0)
 
   if (!is.null(outputName)) {
-    if (!is.null(KOMODO2$output.dir)) {
+    if (!is.null(KOMODO2$output.dir)) { 
       output.dir <- file.path(KOMODO2$output.dir, "volcanoplots")
       dir.create(output.dir, recursive = TRUE, showWarnings = FALSE)
       outputName <- file.path(output.dir, outputName)
@@ -2063,21 +2063,21 @@ PrintVenn <- function() {
 #                              [KOMODO2$results.ks.under < 0.05]),
 #                    wilcox.under = names(KOMODO2$results.w.under
 #                                  [KOMODO2$results.w.under < 0.05]))
-#
+# 
 #   listSig <- list(chi2 = names(KOMODO2$results.chi2
 #                           [KOMODO2$results.chi2 < 0.05]),
 #                    f.over = names(KOMODO2$results.f.over
 #                             [KOMODO2$results.f.over < 0.05]),
 #                    f.under = names(KOMODO2$results.f.under
 #                              [KOMODO2$results.f.under < 0.05]))
-#
+# 
 #   listCor <- list(pearson = names(KOMODO2$correlations.pearson
 #                              [KOMODO2$correlations.pearson >= 0.8]),
 #                    spearman = names(KOMODO2$correlations.spearman
 #                               [KOMODO2$correlations.spearman >= 0.8]),
 #                    kendall = names(KOMODO2$correlations.kendall
 #                              [KOMODO2$correlations.kendall >= 0.8]))
-#
+# 
 #   listCor <- list(pearson = names(KOMODO2$correlations.pearson
 #                              [1:200]),
 #                    spearman = names(KOMODO2$correlations.spearman
@@ -2098,16 +2098,16 @@ PrintHist <- function(term, testGV, backGV, outputName, annotation = NULL,
   #           group.
   #   backGV: KOMODO2$backGV, has the distribution for all terms in the back
   #           group.
-  #   outputName: (char) name of the file to be produced, recommended to end
+  #   outputName: (char) name of the file to be produced, recommended to end 
   #                      with the '.eps', '.pdf' or '.jpeg' file format.
-  #   annotation: (list) list that maps ontology terms to an annotation;
+  #   annotation: (list) list that maps ontology terms to an annotation; 
   #                      typically, the parameter is KOMODO2$annotation.
   #   title_size: (numeric) size of the title in the figure, purely cosmetic.
   #   labels:  (char) how to name the test and back groups, respectively.
   # Returns:
   #   none.
-
-  if (!is.numeric(KOMODO2$testGV[[term]]) |
+  
+  if (!is.numeric(KOMODO2$testGV[[term]]) | 
       !is.numeric(KOMODO2$backGV[[term]])) {
     return (NULL)
   }
@@ -2118,7 +2118,7 @@ PrintHist <- function(term, testGV, backGV, outputName, annotation = NULL,
                             from = rep("back", length(backGV[[term]]))))
 
   if (is.null(annotation)) {
-    ggplot(final, aes(term, fill = from)) + geom_density(alpha = 0.3) +
+    ggplot(final, aes(term, fill = from)) + geom_density(alpha = 0.3) + 
     ggtitle(term) + theme(plot.title = element_text(size = title_size)) +
     xlab("Occurrences") + ylab("Density") +
     scale_fill_manual(values = c("blue", "red"),
@@ -2127,7 +2127,7 @@ PrintHist <- function(term, testGV, backGV, outputName, annotation = NULL,
                       labels = labels)
   } else {
     ggplot(final, aes(term, fill = from)) + geom_density(alpha = 0.3) +
-    ggtitle(paste0(term, " - ",  annotation[[term]])) +
+    ggtitle(paste0(term, " - ",  annotation[[term]])) + 
     theme(plot.title = element_text(size = title_size)) +
     xlab("Occurrences") + ylab("Density") +
     scale_fill_manual(values = c("blue", "red"),
@@ -2136,7 +2136,7 @@ PrintHist <- function(term, testGV, backGV, outputName, annotation = NULL,
                       labels = labels)
   }
 
-  if (!is.null(KOMODO2$output.dir)) {
+  if (!is.null(KOMODO2$output.dir)) { 
     output.dir <- file.path(KOMODO2$output.dir, "histograms")
     dir.create(output.dir, recursive = TRUE, showWarnings = FALSE)
     outputName <- file.path(output.dir, outputName)
@@ -2147,7 +2147,7 @@ PrintHist <- function(term, testGV, backGV, outputName, annotation = NULL,
 }
 
 PrintSignificantHist <- function(results, criticalValue = 0.01, testGV, backGV,
-                                 annotation = NULL, title_size = 20,
+                                 annotation = NULL, title_size = 20, 
                                  labels = c("test", "back")) {
   # Prints a density histogram showing the distribution of the two groups for
   # every significant term and prints each in a separated file.
@@ -2160,7 +2160,7 @@ PrintSignificantHist <- function(results, criticalValue = 0.01, testGV, backGV,
   #           group.
   #   backGV: KOMODO2$backGV, has the distribution for all terms in the back
   #           group.
-  #   annotation: (list) list that maps ontology terms to an annotation;
+  #   annotation: (list) list that maps ontology terms to an annotation; 
   #                      typically, the parameter is KOMODO2$annotation.
   #   title_size: (numeric) size of the title in the figure, purely cosmetic.
   #   labels:  (char) how to name the test and back groups, respectively.
@@ -2170,7 +2170,7 @@ PrintSignificantHist <- function(results, criticalValue = 0.01, testGV, backGV,
   if (length(results[results < criticalValue]) == 0) {
     return(NULL)
   }
-
+  
   for (term in names(results[results < criticalValue])) {
     outputName <- paste0(tolower(gsub(":", "", term)), ".jpeg")
     PrintHist(term, testGV, backGV, outputName,
@@ -2181,22 +2181,22 @@ PrintSignificantHist <- function(results, criticalValue = 0.01, testGV, backGV,
 
 
 # GenomeDendrogram <- function() {
-#
+# 
 #   test <- rbind(KOMODO2$testGV, KOMODO2$backGV)
 #   for (i in colnames(KOMODO2$testGV)) {
 #     test[, i] <- as.numeric(as.logical(test[, i]))
 #   }
-#
+#   
 #   library("ape")
 # #   hc <- hclust(dist(rbind(KOMODO2$testGV, KOMODO2$backGV)))
 #   hc <- hclust(dist(test))
 #   color_label <- c(rep("blue", 33), rep("red", 17))
-#
+# 
 #   png("phylogenetic_KO_binary.png")
 #   plot(as.phylo(hc), type = "cladogram", label.offset = 1,
 #        cex = 0.6, tip.color = color_label)
 #   dev.off()
-#
+# 
 # }
 
 
@@ -2209,7 +2209,7 @@ TS_TaxonomyData <- function(idsFile, nodes) {
   # A function that provides the taxonomic information about the input IDs,
   # using the pre-processed information (nodes) from a NCBI taxonomy file
   # (downloaded from ftp://ftp.ncbi.nih.gov/pub/taxonomy/) referred by
-  # the parameter taxondir. Generated by "getnodes(KOMODO2$taxondir)".
+  # the parameter taxondir. Generated by "getnodes(KOMODO2$taxondir)". 
   #
   # Args:
   #   idsFile: (char) either a path to the file with the Taxonomy IDs to
@@ -2218,7 +2218,7 @@ TS_TaxonomyData <- function(idsFile, nodes) {
   #                       structure.
   # Returns:
   #   countIDs: (vector) count of how many taxnomoy IDs belong to each taxon.
-
+  
   # Get ids to search
   if (!is.null(idsFile) & isTRUE(file.exists(idsFile))) {
     ids <- read.table(idsFile, sep = "\t", header = FALSE, comment.char = "",
@@ -2227,14 +2227,14 @@ TS_TaxonomyData <- function(idsFile, nodes) {
   } else {
     ids <- as.integer(idsFile)  # assume it's a test.name or back.name, for now
   }
-
-
+  
+  
   # Sanity check: unique ID inputs, remove duplicates.
   if (any(duplicated(ids))) {
     cat("Warning: some ids are repeated:", ids[duplicated(ids)], "\n")
     ids <- unique(ids)
   }
-
+  
   # Sanity check: filter IDs that aren't part of NCBI notation.
   if (!all(is.element(ids, nodes$id))) {
     cat("Warning: the following inputs are not part of NCBI taxonomy IDs:",
@@ -2255,17 +2255,17 @@ TS_TaxonomyData <- function(idsFile, nodes) {
     countIDs[names(parentage)] <- countIDs[names(parentage)] + parentage
     searchIDs <- searchIDs[searchIDs != 1]
   }
-
+  
   countIDs <- countIDs[countIDs > 0]
   return(countIDs)
-
+  
 }
 
 
 TS_Algorithm_Strict <- function(taxon, m, nodes, countIDs, replacement = "no",
                                 method = "balanced") {
   # An algorithm that receives a group of Taxonomy IDs and the size m of the
-  # sample to obtain from them. Returns a vector with a maximized taxonomy
+  # sample to obtain from them. Returns a vector with a maximized taxonomy 
   # diversity. Assumes that every input id is unique.
   # If replacement = "yes", then it may return repeated IDs if it increases
   # the taxonomy diversity.
@@ -2286,19 +2286,19 @@ TS_Algorithm_Strict <- function(taxon, m, nodes, countIDs, replacement = "no",
   #                                 to level child allocation.
   # Returns:
   #   outputIDs: (vector) vector of IDs with maximized taxonomy diversity.
-
+  
   # Sanity check
   if (m <= 0) {
     Print("Error: m less or equal than zero during recursion.\n")
     exit(0)
   }
-
+  
   # First step: Find the sub-taxa (children nodes) of the current taxon
   # Basically, nodes[nodes[, 2] == taxon, 1]
   taxon <- as.integer(taxon)
   children <- nodes[nodes[, 2] == taxon & nodes[, 1] != taxon, 1]
   children <- intersect(children, names(countIDs))
-
+  
   # Condition to end recursion
   if (length(children) == 0) {
     if (replacement == "no") {
@@ -2307,11 +2307,11 @@ TS_Algorithm_Strict <- function(taxon, m, nodes, countIDs, replacement = "no",
       return(rep(as.character(taxon), m))
     }
   }
-
+  
   m_i <- rep.int(0, length(children))
   names(m_i) <- children
-
-  #  balanced - ensure two taxa allocation (m_i) differ at most by 1
+  
+  #  balanced - ensure two taxa allocation (m_i) differ at most by 1 
   #  randomized - fully random child sampling, uniform distribution among taxa
   if (method == "balanced") {
     m_i <- m_i + floor(m / length(children))
@@ -2320,7 +2320,7 @@ TS_Algorithm_Strict <- function(taxon, m, nodes, countIDs, replacement = "no",
   } else if (method == "randomized") {
     m_i <- table(sample(children, m, replace = TRUE))
   }
-
+  
   outputIDs <- character(0)
   for (id in names(m_i)) {
     if (m_i[id] == 0) { next; }
@@ -2328,16 +2328,16 @@ TS_Algorithm_Strict <- function(taxon, m, nodes, countIDs, replacement = "no",
                    TS_Algorithm_Strict(id, m_i[id], nodes, countIDs,
                                        replacement, method))
   }
-
+  
   return(outputIDs)
 }
 
 
 
-TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no",
+TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no", 
                          method = "balanced") {
   # An algorithm that receives a group of Taxonomy IDs and the size m of the
-  # sample to obtain from them. Returns a vector with a maximized taxonomy
+  # sample to obtain from them. Returns a vector with a maximized taxonomy 
   # diversity. Assumes that every input id is unique.
   # If replacement = "yes", then it may return repeated IDs if it increases
   # the taxonomy diversity.
@@ -2358,19 +2358,19 @@ TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no",
   #                                 to level child allocation.
   # Returns:
   #   outputIDs: (vector) vector of IDs with maximized taxonomy diversity.
-
+  
   # Sanity check
   if (m <= 0) {
     Print("Error: m less or equal than zero during recursion.\n")
     exit(0)
   }
-
+  
   # First step: Find the sub-taxa (children nodes) of the current taxon
   # Basically, nodes[nodes[, 2] == taxon, 1]
   taxon <- as.integer(taxon)
   children <- nodes[nodes[, 2] == taxon & nodes[, 1] != taxon, 1]
   children <- intersect(children, names(countIDs))
-
+  
   # Condition to end recursion
   if (length(children) == 0) {
     if (replacement == "no") {
@@ -2379,18 +2379,18 @@ TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no",
       return(rep(as.character(taxon), m))
     }
   }
-
+  
   childrenCount <- countIDs[as.character(children)]
   m_i <- rep.int(0, length(childrenCount))
   names(m_i) <- names(childrenCount)
-
-
-  #  Balanced - only sample if
+  
+  
+  #  Balanced - only sample if 
   #   length(childrenCount[childrenCount > m_i]) < remaining_m
   #
   #  Semi-balanced - as it is
   #  Child sampling - fully random child sampling
-
+  
   if (method == "balanced") {
     while (m > 0 & length(childrenCount[childrenCount > m_i]) <= m) {
       child <- names(childrenCount[childrenCount > m_i])
@@ -2400,7 +2400,7 @@ TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no",
     child <- sample(names(childrenCount[childrenCount > m_i]), m)
     m_i[child] <- m_i[child] + 1
     # m <- 0
-
+    
   } else if (method == "randomized") {
     # If we don't have the m fully distributed over m_i (children),
     # choose a random child from childrenCount that still has taxa
@@ -2411,7 +2411,7 @@ TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no",
       m <- m - 1
     }
   }
-
+  
   outputIDs <- character(0)
   for (id in names(m_i)) {
     if (m_i[id] == 0) { next; }
@@ -2419,7 +2419,7 @@ TS_Algorithm <- function(taxon, m, nodes, countIDs, replacement = "no",
                    TS_Algorithm(id, m_i[id], nodes, countIDs, replacement,
                                 method))
   }
-
+  
   return(outputIDs)
 }
 
@@ -2443,11 +2443,11 @@ TS_ParAlgorithm <- function(m, nodes, countIDs, replacement = "yes",
   # Returns:
   #   some.names: (list) sample vectors of IDs maximizing taxonomy diversity.
 
-  some.names <- foreach (sample = iter(1:taxonSampling),
+  some.names <- foreach (sample = iter(1:taxonSampling), 
                          .export = "TS_Algorithm") %dopar% {
     TS_Algorithm(1, m, nodes, countIDs, replacement)
   }
-
+  
   return(some.names)
 }
 
@@ -2462,10 +2462,10 @@ TSAddGenomeVectors <- function(someAnno, some.names) {
   # Returns:
   #   someGV: (list) list with the phyletic vector of each genome of the input
   #                  group.
-
+  
   ids <- unique(unlist(some.names))
   someGV <- AddGenomeVectors(someAnno, ids)
-
+  
   return(someGV)
 
 }
@@ -2474,29 +2474,29 @@ TSAddGenomeVectors <- function(someAnno, some.names) {
 TSGroupElementCount <- function(someAnno, genome.names = NULL,
                                 method = "default") {
   # Wrapper for GroupElementCount when using the TS algorithm. Returns a list
-  # of vectors with the number of genes in each genome of a group.
-  #
+  # of vectors with the number of genes in each genome of a group. 
+  # 
   # Args:
   #   someAnno: list of genomes, each with a data frame that maps
-  #             each gene to its annotations (GO, KO).
+  #             each gene to its annotations (GO, KO). 
   #   genome.names: (vector) names of the genomes to count elements. In this
   #                          case, this is produced by TS_ParAlgorithm().
   #   method: method defining whether KOMODO2 must consider all elements in all
   #           genomes (default), or treat each element independently of others
   #           (experiment). The latter is an experiment for alignments.
   # Returns:
-  #   tsElementCount: vector with the number of elements in each genome of
+  #   tsElementCount: vector with the number of elements in each genome of 
   #                   someAnno, listed by the samples of genome.names.
-
+  
   if (is.null(genome.names) | length(genome.names) == 0) {
     return(0)
   }
-
+  
   tsElementCount <- foreach (some.name = iter(genome.names),
                              .export = "GroupElementCount") %dopar% {
     GroupElementCount(someAnno, some.name, method)
   }
-
+  
   return(tsElementCount)
 }
 
@@ -2507,20 +2507,20 @@ TSParameterVectors <- function(testGV, backGV,
   # of both test and background groups about the number of annotated genes for
   # each GO term.
   #
-  # Args:
+  # Args: 
   #   testGV: (data.frame) number of occurrences of each term among the genomes
   #                        of the test group.
   #   backGV: (data.frame) number of occurrences of each term among the genomes
   #                        of the background group.
-  #   tsTestElementCount: vector with the number of elements in the genomes of
+  #   tsTestElementCount: vector with the number of elements in the genomes of 
   #                       the samples from the test group.
-  #   tsBackElementCount: vector with the number of elements in the genomes of
+  #   tsBackElementCount: vector with the number of elements in the genomes of 
   #                       the samples from the background group.
   #
   # Returns:
   #   tsParameterVectors: (list) list with the parameter vectors for each
   #                              sample in a group.
-
+  
   tsParameterVectors <- foreach (i = iter(1:length(tsTestElementCount)),
                                  .export = "ParameterVectors") %dopar% {
     ParameterVectors(testGV[names(tsTestElementCount[[i]]), ],
@@ -2541,13 +2541,13 @@ TSStatisticalTest <- function(tsParameterVectors, test = "fisher.over") {
   #   test: (char) the statistical test to perform.
   # Returns:
   #   tsPvalues: (numeric) p-value of all terms.
-
+  
   tsPvalues <- foreach (parameterVectors = iter(tsParameterVectors),
-                        .export = "StatisticalTest",
+                        .export = "StatisticalTest", 
                         .packages = c("itertools", "foreach")) %dopar% {
     StatisticalTest(parameterVectors, test)
   }
-
+  
   return(tsPvalues)
 }
 
@@ -2568,16 +2568,16 @@ TSDistributions <- function(tsParameterVectors, testGV, backGV,
   #   test: (char) the statistical test to perform.
   # Returns:
   #   results: (list) p-value of all terms.
-
+  
   results <- foreach (i = iter(1:length(tsParameterVectors)),
-                      .export = "CompareDistributions",
+                      .export = "CompareDistributions", 
                       .packages = c("itertools", "foreach")) %dopar% {
-    CompareDistributions(tsParameterVectors[[i]],
+    CompareDistributions(tsParameterVectors[[i]], 
                          testGV[test.name[[i]], ],
                          backGV[back.name[[i]], ],
                          test)
   }
-
+  
   return(results)
 }
 
@@ -2594,15 +2594,15 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
   #                   "hommel" - Hommel (1988)
   #                   "BH" or "fdr" - Benjamini & Hochberg (1995)
   #                   "BY" - Benjamini & Yekutieli (2001)
-  # Returns:
+  # Returns: 
   #   results: (list) p-value of all terms, corrected for multple
   #                   hypothesis.
-  #
-
+  # 
+  
   results <- foreach (pvalue = iter(tsPvalue)) %dopar% {
     p.adjust(pvalue, method = method)
   }
-
+  
   return(results)
 }
 
@@ -2612,9 +2612,9 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 
 
 #ListOffspring <- function() {
-#  # Prepares a listing of ancestors for each GO ID. Used to vectorize later
+#  # Prepares a listing of ancestors for each GO ID. Used to vectorize later 
 #  # operations.
-#  #
+#  # 
 #  # Args:
 #  #   none.
 #  # Returns:
@@ -2622,12 +2622,12 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 #
 #  allOffspring <- c(as.list(GOBPOFFSPRING), as.list(GOCCOFFSPRING),
 #                    as.list(GOMFOFFSPRING))
-#
+#  
 #  return(allOffspring)
 #}
 
 
-# sketch:
+# sketch: 
 # - Create a list of offspring GO terms (branch, all descendants)
 # - for every GO term, search offspring and determine parameters:
 #   - number of genes in signature
@@ -2643,21 +2643,21 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 # - Remember to compare for KEGG Orthology later
 
 
-#AnnotationEnrichmentAnalysis <- function(testGV, backGV, allOffspring,
+#AnnotationEnrichmentAnalysis <- function(testGV, backGV, allOffspring, 
 #                                         reps = 100) {
-#  # Implementation of the Annotation Enrichment Analysis algorithm
-#  # (see doi:10.1038/srep04191).
-#  #
+#  # Implementation of the Annotation Enrichment Analysis algorithm 
+#  # (see doi:10.1038/srep04191). 
+#  # 
 #  # Args:
 #  #   testGV: (data.frame) number of occurrences of each term among the genomes
 #  #                        of the test group.
 #  #   backGV: (data.frame) number of occurrences of each term among the genomes
 #  #                        of the background group.
 #  #   allOffspring: (list) All GOXXOFFSPRING combined.
-#  #   reps: (integer) how many samples to generate in order to compute the
+#  #   reps: (integer) how many samples to generate in order to compute the 
 #  #                   pvalue.
 #  # Returns:
-#  #
+#  #   
 #
 #
 ##  # Filtering terms in testGV and backGV without occurrences
@@ -2667,15 +2667,15 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 ##  nonZero <- t1 > 0 | b1 > 0
 ##  t1 <- t1[nonZero, drop=FALSE]
 ##  b1 <- b1[nonZero, drop=FALSE]
-#
+#  
 #  # The algorithm itself
 #  genesInSignature <- nrow(testGV)
 #  annotationsToSignature <- sum(rowSums(testGV))
-#
+#  
 #  fullGV <- rbind(testGV, backGV)
 #  nAnnotations <- colSums(fullGV)
 #  names(nAnnotations) <- rownames(fullGV)
-#
+#  
 #  result <- rep(0, ncol(testGV))
 #  names(result) <- colnames(testGV)
 #
@@ -2683,13 +2683,13 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 #    termsInBranch <- unique(c(term, unlist(allOffspring[term])))
 #    termsInBranch <- termsInBranch[!is.na(termsInBranch)]
 #    annotationsToBranch <- sum(rowSums(fullGV[, termsInBranch]))
-#
+#    
 #    genomeShuffle <- sample(c(rownames(testGV), rownames(backGV)))
 #    termShuffle <- sample(colnames(testGV))
-#
+#    
 #    observed <- sum(rowSums(testGV[, termsInBranch]))
 #    extremeValues <- 0
-#
+#    
 #    for (k in 1:reps) {
 #      # Consider logarithmic approach
 #      i <- 1
@@ -2707,8 +2707,8 @@ TS_MHCorrection <- function(tsPvalue, method = "BH") {
 #    }
 #    result[term] <- extremeValues / reps
 #  }
-#
-#
+#  
+#  
 #}
 
 getmode <- function(v) {
