@@ -3,7 +3,7 @@ title: "Annotation terms: q-values, size and coefficient of variation"
 output: html_document
 ---
 
-```{r Correlation Plots, echo = F, warnings = F, message = F}
+```{r Correlation Plots, echo = FALSE, warnings = FALSE, message = FALSE}
 #Prepare data.frame to plot
 #Plot
 p <- ggplot2::ggplot(data    = df_cutoff,
