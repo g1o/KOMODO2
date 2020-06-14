@@ -79,7 +79,7 @@ rm(norm)
 #ord.mat
 
 #color pallete for heatmap
-my_palette <- RColorBrewer::colorRampPalette(c("white", "blue"))(n = 51)
+my_palette <- grDevices::colorRampPalette(c("white", "blue"))(n = 51)
 
 #establishing colors for groups
 jColors <- data.frame(LABEL = levels(mynames$group),
