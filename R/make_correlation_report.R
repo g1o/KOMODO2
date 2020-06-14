@@ -1,3 +1,4 @@
+#' @importFrom dplyr %>%
 make_correlation_report <- function(defs){
 
   # ================== Sanity checks ==================
@@ -6,12 +7,6 @@ make_correlation_report <- function(defs){
 
 
   # ================== Prepare report ==================
-
-  linear_model.qvalue.cutoff <- defs$linear_model.qvalue.cutoff
-  spearman.qvalue.cutoff = defs$spearman.qvalue.cutoff
-  annotation_size.cutoff = defs$annotation_size.cutoff
-
-
   sumY    <- sapply(defs$y, sum)  # faster than apply() or colSums()!
 
   # filter out those with no observations (sum equals zero)
@@ -62,45 +57,26 @@ make_correlation_report <- function(defs){
   plotframe$description <- description[order(names(description))]
   plotframe$name        <- rownames(plotframe)
 
-
-  #q-value cutoffs
-  spearman.qvalue.cutoff <- defs$spearman.qvalue.cutoff
-  pearson.qvalue.cutoff <- defs$pearson.qvalue.cutoff
-  kendall.qvalue.cutoff <- defs$kendall.qvalue.cutoff
-  linear_model.qvalue.cutoff <- defs$linear_model.qvalue.cutoff
-
-  #correlation cutoffs
-  spearman.cor.upper.cutoff <- defs$spearman.cor.upper.cutoff
-  spearman.cor.lower.cutoff <- defs$spearman.cor.lower.cutoff
-  pearson.cor.upper.cutoff <- defs$pearson.cor.upper.cutoff
-  pearson.cor.lower.cutoff <- defs$pearson.cor.lower.cutoff
-  kendall.cor.upper.cutoff <- defs$kendall.cor.upper.cutoff
-  kendall.cor.lower.cutoff <- defs$kendall.cor.lower.cutoff
-
-  #basic statistics cutoffs
-  annotation_size.cutoff <- defs$annotation_size.cutoff
-  sd.cutoff <- defs$sd.cutoff
-  cv.cutoff <- defs$cv.cutoff
-  prevalence.cutoff <- defs$prevalence.cutoff
-  heterogeneity.cutoff <- defs$heterogeneity.cutoff
-
-  df_cutoff <- plotframe[plotframe$corrected_contrasts < linear_model.qvalue.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Spearman_qvalue < spearman.qvalue.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Pearson_qvalue < pearson.qvalue.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Kendall_qvalue < kendall.qvalue.cutoff, ]
-
-  df_cutoff <- df_cutoff[df_cutoff$Pearson_cor > pearson.cor.upper.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Pearson_cor < pearson.cor.lower.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Spearman_cor > spearman.cor.upper.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Spearman_cor < spearman.cor.lower.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Kendall_cor > kendall.cor.upper.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$Kendall_cor < kendall.cor.lower.cutoff, ]
-
-  df_cutoff <- df_cutoff[df_cutoff$size > annotation_size.cutoff, ]
-
-  df_cutoff <- df_cutoff[df_cutoff$prevalence > prevalence.cutoff, ]
-  df_cutoff <- df_cutoff[df_cutoff$heterogeneity > heterogeneity.cutoff, ]
-
+  df_cutoff <- dplyr::filter(plotframe,
+                             # q-value cutoffs
+                             corrected_contrasts < defs$linear_model.qvalue.cutoff,
+                             Spearman_qvalue     < defs$spearman.qvalue.cutoff, 
+                             Pearson_qvalue      < defs$pearson.qvalue.cutoff,
+                             Kendall_qvalue      < defs$kendall.qvalue.cutoff,
+                             # correlation cutoffs
+                             Pearson_cor         > defs$pearson.cor.upper.cutoff, 
+                             Pearson_cor         < defs$pearson.cor.lower.cutoff,
+                             Spearman_cor        > defs$spearman.cor.upper.cutoff,
+                             Spearman_cor        < defs$spearman.cor.lower.cutoff, 
+                             Kendall_cor         > defs$kendall.cor.upper.cutoff, 
+                             Kendall_cor         < defs$kendall.cor.lower.cutoff, 
+                             # basic statistics cutoffs
+                             size                > defs$annotation_size.cutoff, 
+                             prevalence          > defs$prevalence.cutoff, 
+                             heterogeneity       > defs$heterogeneity.cutoff,
+                             sd                  > defs$sd.cutoff,
+                             cv                  > defs$cv.cutoff)
+  
 
   if (isTRUE(defs$raw_data_sd_filter)) {
     df_cutoff <- df_cutoff[df_cutoff$sd != 0, ] # remove trivial cases, constant values.
@@ -109,7 +85,7 @@ make_correlation_report <- function(defs){
   defs$sig_IDs <- rownames(df_cutoff)
 
   cat("\nGenerating HTML5 report for results with\nphylogeny-aware q-values < ",
-      linear_model.qvalue.cutoff, "\n(this may take a while).")
+      defs$linear_model.qvalue.cutoff, "\n(this may take a while).")
   # Prepare output folder
 
 #  od <- defs$output.dir
