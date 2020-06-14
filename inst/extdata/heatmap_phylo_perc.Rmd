@@ -6,7 +6,7 @@ output: html_document
 ```{r Heatmaps, echo = F, warnings = F, message = F}
 ###Prepare data.frame to plot
 
-##getting data frame linking genome IDs to groups and short names
+# getting data frame linking genome IDs to groups and short names
 mynames <- data.frame(genomeID  = defs$y.name, 
                       group     = defs$groups, 
                       shortName = defs$short.name)
