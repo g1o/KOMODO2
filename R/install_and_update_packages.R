@@ -48,9 +48,6 @@ install_and_update_packages <- function(which = "all",
                       "pkgdown",
                       "knitr",
                       "RColorBrewer",
-                      "gplots",
-                      "preprocessCore",
-                      "extrafont",
                       "dendextend",
                       "heatmaply"
                       )

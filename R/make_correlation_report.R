@@ -1,10 +1,14 @@
-#' @importFrom dplyr %>%
 make_correlation_report <- function(defs){
 
   # ================== Sanity checks ==================
   assertthat::assert_that("linear.model.cutoff" %in% names(defs),
                           is.numeric(defs$linear.model.cutoff))
 
+  # "activate" packages that are used only in the .Rmd report generation.
+  # (needed only to stop a NOTE in R CMD check)
+  tmp <- RColorBrewer::brewer.pal(3, "Accent")
+  tmp <- dendextend::fac2num(factor(3:5))
+  tmp <- heatmaply::BrBG(5)
 
   # ================== Prepare report ==================
   sumY    <- sapply(defs$y, sum)  # faster than apply() or colSums()!
@@ -34,6 +38,7 @@ make_correlation_report <- function(defs){
                      defs$greaterthanzero[order(names(defs$greaterthanzero))],
 #                     defs$prevalence_per_group[order(names(defs$prevalence_per_group))],
                      defs$heterogeneity[order(names(defs$heterogeneity))])
+
   plotframe <- rbind(plotframe,
                      Y[, order(colnames(Y))])
 
@@ -57,29 +62,31 @@ make_correlation_report <- function(defs){
   plotframe$description <- description[order(names(description))]
   plotframe$name        <- rownames(plotframe)
 
-  df_cutoff <- dplyr::filter(plotframe,
-                             # q-value cutoffs
-                             corrected_contrasts < defs$linear_model.qvalue.cutoff,
-                             Spearman_qvalue     < defs$spearman.qvalue.cutoff, 
-                             Pearson_qvalue      < defs$pearson.qvalue.cutoff,
-                             Kendall_qvalue      < defs$kendall.qvalue.cutoff,
-                             # correlation cutoffs
-                             Pearson_cor         > defs$pearson.cor.upper.cutoff, 
-                             Pearson_cor         < defs$pearson.cor.lower.cutoff,
-                             Spearman_cor        > defs$spearman.cor.upper.cutoff,
-                             Spearman_cor        < defs$spearman.cor.lower.cutoff, 
-                             Kendall_cor         > defs$kendall.cor.upper.cutoff, 
-                             Kendall_cor         < defs$kendall.cor.lower.cutoff, 
-                             # basic statistics cutoffs
-                             size                > defs$annotation_size.cutoff, 
-                             prevalence          > defs$prevalence.cutoff, 
-                             heterogeneity       > defs$heterogeneity.cutoff,
-                             sd                  > defs$sd.cutoff,
-                             cv                  > defs$cv.cutoff)
-  
+  idx <- which(
+      # q-value cutoffs
+      (plotframe$corrected_contrasts < defs$linear_model.qvalue.cutoff) &
+      (plotframe$Spearman_qvalue   < defs$spearman.qvalue.cutoff) &
+      (plotframe$Pearson_qvalue    < defs$pearson.qvalue.cutoff) &
+      (plotframe$Kendall_qvalue    < defs$kendall.qvalue.cutoff) &
+      # correlation cutoffs
+      (plotframe$Pearson_cor       > defs$pearson.cor.upper.cutoff) &
+      (plotframe$Pearson_cor       < defs$pearson.cor.lower.cutoff) &
+      (plotframe$Spearman_cor      > defs$spearman.cor.upper.cutoff) &
+      (plotframe$Spearman_cor      < defs$spearman.cor.lower.cutoff) &
+      (plotframe$Kendall_cor       > defs$kendall.cor.upper.cutoff) &
+      (plotframe$Kendall_cor       < defs$kendall.cor.lower.cutoff) &
+      # basic statistics cutoffs
+      (plotframe$size              > defs$annotation_size.cutoff) &
+      (plotframe$prevalence        > defs$prevalence.cutoff) &
+      (plotframe$heterogeneity     > defs$heterogeneity.cutoff) &
+      (plotframe$sd                > defs$sd.cutoff) &
+      (plotframe$cv                > defs$cv.cutoff))
+
+  df_cutoff <- plotframe[idx, ]
 
   if (isTRUE(defs$raw_data_sd_filter)) {
-    df_cutoff <- df_cutoff[df_cutoff$sd != 0, ] # remove trivial cases, constant values.
+    # remove trivial cases, constant values.
+    df_cutoff <- df_cutoff[df_cutoff$sd != 0, ]
   }
 
   defs$sig_IDs <- rownames(df_cutoff)
@@ -151,7 +158,7 @@ make_correlation_report <- function(defs){
   suppressMessages(
     suppressWarnings(rmarkdown::render_site(input = defs$output.dir,
                                             quiet = TRUE)))
-  
+
 #  suppressWarnings(rmarkdown::render(fp,
 #                                     output_file = "KOMODO2_report.html",
 #                                     quiet = TRUE))
