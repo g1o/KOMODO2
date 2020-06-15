@@ -47,7 +47,6 @@ install_and_update_packages <- function(which = "all",
                       "htmlwidgets",
                       "pkgdown",
                       "knitr",
-                      "RColorBrewer",
                       "dendextend",
                       "heatmaply"
                       )

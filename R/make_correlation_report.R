@@ -6,7 +6,6 @@ make_correlation_report <- function(defs){
 
   # "activate" packages that are used only in the .Rmd report generation.
   # (needed only to stop a NOTE in R CMD check)
-  tmp <- RColorBrewer::brewer.pal(3, "Accent")
   tmp <- dendextend::fac2num(factor(3:5))
   tmp <- heatmaply::BrBG(5)
 

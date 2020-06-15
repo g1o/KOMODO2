@@ -35,7 +35,6 @@ Imports: assertthat (>= 0.2.1),
          nlme (>= 3.1.0),
          BiocManager (>= 1.30.10),
          taxize (>= 0.9.92),
-         RColorBrewer (>= 1.1.2),
          dendextend (>= 1.13.4),
          heatmaply (>= 1.1.0)
 Suggests: AnnotationDbi,
@@ -49,8 +48,7 @@ Suggests: AnnotationDbi,
           htmlwidgets,
           pkgdown, 
           knitr,
-          grDevices,
-          rlang
+          grDevices
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0

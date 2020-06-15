@@ -83,8 +83,8 @@ my_palette <- grDevices::colorRampPalette(c("white", "blue"))(n = 51)
 
 #establishing colors for groups
 jColors <- data.frame(LABEL = levels(mynames$group),
-                      COLOR = I(RColorBrewer::brewer.pal(nlevels(mynames$group), 
-                                                         name = 'Set1')))
+                      COLOR = I(KOMODO2_brewer_pal(nlevels(mynames$group), 
+                                                   name = 'Set1')))
 
 ##DEBUG
 #jColors

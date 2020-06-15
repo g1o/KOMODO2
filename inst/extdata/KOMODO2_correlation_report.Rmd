@@ -2,8 +2,8 @@
   title: "KOMODO2 - results report"
 output: html_document
 ---
-  
-  Heatmap
+
+Heatmap
 
 ```{r Heatmaps, echo = TRUE, warnings = FALSE, message = FALSE}
 #Prepare data.frame to plot
@@ -50,8 +50,8 @@ my_palette <- RColorBrewer::colorRampPalette(c("white", "blue"))(n = 51)
 
 
 jColors <- data.frame(LABEL = levels(mynames$group),
-                      COLOR = I(RColorBrewer::brewer.pal(nlevels(mynames$group), 
-                                                         name = 'Set1')))
+                      COLOR = I(KOMODO2_brewer_pal(nlevels(mynames$group), 
+                                                   name = 'Set1')))
 
 jColors
 
@@ -297,17 +297,17 @@ dtable
 
 
 <!--
-  #```{r Multiplot,echo=F,warning=FALSE}
-  #Xdf <- KOMODO2$x
-  ##nice scatterplot, with confidence intervals
-  #names(Xdf) <- "X_var"
-  #dir.create(paste0(wd,"/correlation_Plots"));
-  #lis<-list();
-  #for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
-  #	file<-paste0(wd,'/correlation_Plots/',i,'.html');
-  #	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
-  ##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
-  ##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), interval="confidence", level = 0.95)
+#```{r Multiplot,echo=F,warning=FALSE}
+#Xdf <- KOMODO2$x
+##nice scatterplot, with confidence intervals
+#names(Xdf) <- "X_var"
+#dir.create(paste0(wd,"/correlation_Plots"));
+#lis<-list();
+#for ( i in  df_cutoff$name[1:length(df_cutoff[,1])] ) { # get filtered to plot a lot
+#	file<-paste0(wd,'/correlation_Plots/',i,'.html');
+#	Xdf$feature <- KOMODO2$y[,i]/KOMODO2$denominator
+##	model1 <- lm(Xdf$feature ~ Xdf$X_var)
+##	conf_interval <- predict(model1, newdata=data.frame(QUET=3), interval="confidence", level = 0.95)
 ##	temp_var <- predict(model1, interval="prediction")
 ##	new_Xdf <- cbind(Xdf, temp_var)
 #	ID=row.names(Xdf)
@@ -348,4 +348,3 @@ dtable
 #```
 
 -->
-  

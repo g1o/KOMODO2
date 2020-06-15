@@ -62,7 +62,7 @@ rm(norm)
 #to create custom hover text by adding annotation definition
 onmouseover   <- as.data.frame(ord.mat)
 onmouseover[] <- lapply(colnames(onmouseover), function(colname) {
-    paste0("definition: ", defs$annotation.cor[colname], "\n")
+  paste0("definition: ", defs$annotation.cor[colname], "\n")
 })
 
 ##DEBUG
@@ -73,8 +73,8 @@ my_palette <- grDevices::colorRampPalette(c("white", "blue"))(n = 51)
 
 #establishing colors for groups
 jColors <- data.frame(LABEL = levels(mynames$group),
-                      COLOR = I(RColorBrewer::brewer.pal(nlevels(mynames$group), 
-                                                         name = 'Set1')))
+                      COLOR = I(KOMODO2_brewer_pal(nlevels(mynames$group), 
+                                                   name = 'Set1')))
 
 ##DEBUG
 #jColors
@@ -114,24 +114,24 @@ cluster2  <- stats::hclust(distance2, method = "average")
 #norm
 
 heatmaply::heatmaply(
-                     t(heatmaply::percentize(as.data.frame(ord.mat))),
-                     # file="heatmap_norm.pdf",
-                     # Rowv = cluster2,
-                     # row_dend_left = TRUE,
-                     # width = 1000,
-                     # height = 1800,
-                     # subplot_heights=c(0.05, 0.01, 0.94),
-                     # col_side_colors = NULL,
-                     # row_side_colors = species2group$group,
-                     Colv = tree2,
-                     col = my_palette,
-                     plot_method= "ggplot",
-                     cexRow = 0.8,
-                     custom_hovertext = t(onmouseover),
-                     subplot_widths=c(0.9, 0.1),
-                     subplot_heights=c(0.08, 0.02, 0.90),
-                     col_side_colors = data.frame("Groups" = species2group$group,
-                                                  check.names=FALSE)) %>%
+  t(heatmaply::percentize(as.data.frame(ord.mat))),
+  # file="heatmap_norm.pdf",
+  # Rowv = cluster2,
+  # row_dend_left = TRUE,
+  # width = 1000,
+  # height = 1800,
+  # subplot_heights=c(0.05, 0.01, 0.94),
+  # col_side_colors = NULL,
+  # row_side_colors = species2group$group,
+  Colv = tree2,
+  col = my_palette,
+  plot_method= "ggplot",
+  cexRow = 0.8,
+  custom_hovertext = t(onmouseover),
+  subplot_widths=c(0.9, 0.1),
+  subplot_heights=c(0.08, 0.02, 0.90),
+  col_side_colors = data.frame("Groups" = species2group$group,
+                               check.names=FALSE)) %>%
   plotly::layout(width  = 25 * nrow(ord.mat), 
                  height = 20 * ncol(ord.mat))
 
