@@ -1,4 +1,5 @@
 # KOMODO2
+[![Build Status](https://api.travis-ci.org/fcampelo/CAISEr.png)](https://travis-ci.org/fcampelo/CAISEr)
 
 <p align="center">
 <img src="inst/images/KOMODO2_logo.png" alt="How cool is this? My dad drew it!" height="200"/>

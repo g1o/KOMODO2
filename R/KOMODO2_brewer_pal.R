@@ -1,4 +1,5 @@
-# Adapted from RColorBrewer::brewer.pal()
+#' Adapted from RColorBrewer::brewer.pal()
+#' @importFrom grDevices rgb
 KOMODO2_brewer_pal <- function (n, name)
 {
 
