@@ -66,7 +66,6 @@
 #' @param render.report logical: should a HTML5 report be generated?
 #'
 #' @importFrom assertthat assert_that is.count has_name
-#' @importFrom dplyr %>%
 #'
 #' @export
 #'
@@ -128,12 +127,11 @@ run_KOMODO2 <- function(defs, type = "correlation",
     }
   }
 
-  defs <- defs %>%
-    load_data() %>%       # Load required data
-    clean_data() %>%      # Preliminary data cleaning
-    do_analysis() %>%     # perform the analysis
-    save_tsv_files() %>%  # Save results to .tsv files
-    make_report(render.report = render.report) # make the report (if needed)
+  defs <- load_data(defs)      # Load required data
+  defs <- clean_data(defs)     # Preliminary data cleaning
+  defs <- do_analysis(defs)    # perform the analysis
+  defs <- save_tsv_files(defs) # Save results to .tsv files
+  defs <- make_report(defs, render.report = render.report) # generate HTML page
 
   invisible(defs)
 }

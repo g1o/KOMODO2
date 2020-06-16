@@ -83,9 +83,9 @@ jColors <- data.frame(LABEL = levels(mynames$group),
 #jColors
 
 #coloring species by group color
-tmp <- data.frame(species = rownames(ord.mat), stringsAsFactors = FALSE) %>%
-  dplyr::mutate(group = mynames$group[match(.data$species, mynames$shortName)],
-                COLOR = jColors$COLOR[match(.data$group, jColors$LABEL)])
+tmp       <- data.frame(species = rownames(ord.mat), stringsAsFactors = FALSE)
+tmp$group <- mynames$group[match(tmp$species, mynames$shortName)]
+tmp$COLOR <- jColors$COLOR[match(tmp$group, jColors$LABEL)]
 
 species2color <- unique(tmp[, c("species", "COLOR")])
 species2group <- unique(tmp[, c("species", "group")])

@@ -24,7 +24,6 @@ License: GPL-2
 Depends: R (>= 3.6.0)
 Imports: assertthat (>= 0.2.1),
          pbmcapply (>= 1.5.0),
-         dplyr (>= 0.8.4),
          ape (>= 5.3.0),
          rmarkdown (>= 2.1.0),
          nlme (>= 3.1.0),

@@ -33,7 +33,6 @@ install_and_update_packages <- function(which = "all",
 
   cran.args$pkgs <- c("assertthat",
                       "pbmcapply",
-                      "dplyr",
                       "ape",
                       "rmarkdown",
                       "nlme",
