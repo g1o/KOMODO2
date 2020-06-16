@@ -35,7 +35,7 @@ make_correlation_report <- function(defs){
                      defs$sd[order(names(defs$sd))],
                      defs$cv[order(names(defs$cv))],
                      defs$greaterthanzero[order(names(defs$greaterthanzero))],
-#                     defs$prevalence_per_group[order(names(defs$prevalence_per_group))],
+                     #                     defs$prevalence_per_group[order(names(defs$prevalence_per_group))],
                      defs$heterogeneity[order(names(defs$heterogeneity))])
 
   plotframe <- rbind(plotframe,
@@ -52,7 +52,7 @@ make_correlation_report <- function(defs){
                                  "sd",
                                  "cv",
                                  "prevalence",
-#                                 "prevalence per group",
+                                 #                                 "prevalence per group",
                                  "heterogeneity")
 
   plotframe <- as.data.frame(t(plotframe))
@@ -62,8 +62,8 @@ make_correlation_report <- function(defs){
   plotframe$name        <- rownames(plotframe)
 
   idx <- which(
-      # q-value cutoffs
-      (plotframe$corrected_contrasts < defs$linear_model.qvalue.cutoff) &
+    # q-value cutoffs
+    (plotframe$corrected_contrasts < defs$linear_model.qvalue.cutoff) &
       (plotframe$Spearman_qvalue   < defs$spearman.qvalue.cutoff) &
       (plotframe$Pearson_qvalue    < defs$pearson.qvalue.cutoff) &
       (plotframe$Kendall_qvalue    < defs$kendall.qvalue.cutoff) &
@@ -94,27 +94,27 @@ make_correlation_report <- function(defs){
   cat("\n-----------------------------------")
   cat("\nUsing filters:\n")
   cat("\ncorrected_contrasts < ", defs$linear_model.qvalue.cutoff)
-  cat("\nSpearman_qvalue < ", defs$spearman.qvalue.cutoff)
-  cat("\nPearson_qvalue  < ", defs$pearson.qvalue.cutoff)
-  cat("\nKendall_qvalue  < ", defs$kendall.qvalue.cutoff)
-  cat("\nPearson_cor  > ", defs$pearson.cor.upper.cutoff)
-  cat("\nPearson_cor  < ", defs$pearson.cor.lower.cutoff)
-  cat("\nSpearman_cor > ", defs$spearman.cor.upper.cutoff)
-  cat("\nSpearman_cor < ", defs$spearman.cor.lower.cutoff)
-  cat("\nKendall_cor  > ", defs$kendall.cor.upper.cutoff)
-  cat("\nKendall_cor  < ", defs$kendall.cor.lower.cutoff)
-  cat("\nsize         > ", defs$annotation_size.cutoff)
-  cat("\nprevalence   > ", defs$prevalence.cutoff)
-  cat("\nheterogeneity > ", defs$heterogeneity.cutoff)
-  cat("\nsd           > ", defs$sd.cutoff)
-  cat("\ncv           > ", defs$cv.cutoff)
+  cat("\nSpearman_qvalue     < ", defs$spearman.qvalue.cutoff)
+  cat("\nPearson_qvalue      < ", defs$pearson.qvalue.cutoff)
+  cat("\nKendall_qvalue      < ", defs$kendall.qvalue.cutoff)
+  cat("\nPearson_cor         > ", defs$pearson.cor.upper.cutoff)
+  cat("\nPearson_cor         < ", defs$pearson.cor.lower.cutoff)
+  cat("\nSpearman_cor        > ", defs$spearman.cor.upper.cutoff)
+  cat("\nSpearman_cor        < ", defs$spearman.cor.lower.cutoff)
+  cat("\nKendall_cor         > ", defs$kendall.cor.upper.cutoff)
+  cat("\nKendall_cor         < ", defs$kendall.cor.lower.cutoff)
+  cat("\nsize                > ", defs$annotation_size.cutoff)
+  cat("\nprevalence          > ", defs$prevalence.cutoff)
+  cat("\nheterogeneity       > ", defs$heterogeneity.cutoff)
+  cat("\nsd                  > ", defs$sd.cutoff)
+  cat("\ncv                  > ", defs$cv.cutoff)
   cat("\n-----------------------------------")
-  cat("\n(this may take a while)")
+  cat("\nThis may take a while...")
 
 
   # Prepare output folder
 
-#  od <- defs$output.dir
+  #  od <- defs$output.dir
 
   #Uncomment the line below to generate full paths. Results may not work in servers.
   od  <- normalizePath(defs$output.dir)
@@ -125,77 +125,26 @@ make_correlation_report <- function(defs){
   if(!dir.exists(cpd)) dir.create(cpd, recursive = TRUE)
 
   # Copy report template into output dir
-  fp1 <- gsub("//", "/", paste0((defs$output.dir),
-                               "/_site.yml"),
-             fixed = TRUE)
+  files_to_copy <- dir(system.file("extdata", package = "KOMODO2"))
+  fp <- files_to_copy
 
-  file.copy(system.file("extdata", "_site.yml",
-                        package = "KOMODO2"), to = fp1, overwrite = TRUE)
+  for (i in seq_along(files_to_copy)){
+    fp[i] <- gsub("//", "/", paste0(defs$output.dir, "/", files_to_copy[i]),
+                  fixed = TRUE)
+    file.copy(system.file("extdata", files_to_copy[i], package = "KOMODO2"),
+              to = fp[i], overwrite = TRUE)
+  }
 
-  fp2 <- gsub("//", "/", paste0((defs$output.dir),
-                               "/index.Rmd"),
-             fixed = TRUE)
+  suppressWarnings(rmarkdown::render_site(input = defs$output.dir,
+                                          quiet = TRUE))
+  file.remove(fp)
 
-  file.copy(system.file("extdata", "index.Rmd",
-                        package = "KOMODO2"), to = fp2, overwrite = TRUE)
-
-  fp3 <- gsub("//", "/", paste0((defs$output.dir),
-                               "/heatmap_phylo_raw.Rmd"),
-                               fixed = TRUE)
-
-  file.copy(system.file("extdata", "heatmap_phylo_raw.Rmd",
-                        package = "KOMODO2"), to = fp3, overwrite = TRUE)
-
-  fp4 <- gsub("//", "/", paste0((defs$output.dir),
-                                "/heatmap_phylo_norm.Rmd"),
-              fixed = TRUE)
-
-  file.copy(system.file("extdata", "heatmap_phylo_norm.Rmd",
-                        package = "KOMODO2"), to = fp4, overwrite = TRUE)
-
-  fp5 <- gsub("//", "/", paste0((defs$output.dir),
-                                "/heatmap_phylo_perc.Rmd"),
-              fixed = TRUE)
-
-  file.copy(system.file("extdata", "heatmap_phylo_perc.Rmd",
-                        package = "KOMODO2"), to = fp5, overwrite = TRUE)
-
-  fp6 <- gsub("//", "/", paste0((defs$output.dir),
-                                "/q_value_scatter.Rmd"),
-              fixed = TRUE)
-
-  file.copy(system.file("extdata", "q_value_scatter.Rmd",
-                        package = "KOMODO2"), to = fp6, overwrite = TRUE)
-
-  fp7 <- gsub("//", "/", paste0((defs$output.dir),
-                                "/table.Rmd"),
-              fixed = TRUE)
-
-  file.copy(system.file("extdata", "table.Rmd",
-                        package = "KOMODO2"), to = fp7, overwrite = TRUE)
-
-  suppressMessages(
-    suppressWarnings(rmarkdown::render_site(input = defs$output.dir,
-                                            quiet = TRUE)))
-
-#  suppressWarnings(rmarkdown::render(fp,
-#                                     output_file = "KOMODO2_report.html",
-#                                     quiet = TRUE))
-
-#  suppressWarnings(rmarkdown::render(fp2,
-#                                     output_file = "heatmap_phylo.html",
-#                                     quiet = TRUE))
-
-
-  file.remove(fp1)
-  file.remove(fp2)
-  file.remove(fp3)
-  file.remove(fp4)
-  file.remove(fp5)
-  file.remove(fp6)
-  file.remove(fp7)
-
-  cat("done")
+  # Invoke browser andopen results
+  myURL <- gsub("//", "/", paste0(defs$output.dir, "/index.html"), fixed = TRUE)
+  myURL <- paste0("file:/",
+                  normalizePath(gsub("./", "", myURL, fixed = TRUE)))
+  utils::browseURL(myURL)
+  cat("\nAnd we're done!")
 
   invisible(defs)
 }
