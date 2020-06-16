@@ -6,6 +6,11 @@ r:
   - devel
   - bioc-devel
   - bioc-release
+# Test on Windows, Linux, OSX
+os:
+- linux
+- osx
+- windows
 sudo: false
 cache: packages
 # Bioconductor packages
