@@ -1,5 +1,7 @@
 #' Adapted from RColorBrewer::brewer.pal()
 #' @importFrom grDevices rgb
+#' @param n number of colours to return
+#' @param name name of palette to use
 KOMODO2_brewer_pal <- function (n, name)
 {
 

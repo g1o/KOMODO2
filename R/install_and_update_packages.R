@@ -47,8 +47,7 @@ install_and_update_packages <- function(which = "all",
                       "pkgdown",
                       "knitr",
                       "dendextend",
-                      "heatmaply"
-                      )
+                      "heatmaply")
   bioc.args$pkgs <- c("AnnotationDbi",
                       "KEGGREST",
                       "GO.db")

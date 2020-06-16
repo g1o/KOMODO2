@@ -6,6 +6,11 @@
 \usage{
 KOMODO2_brewer_pal(n, name)
 }
+\arguments{
+\item{n}{number of colours to return}
+
+\item{name}{name of palette to use}
+}
 \description{
 Adapted from RColorBrewer::brewer.pal()
 }
