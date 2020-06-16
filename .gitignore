@@ -38,8 +38,7 @@ vignettes/*.pdf
 *.knit.md
 .DS_Store
 
+# Local testing folders
 data_folder/
-
 results/
-
 /zz_original_scripts/results

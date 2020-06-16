@@ -26,15 +26,15 @@ ids <- as.vector(df_cutoff$name)
 
 #getting annotation frequencies for annotation IDs
 tmp <- defs$y[as.vector(ids)]
-norm <- tmp / defs$denominator
+mynorm <- tmp / defs$denominator
 rm(tmp)
 
 #replacing genome IDs by user-defined names
-rownames(norm) <- mynames$shortName[match(rownames(norm), mynames$genomeID)]
+rownames(mynorm) <- mynames$shortName[match(rownames(mynorm), mynames$genomeID)]
 
 
 ##DEBUG
-#norm
+#mynorm
 
 #getting a heatmaply-compatible tree
 
@@ -53,11 +53,11 @@ tree_final <- dendextend::set(tree2, what = "branches_lwd", value = 1)
 ##DEBUG
 #plot(tree2)
 
-#colnames(norm) <- paste0(ids, " - ", output$annotation.cor[ids])
+#colnames(mynorm) <- paste0(ids, " - ", output$annotation.cor[ids])
 
-mat     <- as.matrix(norm)
+mat     <- as.matrix(mynorm)
 ord.mat <- mat[tree$tip.label,]
-rm(norm)
+rm(mynorm)
 
 #to create custom hover text by adding annotation definition
 onmouseover   <- as.data.frame(ord.mat)
@@ -80,9 +80,9 @@ jColors <- data.frame(LABEL = levels(mynames$group),
 #jColors
 
 #coloring species by group color
-tmp <- data.frame(species = rownames(ord.mat),
-                  group   = mynames$group[match(tmp$species, mynames$shortName)],
-                  COLOR   = jColors$COLOR[match(tmp$group, jColors$LABEL)])
+tmp <- data.frame(species = rownames(ord.mat), stringsAsFactors = FALSE) %>%
+  dplyr::mutate(group = mynames$group[match(.data$species, mynames$shortName)],
+                COLOR = jColors$COLOR[match(.data$group, jColors$LABEL)])
 
 species2color <- unique(tmp[, c("species", "COLOR")])
 species2group <- unique(tmp[, c("species", "group")])
@@ -111,7 +111,7 @@ cluster2  <- stats::hclust(distance2, method = "average")
 
 #Plot
 
-#norm
+#mynorm
 
 heatmaply::heatmaply(
   t(heatmaply::percentize(as.data.frame(ord.mat))),

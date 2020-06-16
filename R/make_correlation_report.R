@@ -1,8 +1,8 @@
 make_correlation_report <- function(defs){
 
   # ================== Sanity checks ==================
-  assertthat::assert_that("linear.model.cutoff" %in% names(defs),
-                          is.numeric(defs$linear.model.cutoff))
+  #assertthat::assert_that("linear.model.cutoff" %in% names(defs),
+  #                        is.numeric(defs$linear.model.cutoff))
 
   # "activate" packages that are used only in the .Rmd report generation.
   # (needed only to stop a NOTE in R CMD check)
@@ -90,8 +90,28 @@ make_correlation_report <- function(defs){
 
   defs$sig_IDs <- rownames(df_cutoff)
 
-  cat("\nGenerating HTML5 report for results with\nphylogeny-aware q-values < ",
-      defs$linear_model.qvalue.cutoff, "\n(this may take a while).")
+  cat("\nGenerating HTML5 report for results")
+  cat("\n-----------------------------------")
+  cat("\nUsing filters:\n")
+  cat("\ncorrected_contrasts < ", defs$linear_model.qvalue.cutoff)
+  cat("\nSpearman_qvalue < ", defs$spearman.qvalue.cutoff)
+  cat("\nPearson_qvalue  < ", defs$pearson.qvalue.cutoff)
+  cat("\nKendall_qvalue  < ", defs$kendall.qvalue.cutoff)
+  cat("\nPearson_cor  > ", defs$pearson.cor.upper.cutoff)
+  cat("\nPearson_cor  < ", defs$pearson.cor.lower.cutoff)
+  cat("\nSpearman_cor > ", defs$spearman.cor.upper.cutoff)
+  cat("\nSpearman_cor < ", defs$spearman.cor.lower.cutoff)
+  cat("\nKendall_cor  > ", defs$kendall.cor.upper.cutoff)
+  cat("\nKendall_cor  < ", defs$kendall.cor.lower.cutoff)
+  cat("\nsize         > ", defs$annotation_size.cutoff)
+  cat("\nprevalence   > ", defs$prevalence.cutoff)
+  cat("\nheterogeneity > ", defs$heterogeneity.cutoff)
+  cat("\nsd           > ", defs$sd.cutoff)
+  cat("\ncv           > ", defs$cv.cutoff)
+  cat("\n-----------------------------------")
+  cat("\n(this may take a while)")
+
+
   # Prepare output folder
 
 #  od <- defs$output.dir

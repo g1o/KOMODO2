@@ -72,28 +72,16 @@
 #'
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' # If needed, install/update package dependencies
 #' # install_and_update_packages(which = "all")
 #'
 #' # Download required files
 #' retrieve_data_files(target.dir = "./data_folder")
 #'
-#' # Build an input list:
-#' defs <- list(annotation.files.dir = "./data_folder/gene2GO",
-#'              output.dir           = "./results/GO_Pan_proxy/",
-#'              dataset.info         = "./data_folder/metadata/GO_metadata_Pan_proxy.txt",
-#'              x.column             = 2,
-#'              ontology             = "GO",
-#'              dict.path            = "",
-#'              column               = "GO",
-#'              denominator.column   = "",
-#'              tree.path            = "./data_folder/trees/tree_genome_IDs.nwk",
-#'              tree.type            = "newick",
-#'              linear.model.cutoff  = 0.5,
-#'              type                 = "correlation")
+#' defs <- "./data_folder/parameters_validation/parameters_gene2GO_Pan_proxy.txt"
 #'
-#' defs <- run_KOMODO2(defs, cores = parallel::detectCores() - 1)
+#' res <- run_KOMODO2(defs, cores = parallel::detectCores() - 1)
 #' }
 
 # saveRDS(defs, "./results/test_defs.rds")

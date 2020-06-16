@@ -1,8 +1,8 @@
 Package: KOMODO2
 Type: Package
 Title: KOMODO2 - Kegg Orthology enrichMent Online DetectiOn
-Version: 0.10.0
-Date: 2020-06-12
+Version: 0.10.1
+Date: 2020-06-16
 Authors@R: c(person("Francisco", "Lobo",
     email   = "franciscolobo@gmail.com",
     role    = c("aut", "cre")),
@@ -41,7 +41,6 @@ Suggests: AnnotationDbi,
           KEGGREST,
           GO.db,
           ggplot2,
-          scales,
           plotly,
           DT,
           htmltools,
