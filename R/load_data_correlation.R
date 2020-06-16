@@ -149,16 +149,30 @@ load_data_correlation <- function(defs){
                       fixed = TRUE)
 
   cat("\nLoading data:\n")
-  defs$y <- pbmcapply::pbmclapply(X              = defs$y.name,
-                                  FUN            = utils::read.csv,
-                                  sep            = "\t",
-                                  header         = TRUE,
-                                  colClasses     = "character",
-                                  strip.white    = TRUE,
-                                  comment.char   = "",
-                                  check.names    = FALSE,
-                                  mc.preschedule = FALSE,
-                                  mc.cores       = defs$cores)
+  if (.Platform$OS.type == "windows"){
+    cat("...")
+    parallel::parLapply(cl             = defs$cl,
+                        X              = defs$y.name,
+                        fun            = utils::read.csv,
+                        sep            = "\t",
+                        header         = TRUE,
+                        colClasses     = "character",
+                        strip.white    = TRUE,
+                        comment.char   = "",
+                        check.names    = FALSE)
+    cat(" done!")
+  } else {
+    defs$y <- pbmcapply::pbmclapply(X              = defs$y.name,
+                                    FUN            = utils::read.csv,
+                                    sep            = "\t",
+                                    header         = TRUE,
+                                    colClasses     = "character",
+                                    strip.white    = TRUE,
+                                    comment.char   = "",
+                                    check.names    = FALSE,
+                                    mc.preschedule = FALSE,
+                                    mc.cores       = defs$cores)
+  }
 
   return(defs)
 }

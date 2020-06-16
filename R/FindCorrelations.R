@@ -16,7 +16,7 @@
 
 # Consider adding differentiation for x and y denominator column.
 FindCorrelations <- function(x, y, method = "pearson", denominator = 1,
-                             cores = 1) {
+                             cores = 1, cl = NULL) {
 
   # ================== Sanity checks ==================
   assertthat::assert_that(is.data.frame(x),
@@ -32,20 +32,32 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1,
   # counterintuitive manner. A possibly better way is suggested below.
   if (!is.null(denominator)) y <- sweep(y, MARGIN = 1, denominator, `/`) # y <- y / denominator
 
-
   cat("\nCalculating correlations:", method, "\n")
-  tmp <- pbmcapply::pbmclapply(y,
-                               function(tmpy, x, method, ny){
-                                 mycor <- stats::cor(x[ny, 1], tmpy,
-                                                     method = method)
-                                 mypv  <- stats::cor.test(x[ny, 1], tmpy,
-                                                          method = method)$p.value
-                                 return(list(mycor = mycor, mypv = mypv))},
-                               x              = x,
-                               method         = method,
-                               ny             = rownames(y),
-                               mc.preschedule = TRUE,
-                               mc.cores       = cores)
+  tmpfun <- function(tmpy, x, method, ny){
+    mycor <- stats::cor(x[ny, 1], tmpy,
+                        method = method)
+    mypv  <- stats::cor.test(x[ny, 1], tmpy,
+                             method = method)$p.value
+    return(list(mycor = mycor, mypv = mypv))}
+
+  if (.Platform$OS.type == "windows"){
+    cat("...")
+    parallel::parLapply(cl     = cl,
+                        X      = y,
+                        fun    = tmpfun,
+                        x      = x,
+                        method = method,
+                        ny     = rownames(y))
+    cat(" done!")
+  } else {
+    tmp <- pbmcapply::pbmclapply(X      = y,
+                                 FUN    = tmpfun,
+                                 x      = x,
+                                 method = method,
+                                 ny     = rownames(y),
+                                 mc.preschedule = TRUE,
+                                 mc.cores       = cores)
+  }
 
   correlations               <- sapply(tmp, function(x) x$mycor)
   correlations.pvalue        <- sapply(tmp, function(x) x$mypv)

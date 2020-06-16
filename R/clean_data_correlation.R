@@ -22,11 +22,20 @@ clean_data_correlation <- function(defs){
   defs$x <- as.data.frame(defs$x)
 
   # Parse Genome Maps
-  defs$y.anno <- pbmcapply::pbmclapply(X              = defs$y,
-                                       FUN            = parse_GenomeMap,
-                                       column         = defs$column,
-                                       mc.preschedule = FALSE,
-                                       mc.cores       = defs$cores)
+  if (.Platform$OS.type == "windows"){
+    cat("...")
+    parallel::parLapply(cl     = defs$cl,
+                        X      = defs$y,
+                        fun    = parse_GenomeMap,
+                        column = defs$column)
+    cat(" done!")
+  } else {
+    defs$y.anno <- pbmcapply::pbmclapply(X              = defs$y,
+                                         FUN            = parse_GenomeMap,
+                                         column         = defs$column,
+                                         mc.preschedule = FALSE,
+                                         mc.cores       = defs$cores)
+  }
 
   # Remove y field from defs
   defs$y <- NULL

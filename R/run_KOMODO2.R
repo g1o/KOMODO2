@@ -114,17 +114,15 @@ run_KOMODO2 <- function(defs, type = "correlation",
     defs$cores <- 1
   }
 
+  available.cores <- parallel::detectCores()
+  if (defs$cores >= available.cores){
+    cat("\nAttention: cores too large, we only have ", available.cores,
+        " cores.\nUsing ", available.cores - 1,
+        " cores for load_data().")
+    defs$cores <- available.cores - 1
+  }
   if (.Platform$OS.type == "windows"){
-    cat("\nMulticore support not currently available for Windows. Forcing cores = 1.")
-    defs$cores <- 1
-  } else {
-    available.cores <- parallel::detectCores()
-    if (defs$cores >= available.cores){
-      cat("\nAttention: cores too large, we only have ", available.cores,
-          " cores.\nUsing ", available.cores - 1,
-          " cores for load_data().")
-      defs$cores <- available.cores - 1
-    }
+    defs$cl <- parallel::makeCluster(defs$cores)
   }
 
   defs <- load_data(defs)      # Load required data
@@ -133,5 +131,9 @@ run_KOMODO2 <- function(defs, type = "correlation",
   defs <- save_tsv_files(defs) # Save results to .tsv files
   defs <- make_report(defs, render.report = render.report) # generate HTML page
 
+  if (.Platform$OS.type == "windows"){
+    ## Stop the cluster
+    parallel::stopCluster(defs$cl)
+  }
   invisible(defs)
 }

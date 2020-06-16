@@ -70,13 +70,25 @@ do_analysis_correlation <- function(defs){
   # Compute sample mode and sample heterogenity
   # (defined as: proportion of samples distinct from the sample mode)
   cat("\nComputing sample mode and sample heterogenity:\n")
-  tmp <- pbmcapply::pbmclapply(defs$y,
-                               function(v){
-                                 tmp <- sort(table(v), decreasing = TRUE)
-                                 return(list(m = as.numeric(names(tmp)[1]),
-                                             h = sum(tmp[-1]) / length(v)))
-                               },
-                               mc.cores = defs$cores)
+  if (.Platform$OS.type == "windows"){
+    cat("...")
+    parallel::parLapply(cl  = defs$cl,
+                        X   = defs$y,
+                        fun = function(v){
+                          tmp <- sort(table(v), decreasing = TRUE)
+                          return(list(m = as.numeric(names(tmp)[1]),
+                                      h = sum(tmp[-1]) / length(v)))
+                        })
+    cat(" done!")
+  } else {
+    tmp <- pbmcapply::pbmclapply(defs$y,
+                                 function(v){
+                                   tmp <- sort(table(v), decreasing = TRUE)
+                                   return(list(m = as.numeric(names(tmp)[1]),
+                                               h = sum(tmp[-1]) / length(v)))
+                                 },
+                                 mc.cores = defs$cores)
+  }
 
   defs$heterogeneity <- sapply(tmp, function(x) x$h)
   defs$mode          <- sapply(tmp, function(x) x$m)
@@ -88,7 +100,8 @@ do_analysis_correlation <- function(defs){
                                   tree        = defs$tree,
                                   method      = "pic",
                                   denominator = defs$denominator,
-                                  cores       = defs$cores)
+                                  cores       = defs$cores,
+                                  cl          = defs$cl)
 
   defs$contrasts.corrected <- stats::p.adjust(p      = defs$contrasts,
                                               method = defs$MHT.method)
@@ -101,7 +114,8 @@ do_analysis_correlation <- function(defs){
                             y           = defs$y,
                             method      = cortypes[i],
                             denominator = defs$denominator,
-                            cores       = defs$cores)
+                            cores       = defs$cores,
+                            cl          = defs$cl)
     tmp$mhtpv <- stats::p.adjust(p      = tmp$cor.pvalues,
                                  method = defs$MHT.method)
 
