@@ -30,8 +30,7 @@ Imports: assertthat (>= 0.2.1),
          BiocManager (>= 1.30.10),
          taxize (>= 0.9.92),
          dendextend (>= 1.13.4),
-         heatmaply (>= 1.1.0),
-         utils
+         heatmaply (>= 1.1.0)
 Suggests: AnnotationDbi,
           KEGGREST,
           GO.db,
