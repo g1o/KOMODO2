@@ -1,7 +1,7 @@
 Package: KOMODO2
 Type: Package
 Title: Kegg Orthology Enrichment Online Detection
-Version: 0.10.1
+Version: 0.10.3
 Date: 2020-06-16
 Authors@R: c(person("Francisco", "Lobo",
     email   = "franciscolobo@gmail.com",
@@ -16,8 +16,8 @@ Authors@R: c(person("Francisco", "Lobo",
     email   = "f.campelo@aston.ac.uk",
     role    = c("aut", "cre")))
 Maintainer: Felipe Campelo <f.campelo@aston.ac.uk>
-Description: KOMODO2 is a first-principle, phylogeny-aware comparative 
-             genomics software to search for annotation terms (e.g Pfam IDs, 
+Description: A first-principle, phylogeny-aware comparative 
+             genomics package to search for annotation terms (e.g Pfam IDs, 
              GO terms) associated with a variable that one wants to 
              investigate (e.g. number of cell types).
 License: GPL-2
