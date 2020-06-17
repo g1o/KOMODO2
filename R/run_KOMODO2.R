@@ -100,9 +100,6 @@ run_KOMODO2 <- function(defs, type = "correlation",
   # If defs is a file path, read it into list
   if(!is.list(defs)) {
     defs <- read_komodo2_file(defs)
-    defs$linear.model.cutoff <- as.numeric(defs$linear.model.cutoff)
-    defs$x.column <- as.numeric(defs$x.column)
-    defs$cores <- as.numeric(defs$cores)
   }
 
   if(is.null(defs$type)) defs$type <- type
