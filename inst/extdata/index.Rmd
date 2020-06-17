@@ -8,12 +8,12 @@ KOMODO2 is an annotation-based comparative genomics tool that searches for annot
 
 KOMODO2 provides three main outputs as interactive HTML5 files:
 
- - Heatmap
+ - Heatmaps
 
- - Scatterplots of annotation terms by their q-values
+ - Scatterplots of q-values of annotation terms
 
- - Table of annotation terms and their statistcs
+ - Table of annotation terms and their statistics
 
-
+To access these interactive visualizations please click on the `Results` button in the top bar.
 ***
 

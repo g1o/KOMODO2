@@ -73,8 +73,8 @@ onmouseover[] <- lapply(colnames(onmouseover),
 my_palette <- grDevices::colorRampPalette(c("white", "blue"))(n = 51)
 
 #establishing colors for groups
-jColors <- data.frame(LABEL = levels(mynames$group),
-                      COLOR = I(KOMODO2_brewer_pal(nlevels(mynames$group), 
+jColors <- data.frame(LABEL = levels(as.factor(mynames$group)),
+                      COLOR = I(KOMODO2_brewer_pal(nlevels(as.factor(mynames$group)), 
                                                    name = 'Set1')))
 
 ##DEBUG
@@ -112,7 +112,7 @@ cluster2  <- stats::hclust(distance2, method = "average")
 
 #mynorm
 
-heatmaply::heatmaply(
+mp <- heatmaply::heatmaply(
   t(as.data.frame(ord.mat)),
   # file="heatmap_p.html",
   # Colv = cluster2,
@@ -128,8 +128,11 @@ heatmaply::heatmaply(
   subplot_widths=c(0.9, 0.1),
   subplot_heights=c(0.08, 0.02, 0.90),
   col_side_colors = data.frame("Groups" = species2group$group,
-                               check.names=FALSE)) %>%
-  plotly::layout(width  = 25 * nrow(ord.mat), 
-                 height = 20 * ncol(ord.mat))
+                               check.names=FALSE))
 
+suppressWarnings(
+  plotly::layout(mp,
+                 width  = 25 * nrow(ord.mat), 
+                 height = 20 * ncol(ord.mat))
+)
 ```

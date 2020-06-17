@@ -29,7 +29,7 @@ tmp <- defs$y[as.vector(ids)]
 #tmp <- data.frame(sapply(defs$y[as.vector(ids)], function(x) ifelse(x > 0, 1, 0)))
 #mynorm <- tmp
 mynorm <- tmp / defs$denominator
-#rm(tmp)
+rm(tmp)
 
 #replacing genome IDs by user-defined names
 rownames(mynorm) <- mynames$shortName[match(rownames(mynorm), mynames$genomeID)]
@@ -75,8 +75,8 @@ onmouseover[] <- lapply(colnames(onmouseover),
 my_palette <- grDevices::colorRampPalette(c("white", "blue"))(n = 51)
 
 #establishing colors for groups
-jColors <- data.frame(LABEL = levels(mynames$group),
-                      COLOR = I(KOMODO2_brewer_pal(nlevels(mynames$group), 
+jColors <- data.frame(LABEL = levels(as.factor(mynames$group)),
+                      COLOR = I(KOMODO2_brewer_pal(nlevels(as.factor(mynames$group)), 
                                                    name = 'Set1')))
 
 ##DEBUG
@@ -87,8 +87,8 @@ tmp       <- data.frame(species = rownames(ord.mat), stringsAsFactors = FALSE)
 tmp$group <- mynames$group[match(tmp$species, mynames$shortName)]
 tmp$COLOR <- jColors$COLOR[match(tmp$group, jColors$LABEL)]
 
-species2color <- unique(tmp[, c("species", "COLOR")])
-species2group <- unique(tmp[, c("species", "group")])
+species2color <- base::unique(tmp[, -2])
+species2group <- base::unique(tmp[, -3])
 #rm(tmp)
 
 ##DEBUG
@@ -117,7 +117,7 @@ cluster2 <- stats::hclust(distance2, method = "average")
 
 #mynorm
 
-heatmaply::heatmaply(
+mp <- heatmaply::heatmaply(
   t(heatmaply::normalize(as.data.frame(ord.mat))),
   # row_dend_left = TRUE,
   # cexCol = 0.8,
@@ -131,9 +131,13 @@ heatmaply::heatmaply(
   subplot_widths=c(0.9, 0.1),
   subplot_heights=c(0.08, 0.02, 0.90),
   col_side_colors = data.frame("Groups" = species2group$group,
-                               check.names=FALSE)) %>%
-  plotly::layout(width  = 25 * nrow(ord.mat), 
+                               check.names=FALSE))
+
+suppressWarnings(
+  plotly::layout(mp,
+                 width  = 25 * nrow(ord.mat), 
                  height = 20 * ncol(ord.mat))
+)
 
 #                     code used to generate pdf plots for article
 #                     Colv = tree_final,

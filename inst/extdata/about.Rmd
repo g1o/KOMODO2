@@ -5,15 +5,18 @@ output: html_document
 
 <img src="https://raw.githubusercontent.com/fcampelo/KOMODO2/master/inst/images/KOMODO2_logo.png" alt="A two-headed komodo dragon. Drawn by Francisco's father." height="200"/>
 
-## MAIN DEVELOPERS
-
- - Jorge Augusto Hongo (jorgeahongo@gmail.com)
- - Giovanni Marques de Castro (giomcastro@gmail.com)
- - Felipe Campelo (f.campelo@aston.ac.uk, fcampelo@gmail.com)
- - Francisco Pereira Lobo (franciscolobo@gmail.com, franciscolobo@ufmg.br)
-
 ## DESCRIPTION
-
 KOMODO2 is a first-principle, phylogeny-aware comparative genomics software to search for annotation terms (e.g Pfam IDs, GO terms or superfamilies), formally described in a dictionary-like structure and used to annotate genomic components, associated with a quantitave/rank variable (e.g. number of cell types, genome size or density of specific genomic elements).
 
 Our software has been freely inspired by (and explicitly modelled to take into account information from) ideas and tools as diverse as comparative phylogenetics methods, genome annotation, gene enrichment analysis, and data visualization and interactivity.
+
+## MAIN DEVELOPERS
+ - Jorge Augusto Hongo ([jorgeahongo@gmail.com](mailto:jorgeahongo@gmail.com))
+ - Giovanni Marques de Castro ([giomcastro@gmail.com](mailto:giomcastro@gmail.com))
+ - Felipe Campelo ([f.campelo@aston.ac.uk](mailto:f.campelo@aston.ac.uk), [fcampelo@gmail.com](mailto:fcampelo@gmail.com))
+ - Francisco Pereira Lobo ([franciscolobo@gmail.com](mailto:franciscolobo@gmail.com), [franciscolobo@ufmg.br](franciscolobo@ufmg.br))
+ 
+## CODE REPOSITORY
+The main code repository for the KOMODO2 package can be found at [https://github.com/fcampelo/KOMODO2](https://github.com/fcampelo/KOMODO2), with an alternative repository at [https://github.com/franciscolobo/KOMODO2](https://github.com/franciscolobo/KOMODO2). Please use these for bug reports or to suggest improvements.
+
+
