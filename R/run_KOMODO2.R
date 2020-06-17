@@ -72,14 +72,14 @@
 #' @examples
 #' \dontrun{
 #'
-#' # If needed, install/update package dependencies
-#' # install_and_update_packages(which = "all")
+#' # Install packages for report generation (only needs to be done once)
+#' install_and_update_packages()
 #'
-#' # Download required files
+#' # Download data files
 #' retrieve_data_files(target.dir = "./data_folder")
-#'
 #' defs <- "./data_folder/parameters_validation/parameters_gene2GO_Pan_proxy.txt"
 #'
+#' # Run KOMODO2
 #' res <- run_KOMODO2(defs, cores = parallel::detectCores() - 1)
 #' }
 

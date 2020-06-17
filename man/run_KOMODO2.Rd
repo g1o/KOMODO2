@@ -81,7 +81,7 @@ Blank likes and lines starting with `#` are ignored. The function expects the
 \dontrun{
 
 # If needed, install/update package dependencies
-# install_and_update_packages(which = "all")
+# install_and_update_packages()
 
 # Download required files
 retrieve_data_files(target.dir = "./data_folder")

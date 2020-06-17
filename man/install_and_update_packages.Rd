@@ -2,18 +2,11 @@
 % Please edit documentation in R/install_and_update_packages.R
 \name{install_and_update_packages}
 \alias{install_and_update_packages}
-\title{Install and update dependencies}
+\title{Install and update dependencies from Suggests field}
 \usage{
-install_and_update_packages(
-  which = "all",
-  cran.args = list(),
-  bioc.args = list()
-)
+install_and_update_packages(cran.args = list(), bioc.args = list())
 }
 \arguments{
-\item{which}{which dependencies to install/update? Accepts
-"cran", "bioc" or "all".}
-
 \item{cran.args}{list containing further arguments to be passed
 down to `install.packages()`.}
 
@@ -22,7 +15,7 @@ down to `BiocManager::install()`.}
 }
 \description{
 This function installs the latest versions of all packages
-listed in the `Imports` and `Suggests` fields of KOMODO2.
+listed in the `Suggests` fields of KOMODO2.
 It uses the standard `utils::install.packages()` for CRAN
 packages, and `BiocManager::install()` for Bioconductor
 dependencies. Further arguments to both functions are passed
@@ -30,6 +23,6 @@ as lists.
 }
 \examples{
 \dontrun{
-  install_and_update_packages(which = "all")
+  install_and_update_packages()
 }
 }

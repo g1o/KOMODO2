@@ -15,5 +15,6 @@ KOMODO2 provides three main outputs as interactive HTML5 files:
  - Table of annotation terms and their statistics
 
 To access these interactive visualizations please click on the `Results` button in the top bar.
+
 ***
 
