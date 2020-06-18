@@ -183,16 +183,6 @@ Accepts all methods listed in `stats::p.adjust.methods`.
 
 **Default**: 1
 
-
-### cores
-**Type**: integer/numeric
-
-**Description**: Number of cores to use. Must be a positive integer.
-
-**Required**: NO
-
-**Default**: 1
-
 ***
 
 # Cutoff values

@@ -33,10 +33,10 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1,
   if (!is.null(denominator)) y <- sweep(y, MARGIN = 1, denominator, `/`) # y <- y / denominator
 
   cat("\nCalculating correlations:", method, "\n")
-  tmpfun <- function(tmpy, x, method, ny){
-    mycor <- stats::cor(x[ny, 1], tmpy,
+  tmpfun <- function(tmpy, tmpx, method, ny){
+    mycor <- stats::cor(tmpx[ny, 1], tmpy,
                         method = method)
-    mypv  <- stats::cor.test(x[ny, 1], tmpy,
+    mypv  <- stats::cor.test(tmpx[ny, 1], tmpy,
                              method = method)$p.value
     return(list(mycor = mycor, mypv = mypv))}
 
@@ -45,22 +45,22 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1,
     tmp <- parallel::parLapply(cl     = cl,
                                X      = y,
                                fun    = tmpfun,
-                               x      = x,
+                               tmpx   = x,
                                method = method,
                                ny     = rownames(y))
     cat(" done!")
   } else {
     tmp <- pbmcapply::pbmclapply(X      = y,
                                  FUN    = tmpfun,
-                                 x      = x,
+                                 tmpx   = x,
                                  method = method,
                                  ny     = rownames(y),
                                  mc.preschedule = TRUE,
                                  mc.cores       = cores)
   }
 
-  correlations               <- sapply(tmp, function(x) x$mycor)
-  correlations.pvalue        <- sapply(tmp, function(x) x$mypv)
+  correlations               <- sapply(tmp, function(tmpx) tmpx$mycor)
+  correlations.pvalue        <- sapply(tmp, function(tmpx) tmpx$mypv)
   names(correlations)        <- colnames(y)
   names(correlations.pvalue) <- colnames(y)
   correlations               <- sort(correlations,
