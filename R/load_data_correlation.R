@@ -151,15 +151,15 @@ load_data_correlation <- function(defs){
   cat("\nLoading data:\n")
   if (.Platform$OS.type == "windows"){
     cat("...")
-    parallel::parLapply(cl             = defs$cl,
-                        X              = defs$y.name,
-                        fun            = utils::read.csv,
-                        sep            = "\t",
-                        header         = TRUE,
-                        colClasses     = "character",
-                        strip.white    = TRUE,
-                        comment.char   = "",
-                        check.names    = FALSE)
+    defs$y <- parallel::parLapply(cl             = defs$cl,
+                                  X              = defs$y.name,
+                                  fun            = utils::read.csv,
+                                  sep            = "\t",
+                                  header         = TRUE,
+                                  colClasses     = "character",
+                                  strip.white    = TRUE,
+                                  comment.char   = "",
+                                  check.names    = FALSE)
     cat(" done!")
   } else {
     defs$y <- pbmcapply::pbmclapply(X              = defs$y.name,

@@ -42,12 +42,12 @@ FindCorrelations <- function(x, y, method = "pearson", denominator = 1,
 
   if (.Platform$OS.type == "windows"){
     cat("...")
-    parallel::parLapply(cl     = cl,
-                        X      = y,
-                        fun    = tmpfun,
-                        x      = x,
-                        method = method,
-                        ny     = rownames(y))
+    tmp <- parallel::parLapply(cl     = cl,
+                               X      = y,
+                               fun    = tmpfun,
+                               x      = x,
+                               method = method,
+                               ny     = rownames(y))
     cat(" done!")
   } else {
     tmp <- pbmcapply::pbmclapply(X      = y,

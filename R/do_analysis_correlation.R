@@ -72,13 +72,13 @@ do_analysis_correlation <- function(defs){
   cat("\nComputing sample mode and sample heterogenity:\n")
   if (.Platform$OS.type == "windows"){
     cat("...")
-    parallel::parLapply(cl  = defs$cl,
-                        X   = defs$y,
-                        fun = function(v){
-                          tmp <- sort(table(v), decreasing = TRUE)
-                          return(list(m = as.numeric(names(tmp)[1]),
-                                      h = sum(tmp[-1]) / length(v)))
-                        })
+    tmp <- parallel::parLapply(cl  = defs$cl,
+                               X   = defs$y,
+                               fun = function(v){
+                                 tmp <- sort(table(v), decreasing = TRUE)
+                                 return(list(m = as.numeric(names(tmp)[1]),
+                                             h = sum(tmp[-1]) / length(v)))
+                               })
     cat(" done!")
   } else {
     tmp <- pbmcapply::pbmclapply(defs$y,

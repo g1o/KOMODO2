@@ -69,11 +69,11 @@ AddGenomeVectors <- function(defs, anno, genome.names,
   cat("\n Generating Genome Vectors:\n")
   if (.Platform$OS.type == "windows"){
     cat("...")
-    parallel::parLapply(cl           = defs$cl,
-                        X            = someAnno,
-                        fun          = GenerateGenomeVector,
-                        ontologyInfo = ontologyInfo,
-                        column       = defs$column)
+    genomeVectors <- parallel::parLapply(cl           = defs$cl,
+                                         X            = someAnno,
+                                         fun          = GenerateGenomeVector,
+                                         ontologyInfo = ontologyInfo,
+                                         column       = defs$column)
     cat(" done!")
   } else {
     genomeVectors <- pbmcapply::pbmclapply(X              = someAnno,

@@ -24,10 +24,10 @@ clean_data_correlation <- function(defs){
   # Parse Genome Maps
   if (.Platform$OS.type == "windows"){
     cat("...")
-    parallel::parLapply(cl     = defs$cl,
-                        X      = defs$y,
-                        fun    = parse_GenomeMap,
-                        column = defs$column)
+    defs$y.anno <- parallel::parLapply(cl     = defs$cl,
+                                       X      = defs$y,
+                                       fun    = parse_GenomeMap,
+                                       column = defs$column)
     cat(" done!")
   } else {
     defs$y.anno <- pbmcapply::pbmclapply(X              = defs$y,

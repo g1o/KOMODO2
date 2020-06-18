@@ -119,7 +119,7 @@ run_KOMODO2 <- function(defs, type = "correlation",
     defs$cores <- available.cores - 1
   }
   if (.Platform$OS.type == "windows"){
-    defs$cl <- parallel::makeCluster(defs$cores)
+    defs$cl <- parallel::makeCluster(defs$cores, setup_strategy = "sequential")
   }
 
   defs <- load_data(defs)      # Load required data

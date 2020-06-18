@@ -45,16 +45,16 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1,
     cat("\nComputing contrasts:\n")
     if (.Platform$OS.type == "windows"){
       cat("...")
-      parallel::parLapply(cl   = cl,
-                          X    = y,
-                          fun  = function(tmpy, tree, cx, nx){
-                            names(tmpy) <- nx
-                            cy  <- ape::pic(tmpy, phy = tree)
-                            mod <- stats::lm(cy ~ cx + 0)
-                            return(summary(mod)$coefficients[1, 4])},
-                          tree = tree,
-                          cx   = contrast_x,
-                          nx   = rownames(x))
+      models <- parallel::parLapply(cl   = cl,
+                                    X    = y,
+                                    fun  = function(tmpy, tree, cx, nx){
+                                      names(tmpy) <- nx
+                                      cy  <- ape::pic(tmpy, phy = tree)
+                                      mod <- stats::lm(cy ~ cx + 0)
+                                      return(summary(mod)$coefficients[1, 4])},
+                                    tree = tree,
+                                    cx   = contrast_x,
+                                    nx   = rownames(x))
       cat(" done!")
     } else {
       models <- pbmcapply::pbmclapply(y,
@@ -97,12 +97,12 @@ FindContrasts <- function(x, y, tree, method = "gls", denominator = 1,
 
     if (.Platform$OS.type == "windows"){
       cat("...")
-      parallel::parLapply(cl   = cl,
-                          X    = y,
-                          fun  = tmpfun,
-                          tmpx = tmp_x,
-                          nx   = rownames(x),
-                          tree = tree)
+      models <- parallel::parLapply(cl   = cl,
+                                    X    = y,
+                                    fun  = tmpfun,
+                                    tmpx = tmp_x,
+                                    nx   = rownames(x),
+                                    tree = tree)
       cat(" done!")
     } else {
       models <- pbmcapply::pbmclapply(X    = y,

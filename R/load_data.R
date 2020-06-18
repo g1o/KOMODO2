@@ -43,11 +43,11 @@
 load_data <- function(defs, cores = NULL){
 
   # ================== Sanity checks ==================
-  assertthat::assert_that(assertthat::has_name(defs, "type"),
-                          is.character(defs$type),
-                          length(defs$type) == 1,
-                          defs$type %in% c("correlation"),
-                          msg = "Invalid defs$type")
+  # assertthat::assert_that(assertthat::has_name(defs, "type"),
+  #                         is.character(defs$type),
+  #                         length(defs$type) == 1,
+  #                         defs$type %in% c("correlation"),
+  #                         msg = "Invalid defs$type")
 
 
   # ================== Load files and prepare list ==================
