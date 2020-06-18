@@ -8,7 +8,7 @@ retrieve_data_files(
   target.dir,
   method = "auto",
   unzip = getOption("unzip"),
-  url = "https://github.com/fcampelo/KOMODO2/"
+  url = "https://github.com/fcampelo/KOMODO2"
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ documentation of \code{utils::download.file()}.}
 \item{unzip}{The unzip method to be used. See the documentation of
 \code{utils::unzip()} for details.}
 
-\item{url}{repository URL. Do not change unless you really know what
+\item{url}{repository URL. Do not change it unless you really know what
 you're doing.}
 }
 \description{

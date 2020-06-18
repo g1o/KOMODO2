@@ -16,7 +16,7 @@
 #' documentation of \code{utils::download.file()}.
 #' @param unzip The unzip method to be used. See the documentation of
 #' \code{utils::unzip()} for details.
-#' @param url repository URL. Do not change unless you really know what
+#' @param url repository URL. Do not change it unless you really know what
 #' you're doing.
 #'
 #' @export
@@ -29,7 +29,7 @@
 retrieve_data_files <- function(target.dir,
                                 method = "auto",
                                 unzip  = getOption("unzip"),
-                                url = "https://github.com/fcampelo/KOMODO2/"){
+                                url = "https://github.com/fcampelo/KOMODO2"){
 
   # ================== Sanity checks ==================
   assertthat::assert_that(is.character(target.dir),
@@ -39,7 +39,6 @@ retrieve_data_files <- function(target.dir,
 
   # Remove trailing slash
   target.dir <- gsub("/$", "", target.dir)
-  url <- gsub("/$", "", url)
 
   if(!dir.exists(target.dir)){
     dir.create(target.dir, recursive = TRUE)
@@ -48,8 +47,8 @@ retrieve_data_files <- function(target.dir,
     unlink(filelist, recursive = TRUE, force = TRUE)
   }
 
-  url_full <- gsub("//", "/", paste0(url, "/archive/master.zip"),
-                   fixed = TRUE)
+  url_full <- paste0(url, "/archive/master.zip")
+
   cat("\nRetrieving online resources... ")
   res1 <- utils::download.file(url_full,
                                quiet    = TRUE,
