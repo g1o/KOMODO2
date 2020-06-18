@@ -17,6 +17,6 @@ Our software has been freely inspired by (and explicitly modelled to take into a
  - Francisco Pereira Lobo ([franciscolobo@gmail.com](mailto:franciscolobo@gmail.com), [franciscolobo@ufmg.br](franciscolobo@ufmg.br))
  
 ## CODE REPOSITORY
-The main code repository for the KOMODO2 package can be found at [https://github.com/fcampelo/KOMODO2](https://github.com/fcampelo/KOMODO2), with an alternative repository at [https://github.com/franciscolobo/KOMODO2](https://github.com/franciscolobo/KOMODO2). Please use these for bug reports or to suggest improvements.
+The main code repository for the KOMODO2 package can be found at [https://github.com/fcampelo/KOMODO2](https://github.com/fcampelo/KOMODO2) and  [https://github.com/franciscolobo/KOMODO2](https://github.com/franciscolobo/KOMODO2). Please use these for bug reports or to suggest improvements.
 
 
