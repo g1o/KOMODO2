@@ -68,12 +68,9 @@ make_correlation_report <- function(defs){
       (plotframe$Pearson_qvalue    < defs$pearson.qvalue.cutoff) &
       (plotframe$Kendall_qvalue    < defs$kendall.qvalue.cutoff) &
       # correlation cutoffs
-      (plotframe$Pearson_cor       > defs$pearson.cor.upper.cutoff) &
-      (plotframe$Pearson_cor       < defs$pearson.cor.lower.cutoff) &
-      (plotframe$Spearman_cor      > defs$spearman.cor.upper.cutoff) &
-      (plotframe$Spearman_cor      < defs$spearman.cor.lower.cutoff) &
-      (plotframe$Kendall_cor       > defs$kendall.cor.upper.cutoff) &
-      (plotframe$Kendall_cor       < defs$kendall.cor.lower.cutoff) &
+      ((plotframe$Pearson_cor  > defs$pearson.cor.upper.cutoff)  | (plotframe$Pearson_cor  < defs$pearson.cor.lower.cutoff)) &
+      ((plotframe$Spearman_cor > defs$spearman.cor.upper.cutoff) | (plotframe$Spearman_cor < defs$spearman.cor.lower.cutoff)) &
+      ((plotframe$Kendall_cor  > defs$kendall.cor.upper.cutoff)  | (plotframe$Kendall_cor  < defs$kendall.cor.lower.cutoff)) &
       # basic statistics cutoffs
       (plotframe$size              > defs$annotation_size.cutoff) &
       (plotframe$prevalence        > defs$prevalence.cutoff) &

@@ -138,10 +138,10 @@ load_data_correlation <- function(defs){
 
 
   #to remove terms where standard deviation of counts equals zero
-  if (defs$raw_data_sd_filter == "TRUE") {
-    defs$raw_data_sd_filter = TRUE
+  if (defs$raw_data_sd_filter %in% c("", "TRUE")) {
+    defs$raw_data_sd_filter <- TRUE
   } else {
-    defs$raw_data_sd_filter = FALSE
+    defs$raw_data_sd_filter <- FALSE
   }
 
   defs$y.name <- paste0(defs$annotation.files.dir, "/", defs$y.name[, 1])

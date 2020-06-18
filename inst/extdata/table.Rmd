@@ -123,9 +123,11 @@ for (i in seq_along(df_cutoff$name)){#df_cutoff$name[1:length(df_cutoff[, 1])]) 
 # CHECK HERE - NAMES, INDICES, URL ETC.
 
 dtable <- df_cutoff
-dtable$corr_plots <- paste0('<a  target=_blank href=', 
-                            cpd, "/", df_cutoff$name,'.html>', 
-                            df_cutoff$name,'</a>' ) #build link to plots
+
+#build link to plots
+dtable$corr_plots <- paste0('<a  target=_blank href="', 
+                            paste0('correlation_Plots/', df_cutoff$name,'.html'),
+                            '">', df_cutoff$name,'</a>') 
 
 dtable <- DT::datatable(dtable,
                         escape = FALSE, 
