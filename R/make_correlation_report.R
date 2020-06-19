@@ -91,70 +91,70 @@ make_correlation_report <- function(defs){
   cat("\n-----------------------------------")
   cat("\nUsing filters:\n")
 
-  cat("\ncorrected_contrasts <", defs$linear_model.qvalue.cutoff)
+  cat("\ncorrected_contrasts <", sprintf("%.2f", defs$linear_model.qvalue.cutoff))
   if(defs$linear_model.qvalue.cutoff >= 1) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nSpearman_qvalue     <", defs$spearman.qvalue.cutoff)
+  cat("\nSpearman_qvalue     <", sprintf("%.2f", defs$spearman.qvalue.cutoff))
   if(defs$spearman.qvalue.cutoff >= 1) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nPearson_qvalue      <", defs$pearson.qvalue.cutoff)
+  cat("\nPearson_qvalue      <", sprintf("%.2f", defs$pearson.qvalue.cutoff))
   if(defs$pearson.qvalue.cutoff >= 1) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nKendall_qvalue      <", defs$kendall.qvalue.cutoff)
+  cat("\nKendall_qvalue      <", sprintf("%.2f", defs$kendall.qvalue.cutoff))
   if(defs$kendall.qvalue.cutoff >= 1) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nPearson_cor         <", defs$pearson.cor.lower.cutoff,
-      "[OR] >", defs$pearson.cor.upper.cutoff)
+  cat("\nPearson_cor         <", sprintf("%.2f", defs$pearson.cor.lower.cutoff),
+      "[OR] >", sprintf("%.2f", defs$pearson.cor.upper.cutoff))
   if(defs$pearson.cor.lower.cutoff > defs$pearson.cor.upper.cutoff) {
     cat("\t(no filtering)")
   }
 
-  cat("\nSpearman_cor        <", defs$spearman.cor.lower.cutoff,
-      "[OR] >", defs$spearman.cor.upper.cutoff)
+  cat("\nSpearman_cor        <", sprintf("%.2f", defs$spearman.cor.lower.cutoff),
+      "[OR] >", sprintf("%.2f", defs$spearman.cor.upper.cutoff))
   if(defs$spearman.cor.lower.cutoff > defs$spearman.cor.upper.cutoff) {
     cat("\t(no filtering)")
   }
 
-  cat("\nKendall_cor         <", defs$kendall.cor.lower.cutoff,
-      "[OR] >", defs$kendall.cor.upper.cutoff)
+  cat("\nKendall_cor         <", sprintf("%.2f", defs$kendall.cor.lower.cutoff),
+      "[OR] >", sprintf("%.2f", defs$kendall.cor.upper.cutoff))
   if(defs$kendall.cor.lower.cutoff > defs$kendall.cor.upper.cutoff) {
     cat("\t(no filtering)")
   }
 
-  cat("\nsize                >", defs$annotation_size.cutoff)
+  cat("\nsize                >", sprintf("%02d", defs$annotation_size.cutoff))
   if(defs$annotation_size.cutoff <= 0) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nprevalence          >", defs$prevalence.cutoff)
+  cat("\nprevalence          >", sprintf("%.2f", defs$prevalence.cutoff))
   if(defs$prevalence.cutoff <= 0) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nheterogeneity       >", defs$heterogeneity.cutoff)
+  cat("\nheterogeneity       >", sprintf("%.2f", defs$heterogeneity.cutoff))
   if(defs$heterogeneity.cutoff <= 0) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nsd                  >", defs$sd.cutoff)
+  cat("\nsd                  >", sprintf("%.2f", defs$sd.cutoff))
   if(defs$sd.cutoff <= 0) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\ncv                  >", defs$cv.cutoff)
+  cat("\ncv                  >", sprintf("%.2f", defs$cv.cutoff))
   if(defs$cv.cutoff <= 0) {
-    cat("\t\t\t(no filtering)")
+    cat("\t\t(no filtering)")
   }
 
-  cat("\nraw_data_sd_filter  = ", defs$raw_data_sd_filter)
+  cat("\nraw_data_sd_filter  =", defs$raw_data_sd_filter)
   cat("\n-----------------------------------")
   cat("\nThis may take a while...")
 
