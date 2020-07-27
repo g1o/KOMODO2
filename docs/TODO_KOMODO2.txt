@@ -1,7 +1,0 @@
-Jussara - curadoria dos genomas, levantamento da bibliografia
-Léo e Thieres - Árvore filogenômica
-Zandora - formatar os arquivos de anotação
-Dalbert - Melhorar a saída do programa (knitr)
-Giovanni - Melhorar a saída do programa (knitr)
-Thiago - Levantamento/formatação de novos genomas
-Agnello - Execução das análises

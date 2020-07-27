@@ -1,0 +1,18 @@
+# Use R language
+language: r
+#Define multiple R-versions:
+r:
+  - release
+  - devel
+  - bioc-devel
+  - bioc-release
+# Test on Linux
+os:
+- linux
+sudo: false
+cache: packages
+# Bioconductor packages
+bioc_packages:
+  - AnnotationDbi
+  - KEGGREST
+  - GO.db

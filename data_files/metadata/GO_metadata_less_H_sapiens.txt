@@ -1,0 +1,45 @@
+GCA_000004555	28.5	GCA_000004555.3	Caenorhabditis_briggsae	Nematode	Metazoa(non-chordate)	C_bri
+GCA_000180735	119.5	GCA_000180735.1	Tetraodon_nigroviridis	Green_spotted_pufferfish	Metazoa(chordate)	T_nig
+GCA_000187875	50	GCA_000187875.1	Daphnia_pulex	Water_flea	Metazoa(non-chordate)	D_pul
+GCA_002081595	6	GCA_002081595.1	Achlya_hypogyna	Oomycetes	Protozoa	A_hyp
+GCF_000001215	57	GCF_000001215.4	Drosophila_melanogaster	Fruit_fly	Metazoa(non-chordate)	D_mel
+GCF_000001635	130.5	GCF_000001635.26	Mus_musculus	Mouse	Metazoa(chordate)	M_mus
+GCF_000001735	59	GCF_000001735.3	Arabidopsis_thaliana	Thale_cress	Plantae	A_tha
+GCF_000001895	138.5	GCF_000001895.5	Rattus_norvegicus	Brown_rat	Metazoa(chordate)	R_nor
+GCF_000002035	119.5	GCF_000002035.6	Danio_rerio	Zebrafish	Metazoa(chordate)	D_rer
+GCF_000002285	129	GCF_000002285.3	Canis_lupus	Dog	Metazoa(chordate)	C_lup
+GCF_000002315	154	GCF_000002315.4	Gallus_gallus	Chicken	Metazoa(chordate)	G_gal
+GCF_000002515	3.05	GCF_000002515.2	Kluyveromyces_lactis	Lactose_yeast	Fungi	K_lac
+GCF_000002595	1	GCF_000002595.1	Chlamydomonas_reinhardtii	Green_alga	Plantae	C_rei
+GCF_000002945	4.35	GCF_000002945.1	Schizosaccharomyces_pombe	Fission_yeast	Fungi	S_pom
+GCF_000002985	28.5	GCF_000002985.6	Caenorhabditis_elegans	Nematode	Metazoa(non-chordate)	C_ele
+GCF_000003195	27.25	GCF_000003195.3	Sorghum_bicolor	Sorghum	Plantae	S_bic
+GCF_000003745	27.25	GCF_000003745.3	Vitis_vinifera	Grape vine	Plantae	V_vin
+GCF_000003815	100	GCF_000003815.1	Branchiostoma_floridae	Anfioxo	Metazoa(chordate)	B_flo
+GCF_000004095	22	GCF_000004095.1	Hydra_vulgaris	Fresh-water polyp	Metazoa(non-chordate)	H_mag
+GCF_000004195	129.5	GCF_000004195.3	Xenopus_tropicalis	Western_clawed_frog	Metazoa(chordate)	X_tro
+GCF_000004695	4.65	GCF_000004695.1	Dictyostelium_discoideum	Slime_mould	Protozoa	D_dis
+GCF_000005425	35	GCF_000005425.2	Oryza_sativa	Rice	Plantae	O_sat
+GCF_000005505	27.25	GCA_000005505.4	Brachypodium_distachyon	Purple_false_brome	Plantae	B_dis
+GCF_000005575	64	GCF_000005575.2	Anopheles_gambiae	Malaria_mosquito	Metazoa(non-chordate)	A_gam
+GCF_000090745	140	GCF_000090745.1	Anolis_carolinensis	Green anole	Metazoa(chordate)	A_car
+GCF_000090795	14	GCF_000090795.1	Amphimedon_queenslandica	Sponge	Metazoa(non-chordate)	A_que
+GCF_000142945	7.85	GCF_000142945.1	Phytophthora_infestans	Oomycetes	Protozoa	P_inf
+GCF_000143455	2	GCF_000143455.1	Volvox_carteri	Green_algae	Plantae	V_car
+GCF_000146045	4.05	GCF_000146045.2	Saccharomyces_cerevisiae	Baker_yeast	Fungi	S_cer
+GCF_000149205	5.55	GCF_000149205.2	Aspergillus_nidulans	Yeast	Fungi	A_nid
+GCF_000149755	7.85	GCF_000149755.1	Phytophthora_sojae	Oomycetes	Protozoa	P_soj
+GCF_000150275	4	GCF_000150275.1	Trichoplax_adhaerens	Trichoplax	Metazoa(non-chordate)	T_adh
+GCF_000151315	3	GCF_000151315.2	Capsaspora_owczarzaki	Filasterea	Protozoa	C_owc
+GCF_000151545	6	GCF_000151545.1	Saprolegnia_parasitica	Oomycetes	Protozoa	S_par
+GCF_000181335	159	GCF_000181335.3	Felis_catus	Cat	Metazoa(chordate)	F_cat
+GCF_000182925	5.55	GCF_000182925.2	Neurospora_crassa	Ascomycota	Fungi	N_cra
+GCF_000209225	21	GCF_000209225.1	Nematostella_vectensis	Starlet_sea_anemone	Metazoa(non-chordate)	N_vec
+GCF_000214015	1	GCF_000214015.3	Ostreococcus_tauri	marine_green_alga	Plantae	O_tau
+GCF_000224145	74	GCF_000224145.3	Ciona_intestinalis	Vase_tunicate	Metazoa(chordate)	C_int
+GCF_000247585	7.85	GCF_000247585.1	Phytophthora_parasitica	Oomycetes	Protozoa	P_par
+GCF_000328475	4.35	GCF_000328475.2	Ustilago_maydis	Corn_smut	Fungi	U_may
+GCF_002263795	138.5	GCF_000003055.6	Bos_taurus	Cow	Metazoa(chordate)	B_tau
+GCF_002880755	169	GCF_000001515.7	Pan_troglodytes	Chimpanzee	Metazoa(chordate)	P_tro
+GCF_003254395	59	GCF_000002195.4	Apis_mellifera	Honey_bee	Metazoa(non-chordate)	A_mel
+GCF_901000725	119.5	GCF_000180615.1	Takifugu_rubripes	Japanese_pufferfish	Metazoa(chordate)	T_rub

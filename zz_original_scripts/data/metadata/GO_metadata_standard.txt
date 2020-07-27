@@ -1,0 +1,46 @@
+GCF_000090745	140	GCF_000090745.1	Anolis_carolinensis	Green anole
+GCF_000003195	27.25	GCF_000003195.3	Sorghum_bicolor	Sorghum
+GCF_000003745	27.25	GCF_000003745.3	Vitis_vinifera	Grape vine
+GCF_000004095	22	GCF_000004095.1	Hydra_vulgaris	Fresh-water polyp
+GCF_000005425	35	GCF_000005425.2	Oryza_sativa	Rice
+GCA_000004555	28.5	GCA_000004555.3	Caenorhabditis_briggsae	Nematode
+GCA_000180735	119.5	GCA_000180735.1	Tetraodon_nigroviridis	Green_spotted_pufferfish
+GCA_000187875	50	GCA_000187875.1	Daphnia_pulex	Water_flea
+GCA_002081595	6	GCA_002081595.1	Achlya_hypogyna	Oomycetes
+GCF_000001215	57	GCF_000001215.4	Drosophila_melanogaster	Fruit_fly
+GCF_000001405	264.5	GCF_000001405.37	Homo_sapiens	Human
+GCF_002880755	169	GCF_000001515.7	Pan_troglodytes	Chimpanzee
+GCF_000001635	130.5	GCF_000001635.26	Mus_musculus	Mouse
+GCF_000001735	59	GCF_000001735.3	Arabidopsis_thaliana	Thale_cress
+GCF_000001895	138.5	GCF_000001895.5	Rattus_norvegicus	Brown_rat
+GCF_000002035	119.5	GCF_000002035.6	Danio_rerio	Zebrafish
+GCF_003254395	59	GCF_000002195.4	Apis_mellifera	Honey_bee
+GCF_000002285	129	GCF_000002285.3	Canis_lupus	Dog
+GCF_000002315	154	GCF_000002315.4	Gallus_gallus	Chicken
+GCF_000002515	3.05	GCF_000002515.2	Kluyveromyces_lactis	Lactose_yeast
+GCF_000002595	1	GCF_000002595.1	Chlamydomonas_reinhardtii	Green_alga
+GCF_000002945	4.35	GCF_000002945.1	Schizosaccharomyces_pombe	Fission_yeast
+GCF_000002985	28.5	GCF_000002985.6	Caenorhabditis_elegans	Nematode
+GCF_002263795	138.5	GCF_000003055.6	Bos_taurus	Cow
+GCF_000003815	100	GCF_000003815.1	Branchiostoma_floridae	Anfioxo
+GCF_000004195	129.5	GCF_000004195.3	Xenopus_tropicalis	Western_clawed_frog
+GCF_000004695	4.65	GCF_000004695.1	Dictyostelium_discoideum	Slime_mould
+GCF_000005505	27.25	GCA_000005505.4	Brachypodium_distachyon	Purple_false_brome
+GCF_000005575	64	GCF_000005575.2	Anopheles_gambiae	Malaria_mosquito
+GCF_000090795	14	GCF_000090795.1	Amphimedon_queenslandica	Sponge
+GCF_000142945	7.85	GCF_000142945.1	Phytophthora_infestans	Oomycetes
+GCF_000143455	2	GCF_000143455.1	Volvox_carteri	Green_algae
+GCF_000146045	4.05	GCF_000146045.2	Saccharomyces_cerevisiae	Baker_yeast
+GCF_000149205	5.55	GCF_000149205.2	Aspergillus_nidulans	Yeast
+GCF_000149755	7.85	GCF_000149755.1	Phytophthora_sojae	Oomycetes
+GCF_000150275	4	GCF_000150275.1	Trichoplax_adhaerens	Trichoplax
+GCF_000151315	3	GCF_000151315.2	Capsaspora_owczarzaki	Filasterea
+GCF_000151545	6	GCF_000151545.1	Saprolegnia_parasitica	Oomycetes
+GCF_901000725	119.5	GCF_000180615.1	Takifugu_rubripes	Japanese_pufferfish
+GCF_000181335	159	GCF_000181335.3	Felis_catus	Cat
+GCF_000182925	5.55	GCF_000182925.2	Neurospora_crassa	Ascomycota
+GCF_000209225	21	GCF_000209225.1	Nematostella_vectensis	Starlet_sea_anemone
+GCF_000214015	1	GCF_000214015.3	Ostreococcus_tauri	marine_green_alga
+GCF_000224145	74	GCF_000224145.3	Ciona_intestinalis	Vase_tunicate
+GCF_000247585	7.85	GCF_000247585.1	Phytophthora_parasitica	Oomycetes
+GCF_000328475	4.35	GCF_000328475.2	Ustilago_maydis	Corn_smut

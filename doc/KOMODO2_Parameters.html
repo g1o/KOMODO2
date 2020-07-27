@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>KOMODO2 Parameters</title>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">KOMODO2 Parameters</h1>
+
+
+
+<p>This document lists the input parameters expected / accepted in the KOMODO2 definition files (or, alternatively, in the <code>defs</code> list).</p>
+<hr />
+<div id="general-parameters" class="section level1">
+<h1>General parameters</h1>
+<div id="annotation.files.dir" class="section level3">
+<h3>annotation.files.dir</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: path to the directory where annotation files are located</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="output.dir" class="section level3">
+<h3>output.dir</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: path to the output directory where results should be saved</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="dataset.info" class="section level3">
+<h3>dataset.info</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: path to a file containing the genome metadata. It should contain <em>at least</em>, for each genome: (1) path for annotation data; (2) phenotype data (numeric); (3) normalization data (numeric) It must be a <em>tab-separated value</em> file with no column headers.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="x.column" class="section level3">
+<h3>x.column</h3>
+<p><strong>Type</strong>: integer/numeric</p>
+<p><strong>Description</strong>: index of the column from the file specified in <code>dataset.info</code> containing the phenotype data, which will be used to sort the genomes and find annotation terms associated to that phenotype.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="short.name.column" class="section level3">
+<h3>short.name.column</h3>
+<p><strong>Type</strong>: integer/numeric</p>
+<p><strong>Description</strong>: index of the column from the file specified in <code>dataset.info</code> containing the short names for species/lineages to be used when plotting data.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="group.column" class="section level3">
+<h3>group.column</h3>
+<p><strong>Type</strong>: integer/numeric</p>
+<p><strong>Description</strong>: index of the column from the file specified in <code>dataset.info</code> containing the group to be used for colouring the heatmaps</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="ontology" class="section level3">
+<h3>ontology</h3>
+<p><strong>Type</strong>: character string.</p>
+<p><strong>Description</strong>: which dictionary data type to use? Accepts <em>“GO”</em> or <em>“other”</em></p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="dict.path" class="section level3">
+<h3>dict.path</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: path to dictionary file (a two-column <em>tab-separated value</em> file containing annotation IDs and their descriptions). Not needed if <code>ontology = &quot;GO&quot;</code>.</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="column" class="section level3">
+<h3>column</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: the <em>name</em> of the column in the annotation file that should be used.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="denominator.column" class="section level3">
+<h3>denominator.column</h3>
+<p><strong>Type</strong>: integer/numeric</p>
+<p><strong>Description</strong>: index of the column from the file specified in <code>dataset.info</code> containing the normalization data.</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="tree.path" class="section level3">
+<h3>tree.path</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: path to the tree file.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="tree.type" class="section level3">
+<h3>tree.type</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: tree file type. Accepts <em>“nexus”</em> or <em>“newick”</em>. Case-sensitive.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="type" class="section level3">
+<h3>type</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: type of analysis to perform. Currently accepts only <em>“correlation”</em></p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: none</p>
+</div>
+<div id="mht.method" class="section level3">
+<h3>MHT.method</h3>
+<p><strong>Type</strong>: character string</p>
+<p><strong>Description</strong>: type of multiple hypothesis testing correction to apply. Accepts all methods listed in <code>stats::p.adjust.methods</code>.</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: <em>“BH”</em></p>
+</div>
+<div id="cores" class="section level3">
+<h3>cores</h3>
+<p><strong>Type</strong>: integer/numeric</p>
+<p><strong>Description</strong>: Number of cores to use. Must be a positive integer.</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 1</p>
+<hr />
+</div>
+</div>
+<div id="cutoff-values" class="section level1">
+<h1>Cutoff values</h1>
+<p>Cutoffs are used to regulate how much graphical output is produced by KOMODO2. The <em>tab-separated value</em> files that are generated at the end of the analysis (and saved in the <em>output.dir</em>) will always contain all, unfiltered results.</p>
+<p><strong>q-value cutoffs</strong> are used for correlation and phylogeny-aware linear models. Only entries with q-values <em>smaller</em> than these cutoffs will be shown.</p>
+<div id="spearman.qvalue.cutoff" class="section level3">
+<h3>spearman.qvalue.cutoff</h3>
+<p><strong>Type</strong>: numeric between 0 and 1</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 1</p>
+</div>
+<div id="pearson.qvalue.cutoff" class="section level3">
+<h3>pearson.qvalue.cutoff</h3>
+<p><strong>Type</strong>: numeric between 0 and 1</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 1</p>
+</div>
+<div id="kendall.qvalue.cutoff" class="section level3">
+<h3>kendall.qvalue.cutoff</h3>
+<p><strong>Type</strong>: numeric between 0 and 1</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 1</p>
+</div>
+<div id="linear_model.qvalue.cutoff" class="section level3">
+<h3>linear_model.qvalue.cutoff</h3>
+<p><strong>Type</strong>: numeric between 0 and 1</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 1</p>
+<hr />
+<p><strong>correlation cutoffs</strong> are used to establish thresholds of positive/negative correlation values for the graphical output. <strong>Important</strong>: these parameters are a bit counter-intuitive. Please check the example below for clarity.</p>
+</div>
+<div id="spearman.cor.lower.cutoff-spearman.cor.upper.cutoff" class="section level3">
+<h3>spearman.cor.lower.cutoff / spearman.cor.upper.cutoff</h3>
+<p><strong>Type</strong>: numeric values between 0 and 1</p>
+<p><strong>Description</strong>: Thresholds for Spearman correlation values. The selection criteria is: (Spearman correlation &lt; lower.cutoff) OR (Spearman correlation &gt; upper.cutoff)</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Defaults</strong>: <code>spearman.cor.upper.cutoff = -1</code>; <code>spearman.cor.lower.cutoff = 1</code> (i.e., no filtering)</p>
+<p><strong>Example 1</strong>: If you set <code>spearman.cor.upper.cutoff = 0.8</code> and <code>spearman.cor.lower.cutoff = -0.8</code>, only pairs with Spearman correlation values smaller than <code>-0.8</code> OR greater than <code>0.8</code> will be shown.</p>
+<p><strong>Example 2</strong>: If you set <code>spearman.cor.upper.cutoff = 0</code> and <code>spearman.cor.lower.cutoff = -1</code>, pairs with Spearman correlation values smaller than <code>-1</code> OR greater than <code>0</code> will be shown. Since the Spearman correlation cannot be smaller than <code>-1</code>, this means that only positively correlated pairs will be shown.</p>
+<p><strong>Example 3</strong>: If you set any values such that <code>spearman.cor.upper.cutoff &lt; spearman.cor.lower.cutoff</code>, all pairs are shown (no filtering is performed).</p>
+</div>
+<div id="pearson.cor.lower.cutoff-pearson.cor.upper.cutoff" class="section level3">
+<h3>pearson.cor.lower.cutoff / pearson.cor.upper.cutoff</h3>
+<p><strong>Type</strong>: numeric values between 0 and 1</p>
+<p><strong>Description</strong>: Thresholds for Pearson correlation values. The selection criteria is: (Pearson correlation &lt; lower.cutoff) OR (Pearson correlation &gt; upper.cutoff)</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Defaults</strong>: <code>pearson.cor.upper.cutoff = -1</code>; <code>pearson.cor.lower.cutoff = 1</code> (i.e., no filtering)</p>
+</div>
+<div id="kendall.cor.lower.cutoff-kendall.cor.upper.cutoff" class="section level3">
+<h3>kendall.cor.lower.cutoff / kendall.cor.upper.cutoff</h3>
+<p><strong>Type</strong>: numeric values between 0 and 1</p>
+<p><strong>Description</strong>: Thresholds for Kendall correlation values. The selection criteria is: (Kendall correlation &lt; lower.cutoff) OR (Kendall correlation &gt; upper.cutoff)</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Defaults</strong>: <code>kendall.cor.upper.cutoff = -1</code>; <code>kendall.cor.lower.cutoff = 1</code> (i.e., no filtering)</p>
+<p><strong>standard deviation and coefficient of variation cutoffs</strong> (only values greater than cutoff will be shown)</p>
+</div>
+<div id="sd.cutoff" class="section level3">
+<h3>sd.cutoff</h3>
+<p><strong>Type</strong>: non-negative numeric value</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 0</p>
+</div>
+<div id="cv.cutoff" class="section level3">
+<h3>cv.cutoff</h3>
+<p><strong>Type</strong>: non-negative numeric value</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 0</p>
+<p><strong>sum of annotation terms cutoff</strong> (only values greater than cutoff will be shown)</p>
+</div>
+<div id="annotation_size.cutoff" class="section level3">
+<h3>annotation_size.cutoff</h3>
+<p><strong>Type</strong>: non-negative integer/numeric value</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 0</p>
+<p><strong>prevalence and heterogeneity cutoffs</strong> (only values greater than cutoff will be shown). <strong>Prevalence</strong> is defined as the percentage of lineages where annotation term was observed at least once. <strong>Heterogeneity</strong> is defined as the percentage of lineages where annotation term count is different from the median.</p>
+</div>
+<div id="prevalence.cutoff" class="section level3">
+<h3>prevalence.cutoff</h3>
+<p><strong>Type</strong>: numeric value between 0 and 1</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 0</p>
+</div>
+<div id="heterogeneity.cutoff" class="section level3">
+<h3>heterogeneity.cutoff</h3>
+<p><strong>Type</strong>: numeric value between 0 and 1</p>
+<p><strong>Required</strong>: NO</p>
+<p><strong>Default</strong>: 0</p>
+<hr />
+</div>
+</div>
+<div id="advanced-configurations" class="section level1">
+<h1>Advanced configurations</h1>
+<div id="raw_data_sd_filter" class="section level3">
+<h3>raw_data_sd_filter</h3>
+<p><strong>Type</strong>: character string. Accepts <em>“TRUE”</em> or <em>“FALSE”</em></p>
+<p><strong>Description</strong>: If <em>“TRUE”</em> all annotation terms where standard deviation for annotation raw values before normalization is zero are removed. This filter is used to remove the (quite common) bias when QPAL (phenotype) and normalizing factors are strongly associated by chance.</p>
+<p><strong>Required</strong>: YES</p>
+<p><strong>Default</strong>: “TRUE”</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
