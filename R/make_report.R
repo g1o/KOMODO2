@@ -26,7 +26,7 @@ make_report <- function(defs, render.report = TRUE){
     # Open in browser
   if ( getOption("browser") != ""){ 
     utils::browseURL(gsub("//", "/", paste0(normalizePath(defs$output.dir),
-                                            "/KOMODO2_report.html"),
+                                            "/index.html"),
                           fixed = TRUE))
   }
   
