@@ -24,9 +24,12 @@ make_report <- function(defs, render.report = TRUE){
                    correlation  = make_correlation_report(defs))
 
     # Open in browser
+  if ( getOption("browser") != ""){ 
     utils::browseURL(gsub("//", "/", paste0(normalizePath(defs$output.dir),
                                             "/KOMODO2_report.html"),
                           fixed = TRUE))
+  }
+  
   }
 
   invisible(defs)
