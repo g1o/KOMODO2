@@ -209,6 +209,6 @@ make_correlation_report <- function(defs){
                                           quiet = TRUE))
   file.remove(fp)
 
-  cat("\nAnd we're done!")
+  cat("\nAnd we're done!\n")
   invisible(defs)
 }
