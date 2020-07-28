@@ -184,7 +184,9 @@ make_correlation_report <- function(defs){
   
   #Crete necessary _site.yml file
   yml_file<-file(paste0(defs$output.dir,"/_site.yml"))
-  writeLines(c("name: KOMODO2-Report","output_dir: KOMODO2_report","navbar:
+  writeLines(c("name: KOMODO2-Report",
+               "output_dir: .",
+               "navbar:
   title: \"KOMODO2 Report\"
   left:
     - text: \"Home\"
@@ -208,7 +210,7 @@ make_correlation_report <- function(defs){
   file.remove(fp)
 
   # Invoke browser andopen results
-  myURL <- gsub("//", "/", paste0(defs$output.dir, "/KOMODO2_report/index.html"), fixed = TRUE)
+  myURL <- gsub("//", "/", paste0(defs$output.dir, "/index.html"), fixed = TRUE)
   myURL <- paste0("file:/",
                   normalizePath(gsub("./", "", myURL, fixed = TRUE)))
   utils::browseURL(myURL)
