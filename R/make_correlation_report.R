@@ -208,15 +208,7 @@ make_correlation_report <- function(defs){
   suppressWarnings(rmarkdown::render_site(input = defs$output.dir,
                                           quiet = TRUE))
   file.remove(fp)
-  # Invoke browser andopen results
-  if ( getOption("browser") != ""){ #In a Linux server, the default gives an error due to an empty browser string in browseURL(myURL)
-    myURL <- gsub("//", "/", paste0(defs$output.dir, "/index.html"), fixed = TRUE)
-    myURL <- paste0("file:/",
-                    normalizePath(gsub("./", "", myURL, fixed = TRUE)))
-    utils::browseURL(myURL)
-  }
+
   cat("\nAnd we're done!")
   invisible(defs)
-
-
 }
