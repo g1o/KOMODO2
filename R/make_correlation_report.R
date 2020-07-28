@@ -181,13 +181,34 @@ make_correlation_report <- function(defs){
     file.copy(system.file("extdata", files_to_copy[i], package = "KOMODO2"),
               to = fp[i], overwrite = TRUE)
   }
-
+  
+  #Crete necessary _site.yml file
+  yml_file<-file(paste0(defs$output.dir,"/_site.yml"))
+  writeLines(c("name: KOMODO2-Report","output_dir: KOMODO2_report","navbar:
+  title: \"KOMODO2 Report\"
+  left:
+    - text: \"Home\"
+      href: index.html
+    - text: \"About\"
+      href: about.html
+    - text: \"Heatmap_phylo_norm\"
+      href: heatmap_phylo_norm.html
+    - text: \"Heatmap_phylo_perc\"
+      href: heatmap_phylo_perc.html
+    - text: \"Heatmap_phylo_raw\"
+      href: heatmap_phylo_raw.html
+    - text: \"Q_value_scatter\"
+      href: q_value_scatter.html
+    - text: \"Table\"
+      href: table.html"),yml_file)
+  close(yml_file)
+  
   suppressWarnings(rmarkdown::render_site(input = defs$output.dir,
                                           quiet = TRUE))
   file.remove(fp)
 
   # Invoke browser andopen results
-  myURL <- gsub("//", "/", paste0(defs$output.dir, "/index.html"), fixed = TRUE)
+  myURL <- gsub("//", "/", paste0(defs$output.dir, "/KOMODO2_report/index.html"), fixed = TRUE)
   myURL <- paste0("file:/",
                   normalizePath(gsub("./", "", myURL, fixed = TRUE)))
   utils::browseURL(myURL)
