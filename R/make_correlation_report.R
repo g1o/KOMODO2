@@ -185,7 +185,7 @@ make_correlation_report <- function(defs){
   #Crete necessary _site.yml file
   yml_file<-file(paste0(defs$output.dir,"/_site.yml"))
   writeLines(c("name: KOMODO2-Report",
-               paste0("output_dir: ",defs$output.dir),
+               "output_dir: \".\"",
                "navbar:
   title: \"KOMODO2 Report\"
   left:
