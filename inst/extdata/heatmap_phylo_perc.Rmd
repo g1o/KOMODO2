@@ -80,7 +80,7 @@ if( nlevels(as.factor(mynames$group)) >= 3) {
 }
 if (nlevels(as.factor(mynames$group))  == 2 ){
   jColors <- data.frame(LABEL = levels(as.factor(mynames$group)),
-                       COLOR = I(c("#E41A1C","#377EB8"))
+                       COLOR = I(c("#E41A1C","#377EB8")))
 }
 
 ##DEBUG
