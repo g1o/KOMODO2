@@ -73,9 +73,16 @@ onmouseover[] <- lapply(colnames(onmouseover),
 my_palette <- grDevices::colorRampPalette(c("white", "blue"))(n = 51)
 
 #establishing colors for groups
-jColors <- data.frame(LABEL = levels(as.factor(mynames$group)),
+
+if( nlevels(as.factor(mynames$group)) >= 3) {
+ jColors <- data.frame(LABEL = levels(as.factor(mynames$group)),
                       COLOR = I(KOMODO2_brewer_pal(nlevels(as.factor(mynames$group)), 
                                                    name = 'Set1')))
+}
+if (nlevels(as.factor(mynames$group))  == 2 ){
+  jColors <- data.frame(LABEL = levels(as.factor(mynames$group)),
+                       COLOR = I(c("#E41A1C","#377EB8"))
+}
 
 ##DEBUG
 #jColors
