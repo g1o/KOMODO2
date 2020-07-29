@@ -184,25 +184,38 @@ make_correlation_report <- function(defs){
   
   #Crete necessary _site.yml file
   yml_file<-file(paste0(defs$output.dir,"/_site.yml"))
-  writeLines(c("name: KOMODO2-Report",
-               "output_dir: \".\"",
-               "navbar:
-  title: \"KOMODO2 Report\"
+  writeLines("name: \"KOMODO2-results\"
+output_dir: \".\"
+navbar:
+  title: \"KOMODO2 report\"
+  type: inverse
   left:
     - text: \"Home\"
+      icon: fa-home
       href: index.html
+    - text: \"Results\"
+      icon: fa-gear
+      menu:
+        - text: \"Heatmaps\"
+        - text: \"raw data visualization\"
+          href: heatmap_phylo_raw.html
+        - text: \"normalized data visualization\"
+          href: heatmap_phylo_norm.html
+        - text: \"percentile data visualization\"
+          href: heatmap_phylo_perc.html
+        - text: \"---------\"
+        - text: \"Scatterplots\"
+        - text: \"q-value scatterplots\"
+          href: q_value_scatter.html
+        - text: \"---------\"
+        - text: \"Tables\"
+        - text: \"Annotation term table\"
+          href: table.html
+
+  right:
     - text: \"About\"
-      href: about.html
-    - text: \"Heatmap_phylo_norm\"
-      href: heatmap_phylo_norm.html
-    - text: \"Heatmap_phylo_perc\"
-      href: heatmap_phylo_perc.html
-    - text: \"Heatmap_phylo_raw\"
-      href: heatmap_phylo_raw.html
-    - text: \"Q_value_scatter\"
-      href: q_value_scatter.html
-    - text: \"Table\"
-      href: table.html"),yml_file)
+      icon: fa-info
+      href: about.html",yml_file)
   close(yml_file)
   
   suppressWarnings(rmarkdown::render_site(input = defs$output.dir,
